@@ -1,0 +1,42 @@
+{
+  "name": "lendroid-2-js",
+  "version": "0.0.1",
+  "description": "Web3.js wrapper that interacts with Lendroid Smart Contracts",
+  "repository": "https://github.com/lendroidproject/lendroid-2-js",
+  "bugs": "https://github.com/lendroidproject/lendroid-2-js/issues",
+  "main": "dist/lendroid.js",
+  "scripts": {
+    "build": "rm -rf ./dist; tsc",
+    "clean": "rm -rf node_modules ",
+    "clean-install": "npm run clean && npm install",
+    "lint": "tslint './src/**/*.ts' -p . -c tslint.json",
+    "start": "webpack-dev-server --inline",
+    "integration": "clear; npm run build && mocha --harmony ./dist/test/integration/**/*.js",
+    "unit": "clear; mocha --harmony .dist/test/unit/**/*.js",
+    "test": "clear; mocha --harmony ./dist/test/**/lendroid.js",
+    "watch": "rm -rf ./dist && tsc --watch",
+    "webpack": "webpack --display-error-details --progress --color --config webpack.config.js"
+  },
+  "author": "lendroid",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "latest",
+    "moment": "latest",
+    "typescript": "^3.7.3",
+    "web3": "latest"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.6",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^12.12.14",
+    "chai": "^4.2.0",
+    "ganache-cli": "^6.7.0",
+    "mocha": "^6.2.2",
+    "ts-loader": "^6.2.1",
+    "tsc-watch": "^4.0.0",
+    "tslint": "^5.20.1",
+    "web3-typescript-typings": "^0.10.2",
+    "webpack": "^4.41.2",
+    "webpack-dev-server": "^3.9.0"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "alwaysStrict": true,
+    "forceConsistentCasingInFileNames": true,
+    "removeComments": true,
+    "strictNullChecks": true,
+    "module": "commonjs",
+    "target": "es5",
+    "lib": [
+      "es2017",
+      "dom"
+    ],
+    "sourceMap": true,
+    "declaration": true,
+    "experimentalDecorators": true,
+    "noImplicitReturns": true,
+    "strictPropertyInitialization": false,
+    "outDir": "./dist",
+    "pretty": true,
+    "rootDir": "./src"
+  }
+}

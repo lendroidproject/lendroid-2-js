@@ -1,0 +1,31 @@
+# IntelliJ files
+.idea
+idea/
+
+# Compiled files
+dist/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Dependency directories
+node_modules/
+
+# Optional npm cache directory
+.npm
+
+# Index file for Webpack deployment & testing
+# index.ts
+
+# Yarn (prefer package.json.lock remained)
+yarn.lock
