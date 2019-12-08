@@ -1,3 +1,6 @@
+/**
+ * Logger Class for event logging on Library level
+ */
 export class Logger {
   /**
    * To log DEBUG logs to console

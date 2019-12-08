@@ -16,6 +16,7 @@
     "experimentalDecorators": true,
     "noImplicitReturns": true,
     "strictPropertyInitialization": false,
+    "resolveJsonModule": true,
     "outDir": "./dist",
     "pretty": true,
     "rootDir": "./src"

@@ -74,7 +74,6 @@
     "no-string-literal": true,
     "no-unnecessary-type-assertion": true,
     "no-unnecessary-qualifier": true,
-    "no-unused-variable": true,
     "no-unused-expression": true,
     "number-literal-format": true,
     "object-literal-sort-keys": false,
