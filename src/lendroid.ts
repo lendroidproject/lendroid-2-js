@@ -6,7 +6,7 @@ import {
   Web3Utils,
   // getTokenExchangeRate
 } from './services'
-import { CurrencyDao, InterestPoolDao, UnderwriterPoolDao } from './constants'
+import { CurrencyDao, InterestPoolDao, UnderwriterPoolDao, SupportTokens } from './constants'
 
 /**
  * Lendroid Libraray 2.0
@@ -14,6 +14,7 @@ import { CurrencyDao, InterestPoolDao, UnderwriterPoolDao } from './constants'
 export class Lendroid {
   private web3: any
   private contracts: any = {}
+  private supportTokens: any = {}
   /**
    * Provide web3Utils
    */
@@ -31,12 +32,21 @@ export class Lendroid {
    */
   public test() {
     this.contracts.CurrencyDao = this.web3Utils.createContract(CurrencyDao)
+    this.contracts.CurrencyDao.methods.initialize(
+      this.supportTokens.Owner,
+      this.supportTokens.LST,
+      this.supportTokens.CurrencyPool,
+      this.supportTokens.ERC20,
+      this.supportTokens.ERC1155,
+      this.supportTokens.MarketDao
+    )
     this.contracts.InterestPoolDao = this.web3Utils.createContract(InterestPoolDao)
     this.contracts.UnderwriterPoolDao = this.web3Utils.createContract(UnderwriterPoolDao)
   }
 
   private init(initParams: any) {
     Logger.info(LOGGER_CONTEXT.INIT, initParams)
+    this.supportTokens = SupportTokens({})
     this.test()
   }
 }
