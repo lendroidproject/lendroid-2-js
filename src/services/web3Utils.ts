@@ -82,7 +82,7 @@ export class Web3Utils {
    * @param abi
    * @param address
    */
-  public createContract(abi, address) {
+  public createContract(abi: any, address = '') {
     return new this.eth.Contract(abi, address)
   }
 

@@ -11,10 +11,7 @@
     "clean-install": "npm run clean && npm install",
     "lint": "tslint './src/**/*.ts' -p . -c tslint.json",
     "start": "webpack-dev-server --inline",
-    "integration": "clear; npm run build && mocha --harmony ./dist/test/integration/**/*.js",
-    "unit": "clear; mocha --harmony .dist/test/unit/**/*.js",
-    "test": "clear; mocha --harmony ./dist/test/**/lendroid.js",
-    "watch": "rm -rf ./dist && tsc --watch",
+    "dev": "ts-node-dev --respawn --transpileOnly ./src/index.ts",
     "webpack": "webpack --display-error-details --progress --color --config webpack.config.js"
   },
   "author": "lendroid",
@@ -22,6 +19,7 @@
   "dependencies": {
     "axios": "latest",
     "moment": "latest",
+    "ts-node-dev": "^1.0.0-pre.44",
     "typescript": "^3.7.3",
     "web3": "latest"
   },

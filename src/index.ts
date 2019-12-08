@@ -1,7 +1,7 @@
 import { Lendroid } from './lendroid'
 
-const test = new Lendroid()
-test.test()
-console.log(123)
+const test = new Lendroid({
+  provider: 'http://localhost:8545',
+})
 
 export { Lendroid }

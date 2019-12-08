@@ -3,23 +3,25 @@ import Web3 from 'web3'
 import {
   Logger,
   LOGGER_CONTEXT,
-  // Web3Utils,
+  Web3Utils,
   // getTokenExchangeRate
 } from './services'
-import { CurrencyDao } from './constants'
+import { CurrencyDao, InterestPoolDao, UnderwriterPoolDao } from './constants'
 
 /**
  * Lendroid Libraray 2.0
  */
 export class Lendroid {
   private web3: any
+  private contracts: any = {}
   /**
-   * Preserve Supported Conracts by [key, contract] pairs
+   * Provide web3Utils
    */
-  public contracts: any = {}
+  public web3Utils: Web3Utils
 
   constructor(initParams: any = {}) {
-    this.web3 = new Web3(initParams.provider || (window as any).web3.currentProvider)
+    this.web3 = new (Web3 as any)(initParams.provider || (window as any).web3.currentProvider)
+    this.web3Utils = new Web3Utils(this.web3)
 
     this.init(initParams)
   }
@@ -28,11 +30,13 @@ export class Lendroid {
    * For Test
    */
   public test() {
-    this.contracts.CurrencyDao = new this.web3.eth.Contract(CurrencyDao)
-    console.log(this.contracts)
+    this.contracts.CurrencyDao = this.web3Utils.createContract(CurrencyDao)
+    this.contracts.InterestPoolDao = this.web3Utils.createContract(InterestPoolDao)
+    this.contracts.UnderwriterPoolDao = this.web3Utils.createContract(UnderwriterPoolDao)
   }
 
-  private init(initParams) {
+  private init(initParams: any) {
     Logger.info(LOGGER_CONTEXT.INIT, initParams)
+    this.test()
   }
 }
