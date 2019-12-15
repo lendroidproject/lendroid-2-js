@@ -14,32 +14,44 @@
       },
       {
         "type": "address",
-        "name": "_protocol_currency_address"
+        "name": "_LST"
       },
       {
         "type": "address",
-        "name": "_template_address_currency_pool"
+        "name": "_template_token_pool"
       },
       {
         "type": "address",
-        "name": "_template_address_currency_erc20"
+        "name": "_template_erc20"
       },
       {
         "type": "address",
-        "name": "_template_address_currency_erc1155"
+        "name": "_template_mft"
       },
       {
         "type": "address",
-        "name": "_dao_address_market"
+        "name": "_pool_name_registry"
+      },
+      {
+        "type": "address",
+        "name": "_dao_interest_pool"
+      },
+      {
+        "type": "address",
+        "name": "_dao_underwriter_pool"
+      },
+      {
+        "type": "address",
+        "name": "_dao_market"
       }
     ],
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 562647
+    "gas": 633311
   },
   {
-    "name": "multi_fungible_currency_hash",
+    "name": "mft_hash",
     "outputs": [
       {
         "type": "bytes32",
@@ -49,11 +61,11 @@
     "inputs": [
       {
         "type": "address",
-        "name": "parent_currency_address"
+        "name": "_address"
       },
       {
         "type": "address",
-        "name": "_currency_address"
+        "name": "_currency"
       },
       {
         "type": "uint256",
@@ -62,7 +74,7 @@
       },
       {
         "type": "address",
-        "name": "_underlying_address"
+        "name": "_underlying"
       },
       {
         "type": "uint256",
@@ -72,10 +84,10 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2519
+    "gas": 2339
   },
   {
-    "name": "is_currency_valid",
+    "name": "is_token_supported",
     "outputs": [
       {
         "type": "bool",
@@ -85,16 +97,16 @@
     "inputs": [
       {
         "type": "address",
-        "name": "_currency_address"
+        "name": "_token"
       }
     ],
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 4596
+    "gas": 4356
   },
   {
-    "name": "multi_fungible_addresses",
+    "name": "mft_addresses",
     "outputs": [
       {
         "type": "address",
@@ -120,168 +132,16 @@
     "inputs": [
       {
         "type": "address",
-        "name": "_currency_address"
+        "name": "_token"
       }
     ],
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 4147
+    "gas": 3847
   },
   {
-    "name": "deposit_multi_fungible_l_currency",
-    "outputs": [
-      {
-        "type": "bool",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "address",
-        "name": "_currency_address"
-      },
-      {
-        "type": "address",
-        "name": "_from"
-      },
-      {
-        "type": "address",
-        "name": "_to"
-      },
-      {
-        "type": "uint256",
-        "name": "_value"
-      }
-    ],
-    "constant": false,
-    "payable": false,
-    "type": "function",
-    "gas": 4698
-  },
-  {
-    "name": "deposit_erc20",
-    "outputs": [
-      {
-        "type": "bool",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "address",
-        "name": "_currency_address"
-      },
-      {
-        "type": "address",
-        "name": "_from"
-      },
-      {
-        "type": "address",
-        "name": "_to"
-      },
-      {
-        "type": "uint256",
-        "name": "_value"
-      }
-    ],
-    "constant": false,
-    "payable": false,
-    "type": "function",
-    "gas": 4338
-  },
-  {
-    "name": "deposit_currency_to_pool",
-    "outputs": [
-      {
-        "type": "bool",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "address",
-        "name": "_currency_address"
-      },
-      {
-        "type": "address",
-        "name": "_from"
-      },
-      {
-        "type": "uint256",
-        "name": "_value"
-      }
-    ],
-    "constant": false,
-    "payable": false,
-    "type": "function",
-    "gas": 14283
-  },
-  {
-    "name": "release_currency_from_pool",
-    "outputs": [
-      {
-        "type": "bool",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "address",
-        "name": "_currency_address"
-      },
-      {
-        "type": "address",
-        "name": "_to"
-      },
-      {
-        "type": "uint256",
-        "name": "_value"
-      }
-    ],
-    "constant": false,
-    "payable": false,
-    "type": "function",
-    "gas": 8877
-  },
-  {
-    "name": "create_erc1155_type",
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "uint256",
-        "name": "_parent_currency_type"
-      },
-      {
-        "type": "address",
-        "name": "_currency_address"
-      },
-      {
-        "type": "uint256",
-        "unit": "sec",
-        "name": "_expiry"
-      },
-      {
-        "type": "address",
-        "name": "_underlying_address"
-      },
-      {
-        "type": "uint256",
-        "name": "_strike_price"
-      }
-    ],
-    "constant": false,
-    "payable": false,
-    "type": "function",
-    "gas": 293849
-  },
-  {
-    "name": "multi_fungible_currency_f",
+    "name": "f_token",
     "outputs": [
       {
         "type": "address",
@@ -295,7 +155,7 @@
     "inputs": [
       {
         "type": "address",
-        "name": "_currency_address"
+        "name": "_currency"
       },
       {
         "type": "uint256",
@@ -306,10 +166,10 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 3957
+    "gas": 5540
   },
   {
-    "name": "multi_fungible_currency_i",
+    "name": "i_token",
     "outputs": [
       {
         "type": "address",
@@ -323,7 +183,7 @@
     "inputs": [
       {
         "type": "address",
-        "name": "_currency_address"
+        "name": "_currency"
       },
       {
         "type": "uint256",
@@ -334,10 +194,10 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 3987
+    "gas": 5570
   },
   {
-    "name": "multi_fungible_currency_s",
+    "name": "s_token",
     "outputs": [
       {
         "type": "address",
@@ -351,7 +211,7 @@
     "inputs": [
       {
         "type": "address",
-        "name": "_currency_address"
+        "name": "_currency"
       },
       {
         "type": "uint256",
@@ -360,7 +220,7 @@
       },
       {
         "type": "address",
-        "name": "_underlying_address"
+        "name": "_underlying"
       },
       {
         "type": "uint256",
@@ -370,10 +230,10 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 4062
+    "gas": 5645
   },
   {
-    "name": "multi_fungible_currency_u",
+    "name": "u_token",
     "outputs": [
       {
         "type": "address",
@@ -387,7 +247,7 @@
     "inputs": [
       {
         "type": "address",
-        "name": "_currency_address"
+        "name": "_currency"
       },
       {
         "type": "uint256",
@@ -396,7 +256,7 @@
       },
       {
         "type": "address",
-        "name": "_underlying_address"
+        "name": "_underlying"
       },
       {
         "type": "uint256",
@@ -406,7 +266,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 4092
+    "gas": 5675
   },
   {
     "name": "mint_and_self_authorize_erc20",
@@ -419,7 +279,7 @@
     "inputs": [
       {
         "type": "address",
-        "name": "_currency_address"
+        "name": "_token"
       },
       {
         "type": "address",
@@ -433,7 +293,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 4584
+    "gas": 3859
   },
   {
     "name": "burn_as_self_authorized_erc20",
@@ -446,7 +306,7 @@
     "inputs": [
       {
         "type": "address",
-        "name": "_currency_address"
+        "name": "_token"
       },
       {
         "type": "address",
@@ -460,104 +320,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 4644
-  },
-  {
-    "name": "mint_and_self_authorize_erc1155",
-    "outputs": [
-      {
-        "type": "bool",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "address",
-        "name": "_currency_address"
-      },
-      {
-        "type": "uint256",
-        "name": "_id"
-      },
-      {
-        "type": "address",
-        "name": "_to"
-      },
-      {
-        "type": "uint256",
-        "name": "_value"
-      }
-    ],
-    "constant": false,
-    "payable": false,
-    "type": "function",
-    "gas": 4779
-  },
-  {
-    "name": "burn_erc1155",
-    "outputs": [
-      {
-        "type": "bool",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "address",
-        "name": "_currency_address"
-      },
-      {
-        "type": "uint256",
-        "name": "_id"
-      },
-      {
-        "type": "address",
-        "name": "_from"
-      },
-      {
-        "type": "uint256",
-        "name": "_value"
-      }
-    ],
-    "constant": false,
-    "payable": false,
-    "type": "function",
-    "gas": 4839
-  },
-  {
-    "name": "transfer_as_self_authorized_erc1155_and_authorize",
-    "outputs": [
-      {
-        "type": "bool",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "address",
-        "name": "_from"
-      },
-      {
-        "type": "address",
-        "name": "_to"
-      },
-      {
-        "type": "address",
-        "name": "_currency_address"
-      },
-      {
-        "type": "uint256",
-        "name": "_id"
-      },
-      {
-        "type": "uint256",
-        "name": "_value"
-      }
-    ],
-    "constant": false,
-    "payable": false,
-    "type": "function",
-    "gas": 4996
+    "gas": 3919
   },
   {
     "name": "pool_hash",
@@ -570,13 +333,100 @@
     "inputs": [
       {
         "type": "address",
-        "name": "_currency_address"
+        "name": "_token"
       }
     ],
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2444
+    "gas": 2024
+  },
+  {
+    "name": "pause",
+    "outputs": [
+      {
+        "type": "bool",
+        "name": "out"
+      }
+    ],
+    "inputs": [],
+    "constant": false,
+    "payable": false,
+    "type": "function",
+    "gas": 37898
+  },
+  {
+    "name": "unpause",
+    "outputs": [
+      {
+        "type": "bool",
+        "name": "out"
+      }
+    ],
+    "inputs": [],
+    "constant": false,
+    "payable": false,
+    "type": "function",
+    "gas": 22955
+  },
+  {
+    "name": "escape_hatch_erc20",
+    "outputs": [
+      {
+        "type": "bool",
+        "name": "out"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "address",
+        "name": "_currency"
+      },
+      {
+        "type": "bool",
+        "name": "_is_l"
+      }
+    ],
+    "constant": false,
+    "payable": false,
+    "type": "function",
+    "gas": 6746
+  },
+  {
+    "name": "escape_hatch_sufi",
+    "outputs": [
+      {
+        "type": "bool",
+        "name": "out"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "int128",
+        "name": "_sufi_type"
+      },
+      {
+        "type": "address",
+        "name": "_currency"
+      },
+      {
+        "type": "uint256",
+        "unit": "sec",
+        "name": "_expiry"
+      },
+      {
+        "type": "address",
+        "name": "_underlying"
+      },
+      {
+        "type": "uint256",
+        "name": "_strike_price"
+      }
+    ],
+    "constant": false,
+    "payable": false,
+    "type": "function",
+    "gas": 12632
   },
   {
     "name": "set_template",
@@ -599,10 +449,10 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 38282
+    "gas": 37752
   },
   {
-    "name": "set_currency_support",
+    "name": "set_token_support",
     "outputs": [
       {
         "type": "bool",
@@ -612,7 +462,7 @@
     "inputs": [
       {
         "type": "address",
-        "name": "_currency_address"
+        "name": "_token"
       },
       {
         "type": "bool",
@@ -622,10 +472,10 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 741824
+    "gas": 744676
   },
   {
-    "name": "currency_to_l_currency",
+    "name": "wrap",
     "outputs": [
       {
         "type": "bool",
@@ -635,7 +485,7 @@
     "inputs": [
       {
         "type": "address",
-        "name": "_currency_address"
+        "name": "_token"
       },
       {
         "type": "uint256",
@@ -645,10 +495,10 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 33618
+    "gas": 26734
   },
   {
-    "name": "l_currency_to_currency",
+    "name": "unwrap",
     "outputs": [
       {
         "type": "bool",
@@ -658,7 +508,7 @@
     "inputs": [
       {
         "type": "address",
-        "name": "_currency_address"
+        "name": "_token"
       },
       {
         "type": "uint256",
@@ -668,10 +518,10 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 22866
+    "gas": 22222
   },
   {
-    "name": "secure_l_currency_to_currency",
+    "name": "authorized_unwrap",
     "outputs": [
       {
         "type": "bool",
@@ -681,7 +531,7 @@
     "inputs": [
       {
         "type": "address",
-        "name": "_currency_address"
+        "name": "_token"
       },
       {
         "type": "address",
@@ -695,10 +545,10 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 23544
+    "gas": 22900
   },
   {
-    "name": "secure_deposit_currency_to_pool",
+    "name": "authorized_transfer_l",
     "outputs": [
       {
         "type": "bool",
@@ -708,7 +558,69 @@
     "inputs": [
       {
         "type": "address",
-        "name": "_currency_address"
+        "name": "_token"
+      },
+      {
+        "type": "address",
+        "name": "_from"
+      },
+      {
+        "type": "address",
+        "name": "_to"
+      },
+      {
+        "type": "uint256",
+        "name": "_value"
+      }
+    ],
+    "constant": false,
+    "payable": false,
+    "type": "function",
+    "gas": 6648
+  },
+  {
+    "name": "authorized_transfer_erc20",
+    "outputs": [
+      {
+        "type": "bool",
+        "name": "out"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "address",
+        "name": "_token"
+      },
+      {
+        "type": "address",
+        "name": "_from"
+      },
+      {
+        "type": "address",
+        "name": "_to"
+      },
+      {
+        "type": "uint256",
+        "name": "_value"
+      }
+    ],
+    "constant": false,
+    "payable": false,
+    "type": "function",
+    "gas": 6986
+  },
+  {
+    "name": "authorized_deposit_token",
+    "outputs": [
+      {
+        "type": "bool",
+        "name": "out"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "address",
+        "name": "_token"
       },
       {
         "type": "address",
@@ -722,10 +634,37 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 15428
+    "gas": 12024
   },
   {
-    "name": "protocol_currency_address",
+    "name": "authorized_withdraw_token",
+    "outputs": [
+      {
+        "type": "bool",
+        "name": "out"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "address",
+        "name": "_token"
+      },
+      {
+        "type": "address",
+        "name": "_to"
+      },
+      {
+        "type": "uint256",
+        "name": "_value"
+      }
+    ],
+    "constant": false,
+    "payable": false,
+    "type": "function",
+    "gas": 9738
+  },
+  {
+    "name": "LST",
     "outputs": [
       {
         "type": "address",
@@ -736,10 +675,10 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 1781
+    "gas": 1721
   },
   {
-    "name": "protocol_dao_address",
+    "name": "protocol_dao",
     "outputs": [
       {
         "type": "address",
@@ -750,7 +689,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 1811
+    "gas": 1751
   },
   {
     "name": "owner",
@@ -764,10 +703,10 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 1841
+    "gas": 1781
   },
   {
-    "name": "currencies__currency_address",
+    "name": "token_addresses__eth",
     "outputs": [
       {
         "type": "address",
@@ -783,10 +722,48 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2097
+    "gas": 2037
   },
   {
-    "name": "currencies__l_currency_address",
+    "name": "token_addresses__l",
+    "outputs": [
+      {
+        "type": "address",
+        "name": "out"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "address",
+        "name": "arg0"
+      }
+    ],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 2073
+  },
+  {
+    "name": "token_addresses__i",
+    "outputs": [
+      {
+        "type": "address",
+        "name": "out"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "address",
+        "name": "arg0"
+      }
+    ],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 2103
+  },
+  {
+    "name": "token_addresses__f",
     "outputs": [
       {
         "type": "address",
@@ -805,7 +782,7 @@
     "gas": 2133
   },
   {
-    "name": "currencies__i_currency_address",
+    "name": "token_addresses__s",
     "outputs": [
       {
         "type": "address",
@@ -824,7 +801,7 @@
     "gas": 2163
   },
   {
-    "name": "currencies__f_currency_address",
+    "name": "token_addresses__u",
     "outputs": [
       {
         "type": "address",
@@ -843,45 +820,7 @@
     "gas": 2193
   },
   {
-    "name": "currencies__s_currency_address",
-    "outputs": [
-      {
-        "type": "address",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "address",
-        "name": "arg0"
-      }
-    ],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 2223
-  },
-  {
-    "name": "currencies__u_currency_address",
-    "outputs": [
-      {
-        "type": "address",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "address",
-        "name": "arg0"
-      }
-    ],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 2253
-  },
-  {
-    "name": "pools__currency_address",
+    "name": "pools__currency",
     "outputs": [
       {
         "type": "address",
@@ -897,10 +836,10 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2238
+    "gas": 2178
   },
   {
-    "name": "pools__pool_name",
+    "name": "pools__name",
     "outputs": [
       {
         "type": "string",
@@ -916,10 +855,10 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 13666
+    "gas": 13606
   },
   {
-    "name": "pools__pool_address",
+    "name": "pools__address_",
     "outputs": [
       {
         "type": "address",
@@ -935,10 +874,10 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2304
+    "gas": 2244
   },
   {
-    "name": "pools__pool_operator",
+    "name": "pools__operator",
     "outputs": [
       {
         "type": "address",
@@ -954,7 +893,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2334
+    "gas": 2274
   },
   {
     "name": "pools__hash",
@@ -973,7 +912,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2364
+    "gas": 2304
   },
   {
     "name": "daos",
@@ -992,7 +931,26 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2316
+    "gas": 2256
+  },
+  {
+    "name": "registries",
+    "outputs": [
+      {
+        "type": "address",
+        "name": "out"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "arg0"
+      }
+    ],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 2286
   },
   {
     "name": "templates",
@@ -1011,163 +969,10 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2346
+    "gas": 2316
   },
   {
-    "name": "multi_fungible_currencies__parent_currency_address",
-    "outputs": [
-      {
-        "type": "address",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "bytes32",
-        "name": "arg0"
-      }
-    ],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 2448
-  },
-  {
-    "name": "multi_fungible_currencies__currency_address",
-    "outputs": [
-      {
-        "type": "address",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "bytes32",
-        "name": "arg0"
-      }
-    ],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 2484
-  },
-  {
-    "name": "multi_fungible_currencies__expiry_timestamp",
-    "outputs": [
-      {
-        "type": "uint256",
-        "unit": "sec",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "bytes32",
-        "name": "arg0"
-      }
-    ],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 2514
-  },
-  {
-    "name": "multi_fungible_currencies__underlying_address",
-    "outputs": [
-      {
-        "type": "address",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "bytes32",
-        "name": "arg0"
-      }
-    ],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 2544
-  },
-  {
-    "name": "multi_fungible_currencies__strike_price",
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "bytes32",
-        "name": "arg0"
-      }
-    ],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 2574
-  },
-  {
-    "name": "multi_fungible_currencies__has_id",
-    "outputs": [
-      {
-        "type": "bool",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "bytes32",
-        "name": "arg0"
-      }
-    ],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 2604
-  },
-  {
-    "name": "multi_fungible_currencies__token_id",
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "bytes32",
-        "name": "arg0"
-      }
-    ],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 2634
-  },
-  {
-    "name": "multi_fungible_currencies__hash",
-    "outputs": [
-      {
-        "type": "bytes32",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "bytes32",
-        "name": "arg0"
-      }
-    ],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 2664
-  },
-  {
-    "name": "MULTI_FUNGIBLE_CURRENCY_DIMENSION_I",
+    "name": "DAO_INTEREST_POOL",
     "outputs": [
       {
         "type": "uint256",
@@ -1178,10 +983,10 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2501
+    "gas": 2231
   },
   {
-    "name": "MULTI_FUNGIBLE_CURRENCY_DIMENSION_F",
+    "name": "DAO_UNDERWRITER_POOL",
     "outputs": [
       {
         "type": "uint256",
@@ -1192,10 +997,10 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2531
+    "gas": 2261
   },
   {
-    "name": "MULTI_FUNGIBLE_CURRENCY_DIMENSION_S",
+    "name": "DAO_MARKET",
     "outputs": [
       {
         "type": "uint256",
@@ -1206,10 +1011,10 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2561
+    "gas": 2291
   },
   {
-    "name": "MULTI_FUNGIBLE_CURRENCY_DIMENSION_U",
+    "name": "REGISTRY_POOL_NAME",
     "outputs": [
       {
         "type": "uint256",
@@ -1220,10 +1025,10 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2591
+    "gas": 2321
   },
   {
-    "name": "DAO_TYPE_MARKET",
+    "name": "TEMPLATE_TYPE_TOKEN_POOL",
     "outputs": [
       {
         "type": "uint256",
@@ -1234,10 +1039,10 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2621
+    "gas": 2351
   },
   {
-    "name": "TEMPLATE_TYPE_CURRENCY_POOL",
+    "name": "TEMPLATE_TYPE_TOKEN_ERC20",
     "outputs": [
       {
         "type": "uint256",
@@ -1248,10 +1053,10 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2651
+    "gas": 2381
   },
   {
-    "name": "TEMPLATE_TYPE_CURRENCY_ERC20",
+    "name": "TEMPLATE_TYPE_TOKEN_MULTI_FUNGIBLE",
     "outputs": [
       {
         "type": "uint256",
@@ -1262,21 +1067,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2681
-  },
-  {
-    "name": "TEMPLATE_TYPE_CURRENCY_ERC1155",
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": "out"
-      }
-    ],
-    "inputs": [],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 2711
+    "gas": 2411
   },
   {
     "name": "initialized",
@@ -1290,6 +1081,20 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2741
+    "gas": 2441
+  },
+  {
+    "name": "paused",
+    "outputs": [
+      {
+        "type": "bool",
+        "name": "out"
+      }
+    ],
+    "inputs": [],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 2471
   }
 ]
