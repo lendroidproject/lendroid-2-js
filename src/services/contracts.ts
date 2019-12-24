@@ -48,13 +48,13 @@ export class Contracts {
    * @param amount
    */
   public onWrap(token, amount) {
-    console.log(this.address, token, amount, this.contracts)
     const {
       contracts: { [token]: wrapToken, CurrencyDao },
       address,
+      web3Utils,
     } = this
     console.log(wrapToken, CurrencyDao, amount)
-    return CurrencyDao.methods.wrap(wrapToken._address, amount).send({ from: address })
+    return CurrencyDao.methods.wrap(wrapToken._address, web3Utils.toWei(amount)).send({ from: address })
   }
 
   /**
@@ -65,9 +65,10 @@ export class Contracts {
     const {
       contracts: { [token]: wrapToken, CurrencyDao },
       address,
+      web3Utils,
     } = this
     console.log(wrapToken, CurrencyDao, amount)
-    return CurrencyDao.methods.unwrap(wrapToken._address, amount).send({ from: address })
+    return CurrencyDao.methods.unwrap(wrapToken._address, web3Utils.toWei(amount)).send({ from: address })
   }
 
   private init({
