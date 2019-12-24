@@ -49,6 +49,12 @@ export class Contracts {
    */
   public onWrap(token, amount) {
     console.log(this.address, token, amount, this.contracts)
+    const {
+      contracts: { [token]: wrapToken, CurrencyDao },
+      address,
+    } = this
+    console.log(wrapToken, CurrencyDao, amount)
+    return CurrencyDao.methods.wrap(wrapToken._address, amount).send({ from: address })
   }
 
   /**
@@ -56,7 +62,12 @@ export class Contracts {
    * @param amount
    */
   public onUnwrap(token, amount) {
-    console.log(this.address, token, amount, this.contracts)
+    const {
+      contracts: { [token]: wrapToken, CurrencyDao },
+      address,
+    } = this
+    console.log(wrapToken, CurrencyDao, amount)
+    return CurrencyDao.methods.unwrap(wrapToken._address, amount).send({ from: address })
   }
 
   private init({
@@ -86,9 +97,20 @@ export class Contracts {
     this.balanceTimer = setInterval(() => this.fetchBalances(), 30 * 1000)
   }
   private fetchBalances() {
-    Promise.all(this.balanceTokens.map(token => this.fetchBalanceByToken(token)))
+    Promise.all([...this.balanceTokens.map(token => this.fetchBalanceByToken(token)), this.fetchETHBalance()])
       .then(data => this.onEvent(Events.BALANCE_UPDATED, { data }))
       .catch(err => this.onEvent(Events.BALANCE_FAILED, err))
+  }
+  private fetchETHBalance() {
+    const { address, web3Utils } = this
+    return new Promise(resolve => {
+      web3Utils.eth
+        .getBalance(address)
+        .then(value => {
+          resolve({ token: 'ETH', balance: web3Utils.fromWei(value) })
+        })
+        .catch(err => resolve({ token: 'ETH', balance: 0 }))
+    })
   }
   private networkChanged(network) {
     this.network = network
@@ -153,17 +175,6 @@ export class Contracts {
     })
   }
 }
-
-// export const fetchETHBalance = (payload, callback) => {
-//   const { address, web3Utils } = payload
-
-//   web3Utils.eth
-//     .getBalance(address)
-//     .then(value => {
-//       callback(null, { data: web3Utils.fromWei(value) })
-//     })
-//     .catch(err => callback(err))
-// }
 
 // export const fetchBalanceByToken = (payload, callback) => {
 //   const { address, web3Utils } = payload
