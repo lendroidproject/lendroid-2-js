@@ -29,7 +29,12 @@ export const LOGGER_CONTEXT = {
   INIT: 'Lendroid Init',
   RESET: 'Lendroid Reset',
 
+  // Metamask
+  METAMASK_EVENT: 'Metamask Event',
+  METAMASK_ERROR: 'Metamask Error',
+
   // Contracts
+  CONTRACT_EVENT: 'Contract Event',
   CONTRACT_ERROR: 'Contract Error',
 
   // API

@@ -10,84 +10,281 @@
     "inputs": [
       {
         "type": "address",
-        "name": "_LST"
+        "name": "_dao_protocol"
+      },
+      {
+        "type": "bool",
+        "name": "_accepts_public_contributions"
       },
       {
         "type": "address",
-        "name": "_template_token_pool"
+        "name": "_operator"
+      },
+      {
+        "type": "uint256",
+        "name": "_fee_percentage_per_i_token"
+      },
+      {
+        "type": "uint256",
+        "name": "_mft_expiry_limit"
+      },
+      {
+        "type": "string",
+        "name": "_name"
+      },
+      {
+        "type": "string",
+        "name": "_symbol"
+      },
+      {
+        "type": "uint256",
+        "name": "_initial_exchange_rate"
       },
       {
         "type": "address",
-        "name": "_template_erc20"
+        "name": "_currency"
       },
       {
         "type": "address",
-        "name": "_template_mft"
+        "name": "_l_address"
       },
       {
         "type": "address",
-        "name": "_pool_name_registry"
+        "name": "_i_address"
       },
       {
         "type": "address",
-        "name": "_dao_interest_pool"
+        "name": "_f_address"
       },
       {
         "type": "address",
-        "name": "_dao_underwriter_pool"
-      },
-      {
-        "type": "address",
-        "name": "_dao_market"
-      },
-      {
-        "type": "address",
-        "name": "_dao_shield_payout"
+        "name": "_template_token_erc20"
       }
     ],
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 386981
+    "gas": 735011
   },
   {
-    "name": "mft_hash",
+    "name": "total_pool_share_token_supply",
     "outputs": [
+      {
+        "type": "uint256",
+        "name": "out"
+      }
+    ],
+    "inputs": [],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 2830
+  },
+  {
+    "name": "l_token_balance",
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "out"
+      }
+    ],
+    "inputs": [],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 3304
+  },
+  {
+    "name": "i_token_balance",
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "out"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "uint256",
+        "unit": "sec",
+        "name": "_expiry"
+      }
+    ],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 6487
+  },
+  {
+    "name": "f_token_balance",
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "out"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "uint256",
+        "unit": "sec",
+        "name": "_expiry"
+      }
+    ],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 6356
+  },
+  {
+    "name": "total_f_token_balance",
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "out"
+      }
+    ],
+    "inputs": [],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 3081
+  },
+  {
+    "name": "total_active_contributions",
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "out"
+      }
+    ],
+    "inputs": [],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 11327
+  },
+  {
+    "name": "exchange_rate",
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "out"
+      }
+    ],
+    "inputs": [],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 52766
+  },
+  {
+    "name": "estimated_pool_share_tokens",
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "out"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "_l_token_value"
+      }
+    ],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 105694
+  },
+  {
+    "name": "i_token_fee",
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "out"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "uint256",
+        "unit": "sec",
+        "name": "_expiry"
+      }
+    ],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 15505
+  },
+  {
+    "name": "setShouldReject",
+    "outputs": [],
+    "inputs": [
+      {
+        "type": "bool",
+        "name": "_value"
+      }
+    ],
+    "constant": false,
+    "payable": false,
+    "type": "function",
+    "gas": 36556
+  },
+  {
+    "name": "supportsInterface",
+    "outputs": [
+      {
+        "type": "bool",
+        "name": "out"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "bytes",
+        "name": "interfaceID"
+      }
+    ],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 1342
+  },
+  {
+    "name": "onMFTReceived",
+    "outputs": [
+      {
+        "type": "bytes",
+        "name": "out"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "address",
+        "name": "_operator"
+      },
+      {
+        "type": "address",
+        "name": "_from"
+      },
+      {
+        "type": "uint256",
+        "name": "_id"
+      },
+      {
+        "type": "uint256",
+        "name": "_value"
+      },
       {
         "type": "bytes32",
-        "name": "out"
+        "name": "_data"
       }
     ],
-    "inputs": [
-      {
-        "type": "address",
-        "name": "_address"
-      },
-      {
-        "type": "address",
-        "name": "_currency"
-      },
-      {
-        "type": "uint256",
-        "unit": "sec",
-        "name": "_expiry"
-      },
-      {
-        "type": "address",
-        "name": "_underlying"
-      },
-      {
-        "type": "uint256",
-        "name": "_strike_price"
-      }
-    ],
-    "constant": true,
+    "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 2249
+    "gas": 182613
   },
   {
-    "name": "is_token_supported",
+    "name": "set_public_contribution_acceptance",
     "outputs": [
       {
         "type": "bool",
@@ -96,180 +293,17 @@
     ],
     "inputs": [
       {
-        "type": "address",
-        "name": "_token"
+        "type": "bool",
+        "name": "_acceptance"
       }
     ],
-    "constant": true,
+    "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 4266
+    "gas": 36667
   },
   {
-    "name": "mft_addresses",
-    "outputs": [
-      {
-        "type": "address",
-        "name": "out"
-      },
-      {
-        "type": "address",
-        "name": "out"
-      },
-      {
-        "type": "address",
-        "name": "out"
-      },
-      {
-        "type": "address",
-        "name": "out"
-      },
-      {
-        "type": "address",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "address",
-        "name": "_token"
-      }
-    ],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 3667
-  },
-  {
-    "name": "f_token",
-    "outputs": [
-      {
-        "type": "address",
-        "name": "out"
-      },
-      {
-        "type": "uint256",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "address",
-        "name": "_currency"
-      },
-      {
-        "type": "uint256",
-        "unit": "sec",
-        "name": "_expiry"
-      }
-    ],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 5450
-  },
-  {
-    "name": "i_token",
-    "outputs": [
-      {
-        "type": "address",
-        "name": "out"
-      },
-      {
-        "type": "uint256",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "address",
-        "name": "_currency"
-      },
-      {
-        "type": "uint256",
-        "unit": "sec",
-        "name": "_expiry"
-      }
-    ],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 5480
-  },
-  {
-    "name": "s_token",
-    "outputs": [
-      {
-        "type": "address",
-        "name": "out"
-      },
-      {
-        "type": "uint256",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "address",
-        "name": "_currency"
-      },
-      {
-        "type": "uint256",
-        "unit": "sec",
-        "name": "_expiry"
-      },
-      {
-        "type": "address",
-        "name": "_underlying"
-      },
-      {
-        "type": "uint256",
-        "name": "_strike_price"
-      }
-    ],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 5555
-  },
-  {
-    "name": "u_token",
-    "outputs": [
-      {
-        "type": "address",
-        "name": "out"
-      },
-      {
-        "type": "uint256",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "address",
-        "name": "_currency"
-      },
-      {
-        "type": "uint256",
-        "unit": "sec",
-        "name": "_expiry"
-      },
-      {
-        "type": "address",
-        "name": "_underlying"
-      },
-      {
-        "type": "uint256",
-        "name": "_strike_price"
-      }
-    ],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 5585
-  },
-  {
-    "name": "mint_and_self_authorize_erc20",
+    "name": "set_mft_expiry_limit",
     "outputs": [
       {
         "type": "bool",
@@ -278,12 +312,72 @@
     ],
     "inputs": [
       {
-        "type": "address",
-        "name": "_token"
+        "type": "uint256",
+        "name": "_days"
+      }
+    ],
+    "constant": false,
+    "payable": false,
+    "type": "function",
+    "gas": 37049
+  },
+  {
+    "name": "support_mft",
+    "outputs": [
+      {
+        "type": "bool",
+        "name": "out"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "uint256",
+        "unit": "sec",
+        "name": "_expiry"
       },
       {
-        "type": "address",
-        "name": "_to"
+        "type": "uint256",
+        "name": "_i_cost_per_day"
+      }
+    ],
+    "constant": false,
+    "payable": false,
+    "type": "function",
+    "gas": 333461
+  },
+  {
+    "name": "withdraw_mft_support",
+    "outputs": [
+      {
+        "type": "bool",
+        "name": "out"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "uint256",
+        "unit": "sec",
+        "name": "_expiry"
+      }
+    ],
+    "constant": false,
+    "payable": false,
+    "type": "function",
+    "gas": 28904
+  },
+  {
+    "name": "set_i_cost_per_day",
+    "outputs": [
+      {
+        "type": "bool",
+        "name": "out"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "uint256",
+        "unit": "sec",
+        "name": "_expiry"
       },
       {
         "type": "uint256",
@@ -293,10 +387,10 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 3099
+    "gas": 38403
   },
   {
-    "name": "burn_as_self_authorized_erc20",
+    "name": "decrease_fee_percentage_per_i_token",
     "outputs": [
       {
         "type": "bool",
@@ -305,14 +399,6 @@
     ],
     "inputs": [
       {
-        "type": "address",
-        "name": "_token"
-      },
-      {
-        "type": "address",
-        "name": "_from"
-      },
-      {
         "type": "uint256",
         "name": "_value"
       }
@@ -320,29 +406,10 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 3129
+    "gas": 37336
   },
   {
-    "name": "pool_hash",
-    "outputs": [
-      {
-        "type": "bytes32",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "address",
-        "name": "_token"
-      }
-    ],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 1934
-  },
-  {
-    "name": "pause",
+    "name": "withdraw_earnings",
     "outputs": [
       {
         "type": "bool",
@@ -353,10 +420,10 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 37718
+    "gas": 4947
   },
   {
-    "name": "unpause",
+    "name": "deregister",
     "outputs": [
       {
         "type": "bool",
@@ -367,10 +434,10 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 22775
+    "gas": 17725
   },
   {
-    "name": "escape_hatch_erc20",
+    "name": "increment_i_tokens",
     "outputs": [
       {
         "type": "bool",
@@ -378,58 +445,47 @@
       }
     ],
     "inputs": [
-      {
-        "type": "address",
-        "name": "_currency"
-      },
-      {
-        "type": "bool",
-        "name": "_is_l"
-      }
-    ],
-    "constant": false,
-    "payable": false,
-    "type": "function",
-    "gas": 8093
-  },
-  {
-    "name": "escape_hatch_mft",
-    "outputs": [
-      {
-        "type": "bool",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "int128",
-        "name": "_mft_type"
-      },
-      {
-        "type": "address",
-        "name": "_currency"
-      },
       {
         "type": "uint256",
         "unit": "sec",
         "name": "_expiry"
       },
       {
-        "type": "address",
-        "name": "_underlying"
+        "type": "uint256",
+        "name": "_l_token_value"
+      }
+    ],
+    "constant": false,
+    "payable": false,
+    "type": "function",
+    "gas": 10224
+  },
+  {
+    "name": "decrement_i_tokens",
+    "outputs": [
+      {
+        "type": "bool",
+        "name": "out"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "uint256",
+        "unit": "sec",
+        "name": "_expiry"
       },
       {
         "type": "uint256",
-        "name": "_strike_price"
+        "name": "_l_token_value"
       }
     ],
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 13980
+    "gas": 13456
   },
   {
-    "name": "set_template",
+    "name": "exercise_f_tokens",
     "outputs": [
       {
         "type": "bool",
@@ -438,67 +494,22 @@
     ],
     "inputs": [
       {
-        "type": "int128",
-        "name": "_template_type"
-      },
-      {
-        "type": "address",
-        "name": "_address"
-      }
-    ],
-    "constant": false,
-    "payable": false,
-    "type": "function",
-    "gas": 37152
-  },
-  {
-    "name": "set_token_support",
-    "outputs": [
-      {
-        "type": "bool",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "address",
-        "name": "_token"
-      },
-      {
-        "type": "bool",
-        "name": "_is_active"
-      }
-    ],
-    "constant": false,
-    "payable": false,
-    "type": "function",
-    "gas": 743209
-  },
-  {
-    "name": "wrap",
-    "outputs": [
-      {
-        "type": "bool",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "address",
-        "name": "_token"
+        "type": "uint256",
+        "unit": "sec",
+        "name": "_expiry"
       },
       {
         "type": "uint256",
-        "name": "_value"
+        "name": "_f_token_value"
       }
     ],
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 17813
+    "gas": 7572
   },
   {
-    "name": "unwrap",
+    "name": "contribute",
     "outputs": [
       {
         "type": "bool",
@@ -507,21 +518,17 @@
     ],
     "inputs": [
       {
-        "type": "address",
-        "name": "_token"
-      },
-      {
         "type": "uint256",
-        "name": "_value"
+        "name": "_l_token_value"
       }
     ],
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 19574
+    "gas": 120143
   },
   {
-    "name": "authorized_unwrap",
+    "name": "withdraw_contribution",
     "outputs": [
       {
         "type": "bool",
@@ -530,25 +537,17 @@
     ],
     "inputs": [
       {
-        "type": "address",
-        "name": "_token"
-      },
-      {
-        "type": "address",
-        "name": "_to"
-      },
-      {
         "type": "uint256",
-        "name": "_value"
+        "name": "_pool_share_token_value"
       }
     ],
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 20052
+    "gas": 267358
   },
   {
-    "name": "authorized_transfer_l",
+    "name": "purchase_i_tokens",
     "outputs": [
       {
         "type": "bool",
@@ -557,125 +556,19 @@
     ],
     "inputs": [
       {
-        "type": "address",
-        "name": "_token"
-      },
-      {
-        "type": "address",
-        "name": "_from"
-      },
-      {
-        "type": "address",
-        "name": "_to"
+        "type": "uint256",
+        "unit": "sec",
+        "name": "_expiry"
       },
       {
         "type": "uint256",
-        "name": "_value"
+        "name": "_fee_in_l_token"
       }
     ],
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 6289
-  },
-  {
-    "name": "authorized_transfer_erc20",
-    "outputs": [
-      {
-        "type": "bool",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "address",
-        "name": "_token"
-      },
-      {
-        "type": "address",
-        "name": "_from"
-      },
-      {
-        "type": "address",
-        "name": "_to"
-      },
-      {
-        "type": "uint256",
-        "name": "_value"
-      }
-    ],
-    "constant": false,
-    "payable": false,
-    "type": "function",
-    "gas": 5635
-  },
-  {
-    "name": "authorized_deposit_token",
-    "outputs": [
-      {
-        "type": "bool",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "address",
-        "name": "_token"
-      },
-      {
-        "type": "address",
-        "name": "_from"
-      },
-      {
-        "type": "uint256",
-        "name": "_value"
-      }
-    ],
-    "constant": false,
-    "payable": false,
-    "type": "function",
-    "gas": 8593
-  },
-  {
-    "name": "authorized_withdraw_token",
-    "outputs": [
-      {
-        "type": "bool",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "address",
-        "name": "_token"
-      },
-      {
-        "type": "address",
-        "name": "_to"
-      },
-      {
-        "type": "uint256",
-        "name": "_value"
-      }
-    ],
-    "constant": false,
-    "payable": false,
-    "type": "function",
-    "gas": 9418
-  },
-  {
-    "name": "LST",
-    "outputs": [
-      {
-        "type": "address",
-        "name": "out"
-      }
-    ],
-    "inputs": [],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 1631
+    "gas": 82372
   },
   {
     "name": "protocol_dao",
@@ -692,184 +585,182 @@
     "gas": 1661
   },
   {
-    "name": "token_addresses__eth",
+    "name": "owner",
     "outputs": [
       {
         "type": "address",
         "name": "out"
       }
     ],
-    "inputs": [
-      {
-        "type": "address",
-        "name": "arg0"
-      }
-    ],
+    "inputs": [],
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 1917
+    "gas": 1691
   },
   {
-    "name": "token_addresses__l",
-    "outputs": [
-      {
-        "type": "address",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "address",
-        "name": "arg0"
-      }
-    ],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 1953
-  },
-  {
-    "name": "token_addresses__i",
-    "outputs": [
-      {
-        "type": "address",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "address",
-        "name": "arg0"
-      }
-    ],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 1983
-  },
-  {
-    "name": "token_addresses__f",
-    "outputs": [
-      {
-        "type": "address",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "address",
-        "name": "arg0"
-      }
-    ],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 2013
-  },
-  {
-    "name": "token_addresses__s",
-    "outputs": [
-      {
-        "type": "address",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "address",
-        "name": "arg0"
-      }
-    ],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 2043
-  },
-  {
-    "name": "token_addresses__u",
-    "outputs": [
-      {
-        "type": "address",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "address",
-        "name": "arg0"
-      }
-    ],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 2073
-  },
-  {
-    "name": "pools__currency",
-    "outputs": [
-      {
-        "type": "address",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "bytes32",
-        "name": "arg0"
-      }
-    ],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 2058
-  },
-  {
-    "name": "pools__name",
+    "name": "name",
     "outputs": [
       {
         "type": "string",
         "name": "out"
       }
     ],
-    "inputs": [
-      {
-        "type": "bytes32",
-        "name": "arg0"
-      }
-    ],
+    "inputs": [],
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 13486
+    "gas": 13113
   },
   {
-    "name": "pools__address_",
+    "name": "symbol",
+    "outputs": [
+      {
+        "type": "string",
+        "name": "out"
+      }
+    ],
+    "inputs": [],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 7774
+  },
+  {
+    "name": "initial_exchange_rate",
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "out"
+      }
+    ],
+    "inputs": [],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 1781
+  },
+  {
+    "name": "currency",
     "outputs": [
       {
         "type": "address",
         "name": "out"
       }
     ],
-    "inputs": [
-      {
-        "type": "bytes32",
-        "name": "arg0"
-      }
-    ],
+    "inputs": [],
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2124
+    "gas": 1811
   },
   {
-    "name": "pools__operator",
+    "name": "l_address",
     "outputs": [
       {
         "type": "address",
         "name": "out"
       }
     ],
+    "inputs": [],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 1841
+  },
+  {
+    "name": "i_address",
+    "outputs": [
+      {
+        "type": "address",
+        "name": "out"
+      }
+    ],
+    "inputs": [],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 1871
+  },
+  {
+    "name": "f_address",
+    "outputs": [
+      {
+        "type": "address",
+        "name": "out"
+      }
+    ],
+    "inputs": [],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 1901
+  },
+  {
+    "name": "pool_share_token",
+    "outputs": [
+      {
+        "type": "address",
+        "name": "out"
+      }
+    ],
+    "inputs": [],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 1931
+  },
+  {
+    "name": "fee_percentage_per_i_token",
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "out"
+      }
+    ],
+    "inputs": [],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 1961
+  },
+  {
+    "name": "mft_expiry_limit_days",
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "out"
+      }
+    ],
+    "inputs": [],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 1991
+  },
+  {
+    "name": "operator_unwithdrawn_earnings",
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "out"
+      }
+    ],
+    "inputs": [],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 2021
+  },
+  {
+    "name": "markets__expiry",
+    "outputs": [
+      {
+        "type": "uint256",
+        "unit": "sec",
+        "name": "out"
+      }
+    ],
     "inputs": [
       {
         "type": "bytes32",
@@ -879,10 +770,105 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2154
+    "gas": 2238
   },
   {
-    "name": "pools__hash",
+    "name": "markets__i_id",
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "out"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "bytes32",
+        "name": "arg0"
+      }
+    ],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 2274
+  },
+  {
+    "name": "markets__f_id",
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "out"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "bytes32",
+        "name": "arg0"
+      }
+    ],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 2304
+  },
+  {
+    "name": "markets__i_cost_per_day",
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "out"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "bytes32",
+        "name": "arg0"
+      }
+    ],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 2334
+  },
+  {
+    "name": "markets__is_active",
+    "outputs": [
+      {
+        "type": "bool",
+        "name": "out"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "bytes32",
+        "name": "arg0"
+      }
+    ],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 2364
+  },
+  {
+    "name": "markets__id",
+    "outputs": [
+      {
+        "type": "int128",
+        "name": "out"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "bytes32",
+        "name": "arg0"
+      }
+    ],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 2394
+  },
+  {
+    "name": "markets__hash",
     "outputs": [
       {
         "type": "bytes32",
@@ -898,7 +884,40 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2184
+    "gas": 2424
+  },
+  {
+    "name": "market_id_to_hash",
+    "outputs": [
+      {
+        "type": "bytes32",
+        "name": "out"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "int128",
+        "name": "arg0"
+      }
+    ],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 2466
+  },
+  {
+    "name": "next_market_id",
+    "outputs": [
+      {
+        "type": "int128",
+        "name": "out"
+      }
+    ],
+    "inputs": [],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 2291
   },
   {
     "name": "daos",
@@ -910,52 +929,14 @@
     ],
     "inputs": [
       {
-        "type": "int128",
+        "type": "uint256",
         "name": "arg0"
       }
     ],
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2226
-  },
-  {
-    "name": "registries",
-    "outputs": [
-      {
-        "type": "address",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "int128",
-        "name": "arg0"
-      }
-    ],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 2256
-  },
-  {
-    "name": "templates",
-    "outputs": [
-      {
-        "type": "address",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "int128",
-        "name": "arg0"
-      }
-    ],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 2286
+    "gas": 2436
   },
   {
     "name": "initialized",
@@ -969,10 +950,10 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2111
+    "gas": 2351
   },
   {
-    "name": "paused",
+    "name": "accepts_public_contributions",
     "outputs": [
       {
         "type": "bool",
@@ -983,6 +964,104 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2141
+    "gas": 2381
+  },
+  {
+    "name": "DAO_INTEREST_POOL",
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "out"
+      }
+    ],
+    "inputs": [],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 2411
+  },
+  {
+    "name": "shouldReject",
+    "outputs": [
+      {
+        "type": "bool",
+        "name": "out"
+      }
+    ],
+    "inputs": [],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 2441
+  },
+  {
+    "name": "lastData",
+    "outputs": [
+      {
+        "type": "bytes32",
+        "name": "out"
+      }
+    ],
+    "inputs": [],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 2471
+  },
+  {
+    "name": "lastOperator",
+    "outputs": [
+      {
+        "type": "address",
+        "name": "out"
+      }
+    ],
+    "inputs": [],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 2501
+  },
+  {
+    "name": "lastFrom",
+    "outputs": [
+      {
+        "type": "address",
+        "name": "out"
+      }
+    ],
+    "inputs": [],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 2531
+  },
+  {
+    "name": "lastId",
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "out"
+      }
+    ],
+    "inputs": [],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 2561
+  },
+  {
+    "name": "lastValue",
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "out"
+      }
+    ],
+    "inputs": [],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 2591
   }
 ]
