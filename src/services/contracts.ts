@@ -90,6 +90,11 @@ export class Contracts {
     this.fetchTokens = Object.keys(this.supportTokens).filter(token => typeof this.supportTokens[token] !== 'string')
     this.balanceTokens = Object.keys(this.supportTokens).filter(token => this.supportTokens[token].base === 'ERC20')
   }
+  private networkChanged(network) {
+    this.network = network
+    this.onEvent(Events.NETWORK_CHANGED)
+    this.fetchContracts()
+  }
   private fetchBalanceStart() {
     if (this.balanceTimer) {
       clearInterval(this.balanceTimer)
@@ -113,48 +118,6 @@ export class Contracts {
         .catch(err => resolve({ token: 'ETH', balance: 0 }))
     })
   }
-  private networkChanged(network) {
-    this.network = network
-    this.onEvent(Events.NETWORK_CHANGED)
-    this.fetchTokens.forEach(token => this.fetchContractByToken(token))
-  }
-  private fetchContractByToken(token: string) {
-    const { network, web3Utils, supportTokens } = this
-    if (!supportTokens[token].def) {
-      if (!supportTokens[token][network]) {
-        return this.onEvent(Events.CONTRACT_UNKNOWN)
-      }
-      const url = `https://${
-        network === 1 ? 'api' : 'api-kovan'
-      }.etherscan.io/api?module=contract&action=getabi&address=${supportTokens[token][network]}`
-      Axios.get(url)
-        .then(res => {
-          if (Number(res.data.status)) {
-            const contractABI = JSON.parse(res.data.result)
-            this.contracts[token] = web3Utils.createContract(contractABI, supportTokens[token][network])
-            this.onEvent(Events.CONTRACT_FETCHED, { data: token })
-          } else {
-            this.onEvent(Events.CONTRACT_FETCH_FAILED, { data: res.data.result })
-          }
-        })
-        .catch(err => this.onEvent(Events.CONTRACT_FETCH_FAILED, err))
-    } else {
-      const contractABI = supportTokens[token].def
-      if (supportTokens[token].all) {
-        this.contracts[token] = web3Utils.createContract(
-          contractABI.hasNetwork ? contractABI[network] : contractABI,
-          supportTokens[token].all
-        )
-        this.onEvent(Events.CONTRACT_FETCHED, { data: token })
-      } else {
-        this.contracts[token] = web3Utils.createContract(
-          contractABI.hasNetwork ? contractABI[network] : contractABI,
-          supportTokens[token][network]
-        )
-        this.onEvent(Events.CONTRACT_FETCHED, { data: token })
-      }
-    }
-  }
   private fetchBalanceByToken(token: string) {
     const {
       address,
@@ -174,6 +137,74 @@ export class Contracts {
         })
         .catch(err => resolve({ token, balance: 0 }))
     })
+  }
+  private fetchContracts() {
+    Promise.all(this.fetchTokens.map(token => this.fetchContractByToken(token)))
+      .then(data => {
+        this.onEvent(Events.CONTRACT_FETCHED, { data })
+        this.initializeProtocol()
+      })
+      .catch(err => this.onEvent(Events.CONTRACT_FETCH_FAILED, err))
+  }
+  private fetchContractByToken(token: string) {
+    const { network, web3Utils, supportTokens } = this
+    return new Promise(resolve => {
+      if (!supportTokens[token].def) {
+        if (!supportTokens[token][network]) {
+          return resolve({ [token]: 'unknown' })
+        }
+        const url = `https://${
+          network === 1 ? 'api' : 'api-kovan'
+        }.etherscan.io/api?module=contract&action=getabi&address=${supportTokens[token][network]}`
+        Axios.get(url)
+          .then(res => {
+            if (Number(res.data.status)) {
+              const contractABI = JSON.parse(res.data.result)
+              this.contracts[token] = web3Utils.createContract(contractABI, supportTokens[token][network])
+              resolve({ [token]: 'success' })
+            } else {
+              resolve({ [token]: 'failed' })
+            }
+          })
+          .catch(err => this.onEvent(Events.CONTRACT_FETCH_FAILED, err))
+      } else {
+        const contractABI = supportTokens[token].def
+        if (supportTokens[token].all) {
+          this.contracts[token] = web3Utils.createContract(
+            contractABI.hasNetwork ? contractABI[network] : contractABI,
+            supportTokens[token].all
+          )
+          resolve({ [token]: 'success' })
+        } else {
+          this.contracts[token] = web3Utils.createContract(
+            contractABI.hasNetwork ? contractABI[network] : contractABI,
+            supportTokens[token][network]
+          )
+          resolve({ [token]: 'success' })
+        }
+      }
+    })
+  }
+  private async initializeProtocol() {
+    const {
+      contracts: { ProtocolDao, ...contracts },
+      web3Utils,
+    } = this
+    await ProtocolDao.methods.initialize_currency_dao().call()
+    const currencyDaoAddr = await ProtocolDao.methods.daos(1).call()
+    this.contracts.CurrencyDao = web3Utils.createContract(this.supportTokens.CurrencyDao.def, currencyDaoAddr)
+    // await ProtocolDao.methods.initialize_pool_name_registry(250000).call()
+    // await ProtocolDao.methods.initialize_position_registry().call()
+    // await ProtocolDao.methods.initialize_interest_pool_dao().call()
+    // await ProtocolDao.methods.initialize_underwriter_pool_dao().call()
+    // await ProtocolDao.methods.initialize_market_dao().call()
+    // await ProtocolDao.methods.initialize_shield_payout_dao().call()
+    // await ProtocolDao.methods
+    //   .set_token_support(contracts.Lend._address, true)
+    //   .send({ from: this.supportTokens.Governor })
+    // await ProtocolDao.methods
+    //   .set_token_support(contracts.Borrow._address, true)
+    //   .send({ from: this.supportTokens.Governor })
   }
 }
 

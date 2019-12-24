@@ -9,6 +9,9 @@ const getAll = (token, info) => ({
 export default (tokens: any = {}) => ({
   ZERO_ADDRESS: '0x0000000000000000000000000000000000000000',
   Owner: tokens.Owner || '0x2fcc0f7892538574f05243adD566Eab3922d1eBd',
+  Governor: tokens.Governor || '0x2fcc0f7892538574f05243adD566Eab3922d1eBd',
+  EscapeHatchManager: tokens.EscapeHatchManager || '0x2fcc0f7892538574f05243adD566Eab3922d1eBd',
+  EscapeHatchTokenHolder: tokens.EscapeHatchTokenHolder || '0x2fcc0f7892538574f05243adD566Eab3922d1eBd',
   LST: getAll('ERC20', tokens.LST || '0xa72d0651c868a85e222eed05028264c86653a7f6'),
   Lend: getAll('ERC20', tokens.Lend || '0xf041c1129470e92aa5483c975e60ff1ef78f69e2'),
   Borrow: getAll('ERC20', tokens.Borrow || '0x48c52951efbcbc7957d9166bb9efb2df47fbcb25'),
