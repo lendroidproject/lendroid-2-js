@@ -24,6 +24,9 @@ export class Contracts {
 
   constructor(params: any) {
     this.init(params)
+
+    this.fetchBalanceByToken = this.fetchBalanceByToken.bind(this)
+    this.fetchContractByToken = this.fetchContractByToken.bind(this)
   }
 
   /**
@@ -38,6 +41,22 @@ export class Contracts {
    */
   public getTokens() {
     return this.fetchTokens
+  }
+
+  /**
+   * Wrap Currency
+   * @param amount
+   */
+  public onWrap(token, amount) {
+    console.log(this.address, token, amount, this.contracts)
+  }
+
+  /**
+   * Wrap Currency
+   * @param amount
+   */
+  public onUnwrap(token, amount) {
+    console.log(this.address, token, amount, this.contracts)
   }
 
   private init({
@@ -63,19 +82,19 @@ export class Contracts {
     if (this.balanceTimer) {
       clearInterval(this.balanceTimer)
     }
-    this.fetchBallances()
-    this.balanceTimer = setInterval(this.fetchBallances, 30 * 1000)
+    this.fetchBalances()
+    this.balanceTimer = setInterval(() => this.fetchBalances(), 30 * 1000)
   }
-  private fetchBallances() {
-    this.balanceTokens.forEach(this.fetchBallanceByToken)
+  private fetchBalances() {
+    Promise.all(this.balanceTokens.map(token => this.fetchBalanceByToken(token)))
+      .then(data => this.onEvent(Events.BALANCE_UPDATED, { data }))
+      .catch(err => this.onEvent(Events.BALANCE_FAILED, err))
   }
-
   private networkChanged(network) {
     this.network = network
     this.onEvent(Events.NETWORK_CHANGED)
-    this.fetchTokens.forEach(this.fetchContractByToken)
+    this.fetchTokens.forEach(token => this.fetchContractByToken(token))
   }
-
   private fetchContractByToken(token: string) {
     const { network, web3Utils, supportTokens } = this
     if (!supportTokens[token].def) {
@@ -90,9 +109,9 @@ export class Contracts {
           if (Number(res.data.status)) {
             const contractABI = JSON.parse(res.data.result)
             this.contracts[token] = web3Utils.createContract(contractABI, supportTokens[token][network])
-            this.onEvent(Events.CONTRACT_FETCHED, { message: token })
+            this.onEvent(Events.CONTRACT_FETCHED, { data: token })
           } else {
-            this.onEvent(Events.CONTRACT_FETCH_FAILED, { message: res.data.result })
+            this.onEvent(Events.CONTRACT_FETCH_FAILED, { data: res.data.result })
           }
         })
         .catch(err => this.onEvent(Events.CONTRACT_FETCH_FAILED, err))
@@ -101,47 +120,41 @@ export class Contracts {
       if (supportTokens[token].all) {
         this.contracts[token] = web3Utils.createContract(
           contractABI.hasNetwork ? contractABI[network] : contractABI,
-          supportTokens[token][network],
           supportTokens[token].all
         )
-        this.onEvent(Events.CONTRACT_FETCHED, { message: token })
+        this.onEvent(Events.CONTRACT_FETCHED, { data: token })
       } else {
         this.contracts[token] = web3Utils.createContract(
           contractABI.hasNetwork ? contractABI[network] : contractABI,
           supportTokens[token][network]
         )
-        this.onEvent(Events.CONTRACT_FETCHED, { message: token })
+        this.onEvent(Events.CONTRACT_FETCHED, { data: token })
       }
     }
   }
-
-  private fetchBallanceByToken(token: string) {
-    if (!this.address) {
-      return
-    }
-
+  private fetchBalanceByToken(token: string) {
     const {
       address,
       web3Utils,
       contracts: { [token]: contractInstance },
     } = this
-
-    if (!contractInstance || !contractInstance.methods.balanceOf) {
-      return
-    }
-
-    contractInstance.methods
-      .balanceOf(address)
-      .call()
-      .then(res => {
-        const value = web3Utils.fromWei(res)
-        this.onEvent(Events.BALANCE_UPDATED, { message: value })
-      })
-      .catch(err => this.onEvent(Events.BALANCE_FAILED, err))
+    return new Promise(resolve => {
+      if (!address || !contractInstance || !contractInstance.methods.balanceOf) {
+        resolve({ token, balance: 0 })
+      }
+      contractInstance.methods
+        .balanceOf(address)
+        .call()
+        .then(res => {
+          const balance = web3Utils.fromWei(res)
+          resolve({ token, balance })
+        })
+        .catch(err => resolve({ token, balance: 0 }))
+    })
   }
 }
 
-// export const fetchETHBallance = (payload, callback) => {
+// export const fetchETHBalance = (payload, callback) => {
 //   const { address, web3Utils } = payload
 
 //   web3Utils.eth
@@ -152,12 +165,12 @@ export class Contracts {
 //     .catch(err => callback(err))
 // }
 
-// export const fetchBallanceByToken = (payload, callback) => {
+// export const fetchBalanceByToken = (payload, callback) => {
 //   const { address, web3Utils } = payload
 //   const contractInstance = payload.contractInstance
 
 //   if (!contractInstance.methods.balanceOf) {
-//     return callback({ message: 'No ballanceOf() in Contract Instance' })
+//     return callback({ message: 'No balanceOf() in Contract Instance' })
 //   }
 //   contractInstance.methods
 //     .balanceOf(address)

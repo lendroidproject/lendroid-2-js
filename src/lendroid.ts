@@ -40,7 +40,6 @@ export class Lendroid {
       this.web3 = new (Web3 as any)(prov)
       this.web3Utils = new Web3Utils(this.web3)
       const accounts = await this.web3.eth.getAccounts()
-      console.log(accounts)
       this.address = accounts[0]
       // const network = await this.web3.eth.net.getId()
       this.init()
