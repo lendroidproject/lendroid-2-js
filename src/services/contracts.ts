@@ -44,6 +44,13 @@ export class Contracts {
   }
 
   /**
+   * Refresh Balances
+   */
+  public getBalances() {
+    this.fetchBalances()
+  }
+
+  /**
    * Wrap Currency
    * @param amount
    */
@@ -83,7 +90,6 @@ export class Contracts {
     this.onEvent = onEvent
     this.address = address
     this.networkChanged(network)
-    this.fetchBalanceStart()
   }
   private initTokens(tokens) {
     this.supportTokens = SupportTokens(tokens)
@@ -103,7 +109,8 @@ export class Contracts {
     this.balanceTimer = setInterval(() => this.fetchBalances(), 30 * 1000)
   }
   private fetchBalances() {
-    Promise.all([...this.balanceTokens.map(token => this.fetchBalanceByToken(token)), this.fetchETHBalance()])
+    // Promise.all([...this.balanceTokens.map(token => this.fetchBalanceByToken(token)), this.fetchETHBalance()])
+    Promise.all(this.balanceTokens.map(token => this.fetchBalanceByToken(token)))
       .then(data => this.onEvent(Events.BALANCE_UPDATED, { data }))
       .catch(err => this.onEvent(Events.BALANCE_FAILED, err))
   }
@@ -187,24 +194,25 @@ export class Contracts {
   }
   private async initializeProtocol() {
     const {
-      contracts: { ProtocolDao, ...contracts },
+      contracts: { ProtocolDao },
       web3Utils,
+      supportTokens,
     } = this
-    await ProtocolDao.methods.initialize_currency_dao().call()
     const currencyDaoAddr = await ProtocolDao.methods.daos(1).call()
-    this.contracts.CurrencyDao = web3Utils.createContract(this.supportTokens.CurrencyDao.def, currencyDaoAddr)
-    // await ProtocolDao.methods.initialize_pool_name_registry(250000).call()
-    // await ProtocolDao.methods.initialize_position_registry().call()
-    // await ProtocolDao.methods.initialize_interest_pool_dao().call()
-    // await ProtocolDao.methods.initialize_underwriter_pool_dao().call()
-    // await ProtocolDao.methods.initialize_market_dao().call()
-    // await ProtocolDao.methods.initialize_shield_payout_dao().call()
-    // await ProtocolDao.methods
-    //   .set_token_support(contracts.Lend._address, true)
-    //   .send({ from: this.supportTokens.Governor })
-    // await ProtocolDao.methods
-    //   .set_token_support(contracts.Borrow._address, true)
-    //   .send({ from: this.supportTokens.Governor })
+    const currencyDao = web3Utils.createContract(this.supportTokens.CurrencyDao.def, currencyDaoAddr)
+    this.contracts.CurrencyDao = currencyDao
+    const lTokens: string[] = []
+    for (const token of this.balanceTokens) {
+      if (this.contracts[token]) {
+        const lTokenAddress = await currencyDao.methods.token_addresses__l(this.contracts[token]._address).call()
+        if (lTokenAddress) {
+          this.contracts[`L_${token}`] = web3Utils.createContract(supportTokens[token].def, lTokenAddress)
+          lTokens.push(`L_${token}`)
+        }
+      }
+    }
+    this.balanceTokens.push(...lTokens)
+    this.fetchBalanceStart()
   }
 }
 

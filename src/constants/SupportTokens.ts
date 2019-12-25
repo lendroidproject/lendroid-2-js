@@ -13,8 +13,8 @@ export default (tokens: any = {}) => ({
   EscapeHatchManager: tokens.EscapeHatchManager || '0x2fcc0f7892538574f05243adD566Eab3922d1eBd',
   EscapeHatchTokenHolder: tokens.EscapeHatchTokenHolder || '0x2fcc0f7892538574f05243adD566Eab3922d1eBd',
   LST: getAll('ERC20', tokens.LST || '0xa72d0651c868a85e222eed05028264c86653a7f6'),
-  Lend: getAll('ERC20', tokens.Lend || '0xf041c1129470e92aa5483c975e60ff1ef78f69e2'),
-  Borrow: getAll('ERC20', tokens.Borrow || '0x48c52951efbcbc7957d9166bb9efb2df47fbcb25'),
+  DAI: getAll('ERC20', tokens.DAI || '0xf041c1129470e92aa5483c975e60ff1ef78f69e2'),
+  WETH: getAll('ERC20', tokens.WETH || '0x48c52951efbcbc7957d9166bb9efb2df47fbcb25'),
   PriceFeed: getAll('PriceFeed', tokens.PriceFeed || '0x9bd26b71935295c4b0ada1f0c5046f61f7432746'),
   CurrencyDao: getAll('CurrencyDao', tokens.CurrencyDao || '0xfb224550e8b54629beec81331eb226b9081236ab'),
   InterestPoolDao: getAll('InterestPoolDao', tokens.InterestPoolDao || '0x14c865a62d176d52640feaa98c9060a64f9ea1b3'),
@@ -34,7 +34,7 @@ export default (tokens: any = {}) => ({
     'CollateralAuctionCurve',
     tokens.CollateralAuctionCurve || '0x4f2cc8c2a133f535c2a8973a87a1464bf7237e39'
   ),
-  ERC20: getAll('ERC20', tokens.ERC20 || '0x1b83332c613c386f5490b56546893a37e34b3819'),
+  // ERC20: getAll('ERC20', tokens.ERC20 || '0x1b83332c613c386f5490b56546893a37e34b3819'),
   MultiFungibleToken: getAll(
     'MultiFungibleToken',
     tokens.MultiFungibleToken || '0x0c7a111876ececef2e80c8a0dfd75b1603f73f59'
