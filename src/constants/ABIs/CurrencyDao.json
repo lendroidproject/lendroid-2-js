@@ -84,7 +84,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2249
+    "gas": 2369
   },
   {
     "name": "is_token_supported",
@@ -103,7 +103,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 4266
+    "gas": 4416
   },
   {
     "name": "mft_addresses",
@@ -138,7 +138,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 3667
+    "gas": 3697
   },
   {
     "name": "f_token",
@@ -166,7 +166,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 5450
+    "gas": 5570
   },
   {
     "name": "i_token",
@@ -194,7 +194,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 5480
+    "gas": 5600
   },
   {
     "name": "s_token",
@@ -230,7 +230,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 5555
+    "gas": 5675
   },
   {
     "name": "u_token",
@@ -266,7 +266,26 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 5585
+    "gas": 5705
+  },
+  {
+    "name": "pool_hash",
+    "outputs": [
+      {
+        "type": "bytes32",
+        "name": "out"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "address",
+        "name": "_token"
+      }
+    ],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 1994
   },
   {
     "name": "mint_and_self_authorize_erc20",
@@ -293,7 +312,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 3099
+    "gas": 3249
   },
   {
     "name": "burn_as_self_authorized_erc20",
@@ -320,13 +339,36 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 3129
+    "gas": 3279
   },
   {
-    "name": "pool_hash",
+    "name": "set_template",
     "outputs": [
       {
-        "type": "bytes32",
+        "type": "bool",
+        "name": "out"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "int128",
+        "name": "_template_type"
+      },
+      {
+        "type": "address",
+        "name": "_address"
+      }
+    ],
+    "constant": false,
+    "payable": false,
+    "type": "function",
+    "gas": 37032
+  },
+  {
+    "name": "set_token_support",
+    "outputs": [
+      {
+        "type": "bool",
         "name": "out"
       }
     ],
@@ -334,12 +376,16 @@
       {
         "type": "address",
         "name": "_token"
+      },
+      {
+        "type": "bool",
+        "name": "_is_active"
       }
     ],
-    "constant": true,
+    "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 1934
+    "gas": 746206
   },
   {
     "name": "pause",
@@ -353,7 +399,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 37718
+    "gas": 37538
   },
   {
     "name": "unpause",
@@ -367,7 +413,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 22775
+    "gas": 22595
   },
   {
     "name": "escape_hatch_erc20",
@@ -390,7 +436,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 8093
+    "gas": 7793
   },
   {
     "name": "escape_hatch_mft",
@@ -426,53 +472,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 13980
-  },
-  {
-    "name": "set_template",
-    "outputs": [
-      {
-        "type": "bool",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "int128",
-        "name": "_template_type"
-      },
-      {
-        "type": "address",
-        "name": "_address"
-      }
-    ],
-    "constant": false,
-    "payable": false,
-    "type": "function",
-    "gas": 37152
-  },
-  {
-    "name": "set_token_support",
-    "outputs": [
-      {
-        "type": "bool",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "address",
-        "name": "_token"
-      },
-      {
-        "type": "bool",
-        "name": "_is_active"
-      }
-    ],
-    "constant": false,
-    "payable": false,
-    "type": "function",
-    "gas": 743209
+    "gas": 13680
   },
   {
     "name": "wrap",
@@ -495,7 +495,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 17813
+    "gas": 17873
   },
   {
     "name": "unwrap",
@@ -518,7 +518,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 19574
+    "gas": 19634
   },
   {
     "name": "authorized_unwrap",
@@ -545,7 +545,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 20052
+    "gas": 20112
   },
   {
     "name": "authorized_transfer_l",
@@ -634,7 +634,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 8593
+    "gas": 8623
   },
   {
     "name": "authorized_withdraw_token",
@@ -661,7 +661,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 9418
+    "gas": 9448
   },
   {
     "name": "LST",

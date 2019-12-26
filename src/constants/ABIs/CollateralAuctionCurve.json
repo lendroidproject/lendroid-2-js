@@ -1,6 +1,6 @@
 [
   {
-    "name": "start",
+    "name": "initialize",
     "outputs": [
       {
         "type": "bool",
@@ -10,11 +10,38 @@
     "inputs": [
       {
         "type": "address",
-        "name": "_protocol_dao"
+        "name": "_owner"
       },
       {
         "type": "address",
-        "name": "_currency"
+        "name": "_protocol_currency_address"
+      },
+      {
+        "type": "address",
+        "name": "_dao_address_market"
+      },
+      {
+        "type": "address",
+        "name": "_template_address_collateral_auction_erc20"
+      }
+    ],
+    "constant": false,
+    "payable": false,
+    "type": "function",
+    "gas": 281891
+  },
+  {
+    "name": "loan_market_hash",
+    "outputs": [
+      {
+        "type": "bytes32",
+        "name": "out"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "address",
+        "name": "_currency_address"
       },
       {
         "type": "uint256",
@@ -23,106 +50,16 @@
       },
       {
         "type": "address",
-        "name": "_underlying"
-      },
-      {
-        "type": "address",
-        "name": "_f_underlying"
-      },
-      {
-        "type": "uint256",
-        "name": "_f_id_underlying"
-      },
-      {
-        "type": "uint256",
-        "name": "_expiry_price"
-      },
-      {
-        "type": "uint256",
-        "name": "_currency_value"
-      },
-      {
-        "type": "uint256",
-        "name": "_underlying_value"
-      },
-      {
-        "type": "uint256",
-        "name": "_slippage_percentage"
-      },
-      {
-        "type": "uint256",
-        "name": "_maximum_discount_percentage"
-      },
-      {
-        "type": "uint256",
-        "unit": "sec",
-        "name": "_discount_duration"
+        "name": "_underlying_address"
       }
     ],
-    "constant": false,
-    "payable": false,
-    "type": "function",
-    "gas": 532308
-  },
-  {
-    "name": "auction_expiry",
-    "outputs": [
-      {
-        "type": "uint256",
-        "unit": "sec",
-        "name": "out"
-      }
-    ],
-    "inputs": [],
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2078
+    "gas": 1821
   },
   {
-    "name": "lot",
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": "out"
-      }
-    ],
-    "inputs": [],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 2903
-  },
-  {
-    "name": "current_price",
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": "out"
-      }
-    ],
-    "inputs": [],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 13850
-  },
-  {
-    "name": "escape_hatch_underlying_f",
-    "outputs": [
-      {
-        "type": "bool",
-        "name": "out"
-      }
-    ],
-    "inputs": [],
-    "constant": false,
-    "payable": false,
-    "type": "function",
-    "gas": 8652
-  },
-  {
-    "name": "purchase",
+    "name": "set_template",
     "outputs": [
       {
         "type": "bool",
@@ -132,41 +69,73 @@
     "inputs": [
       {
         "type": "uint256",
-        "name": "_underlying_value"
+        "name": "_template_type"
+      },
+      {
+        "type": "address",
+        "name": "_address"
       }
     ],
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 96356
+    "gas": 36922
   },
   {
-    "name": "purchase_for_remaining_currency",
+    "name": "create_graph",
     "outputs": [
       {
-        "type": "bool",
+        "type": "address",
+        "name": "out"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "address",
+        "name": "_currency_address"
+      },
+      {
+        "type": "uint256",
+        "unit": "sec",
+        "name": "_expiry"
+      },
+      {
+        "type": "address",
+        "name": "_underlying_address"
+      }
+    ],
+    "constant": false,
+    "payable": false,
+    "type": "function",
+    "gas": 83712
+  },
+  {
+    "name": "protocol_currency_address",
+    "outputs": [
+      {
+        "type": "address",
         "name": "out"
       }
     ],
     "inputs": [],
-    "constant": false,
+    "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 118258
+    "gas": 761
   },
   {
-    "name": "purchase_remaining_underlying",
+    "name": "protocol_dao_address",
     "outputs": [
       {
-        "type": "bool",
+        "type": "address",
         "name": "out"
       }
     ],
     "inputs": [],
-    "constant": false,
+    "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 113410
+    "gas": 791
   },
   {
     "name": "owner",
@@ -180,13 +149,84 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 941
+    "gas": 821
   },
   {
-    "name": "protocol_dao",
+    "name": "daos",
     "outputs": [
       {
         "type": "address",
+        "name": "out"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "arg0"
+      }
+    ],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 966
+  },
+  {
+    "name": "templates",
+    "outputs": [
+      {
+        "type": "address",
+        "name": "out"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "arg0"
+      }
+    ],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 996
+  },
+  {
+    "name": "graphs",
+    "outputs": [
+      {
+        "type": "address",
+        "name": "out"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "bytes32",
+        "name": "arg0"
+      }
+    ],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 1026
+  },
+  {
+    "name": "DAO_TYPE_MARKET",
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "out"
+      }
+    ],
+    "inputs": [],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 941
+  },
+  {
+    "name": "TEMPLATE_TYPE_COLLATERAL_AUCTION_ERC20",
+    "outputs": [
+      {
+        "type": "uint256",
         "name": "out"
       }
     ],
@@ -197,134 +237,7 @@
     "gas": 971
   },
   {
-    "name": "currency",
-    "outputs": [
-      {
-        "type": "address",
-        "name": "out"
-      }
-    ],
-    "inputs": [],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 1001
-  },
-  {
-    "name": "underlying",
-    "outputs": [
-      {
-        "type": "address",
-        "name": "out"
-      }
-    ],
-    "inputs": [],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 1031
-  },
-  {
-    "name": "f_underlying",
-    "outputs": [
-      {
-        "type": "address",
-        "name": "out"
-      }
-    ],
-    "inputs": [],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 1061
-  },
-  {
-    "name": "f_id_underlying",
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": "out"
-      }
-    ],
-    "inputs": [],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 1091
-  },
-  {
-    "name": "expiry",
-    "outputs": [
-      {
-        "type": "uint256",
-        "unit": "sec",
-        "name": "out"
-      }
-    ],
-    "inputs": [],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 1121
-  },
-  {
-    "name": "max_supply",
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": "out"
-      }
-    ],
-    "inputs": [],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 1151
-  },
-  {
-    "name": "currency_remaining",
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": "out"
-      }
-    ],
-    "inputs": [],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 1181
-  },
-  {
-    "name": "start_price",
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": "out"
-      }
-    ],
-    "inputs": [],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 1211
-  },
-  {
-    "name": "end_price",
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": "out"
-      }
-    ],
-    "inputs": [],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 1241
-  },
-  {
-    "name": "is_active",
+    "name": "initialized",
     "outputs": [
       {
         "type": "bool",
@@ -335,49 +248,6 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 1271
-  },
-  {
-    "name": "slippage_percentage",
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": "out"
-      }
-    ],
-    "inputs": [],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 1301
-  },
-  {
-    "name": "maximum_discount_percentage",
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": "out"
-      }
-    ],
-    "inputs": [],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 1331
-  },
-  {
-    "name": "discount_duration",
-    "outputs": [
-      {
-        "type": "uint256",
-        "unit": "sec",
-        "name": "out"
-      }
-    ],
-    "inputs": [],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 1361
+    "gas": 1001
   }
 ]

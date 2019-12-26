@@ -88,7 +88,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 1200
+    "gas": 1170
   },
   {
     "name": "id",
@@ -120,7 +120,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2338
+    "gas": 2308
   },
   {
     "name": "is_valid_id",
@@ -139,7 +139,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 1167
+    "gas": 1137
   },
   {
     "name": "setURI",
@@ -157,7 +157,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 120948
+    "gas": 120918
   },
   {
     "name": "get_or_create_id",
@@ -193,7 +193,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 561439
+    "gas": 561379
   },
   {
     "name": "mint",
@@ -220,7 +220,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 86349
+    "gas": 86289
   },
   {
     "name": "burn",
@@ -247,7 +247,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 76617
+    "gas": 76675
   },
   {
     "name": "safeTransferFrom",
@@ -282,7 +282,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 153641
+    "gas": 153611
   },
   {
     "name": "totalBalanceOf",
@@ -301,7 +301,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 1125
+    "gas": 1095
   },
   {
     "name": "balanceOf",
@@ -324,7 +324,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 1270
+    "gas": 1240
   },
   {
     "name": "balanceOfBatch",
@@ -347,7 +347,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 3143
+    "gas": 3113
   },
   {
     "name": "protocol_dao",
@@ -361,7 +361,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 1061
+    "gas": 1031
   },
   {
     "name": "authorized_daos",
@@ -380,7 +380,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 1245
+    "gas": 1215
   },
   {
     "name": "hash_to_id",
@@ -399,7 +399,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 1236
+    "gas": 1206
   },
   {
     "name": "id_to_hash",
@@ -418,7 +418,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 1266
+    "gas": 1236
   },
   {
     "name": "metadata__address_",
@@ -437,7 +437,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 1368
+    "gas": 1338
   },
   {
     "name": "metadata__currency",
@@ -456,7 +456,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 1404
+    "gas": 1374
   },
   {
     "name": "metadata__expiry",
@@ -476,7 +476,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 1434
+    "gas": 1404
   },
   {
     "name": "metadata__underlying",
@@ -495,7 +495,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 1464
+    "gas": 1434
   },
   {
     "name": "metadata__strike_price",
@@ -514,7 +514,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 1494
+    "gas": 1464
   },
   {
     "name": "metadata__uri",
@@ -533,7 +533,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 12916
+    "gas": 12886
   },
   {
     "name": "metadata__id",
@@ -552,7 +552,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 1554
+    "gas": 1524
   },
   {
     "name": "metadata__hash",
@@ -571,7 +571,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 1584
+    "gas": 1554
   },
   {
     "name": "creators",
@@ -590,7 +590,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 1536
+    "gas": 1506
   },
   {
     "name": "nonce",
@@ -604,7 +604,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 1451
+    "gas": 1421
   },
   {
     "name": "initialized",
@@ -618,6 +618,6 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 1481
+    "gas": 1451
   }
 ]

@@ -163,12 +163,31 @@ export class Contracts {
     const {
       address,
       web3Utils,
-      contracts: { [token]: contractInstance },
+      contracts: { [token]: contractInstance, ...contracts },
+      endOfYear,
+      supportTokens: { ZERO_ADDRESS },
     } = this
     if (token.includes('F_') || token.includes('I_')) {
-      //
+      const origin = token.split('_')[1]
       return new Promise(resolve => {
-        resolve({ token, balance: 0 })
+        contractInstance.methods
+          .id(contracts[origin]._address, endOfYear, ZERO_ADDRESS, 0)
+          .call()
+          .then(id => {
+            if (id) {
+              contractInstance.methods
+                .balanceOf(address, id)
+                .call()
+                .then(res => {
+                  const balance = web3Utils.fromWei(res)
+                  resolve({ token: `${token}_${id}`, balance })
+                })
+                .catch(err => resolve({ token: `${token}_${id}`, balance: 0 }))
+            } else {
+              resolve({ token, balance: -1 })
+            }
+          })
+          .catch(err => resolve({ token, balance: -1 }))
       })
     } else {
       return new Promise(resolve => {

@@ -90,7 +90,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 5074
+    "gas": 5164
   },
   {
     "name": "set_name_registration_minimum_stake",
@@ -109,7 +109,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 37608
+    "gas": 37698
   },
   {
     "name": "set_name_registration_stake_lookup",
@@ -132,7 +132,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 73356
+    "gas": 73446
   },
   {
     "name": "pause",
@@ -146,7 +146,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 36998
+    "gas": 36938
   },
   {
     "name": "unpause",
@@ -160,7 +160,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 22055
+    "gas": 21995
   },
   {
     "name": "escape_hatch_erc20",
@@ -179,7 +179,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 6820
+    "gas": 6670
   },
   {
     "name": "register_name",

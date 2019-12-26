@@ -195,7 +195,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 5886
+    "gas": 6060
   },
   {
     "name": "set_template",
@@ -468,7 +468,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 648812
+    "gas": 649160
   },
   {
     "name": "deregister_mft_support",
@@ -551,7 +551,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 20306
+    "gas": 20300
   },
   {
     "name": "fuse",
