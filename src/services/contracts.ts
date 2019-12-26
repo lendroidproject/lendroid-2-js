@@ -17,12 +17,14 @@ export class Contracts {
   private address: any
   private onEvent: any
   private balanceTimer: any
+  private endOfYear: number
   /**
    * Exported property for wide-use
    */
   // public property: any
 
   constructor(params: any) {
+    this.endOfYear = Math.round(new Date(`${new Date().getFullYear()}-12-31`).getTime() / 1000)
     this.init(params)
 
     this.fetchBalanceByToken = this.fetchBalanceByToken.bind(this)
@@ -78,6 +80,38 @@ export class Contracts {
     return CurrencyDao.methods.unwrap(wrapToken._address, web3Utils.toWei(amount)).send({ from: address })
   }
 
+  /**
+   * Split Currency
+   * @param amount
+   */
+  public onSplit(token, amount) {
+    const {
+      contracts: { [token]: splitToken, InterestPoolDao },
+      address,
+      web3Utils,
+    } = this
+    console.log(splitToken, InterestPoolDao, amount)
+    return InterestPoolDao.methods
+      .split(splitToken._address, this.endOfYear, web3Utils.toWei(amount))
+      .send({ from: address })
+  }
+
+  /**
+   * Fuse Currency
+   * @param amount
+   */
+  public onFuse(token, amount) {
+    const {
+      contracts: { [token]: splitToken, InterestPoolDao },
+      address,
+      web3Utils,
+    } = this
+    console.log(splitToken, InterestPoolDao, amount)
+    return InterestPoolDao.methods
+      .fuse(splitToken._address, this.endOfYear, web3Utils.toWei(amount))
+      .send({ from: address })
+  }
+
   private init({
     tokens,
     web3Utils,
@@ -131,19 +165,26 @@ export class Contracts {
       web3Utils,
       contracts: { [token]: contractInstance },
     } = this
-    return new Promise(resolve => {
-      if (!address || !contractInstance || !contractInstance.methods.balanceOf) {
+    if (token.includes('F_') || token.includes('I_')) {
+      //
+      return new Promise(resolve => {
         resolve({ token, balance: 0 })
-      }
-      contractInstance.methods
-        .balanceOf(address)
-        .call()
-        .then(res => {
-          const balance = web3Utils.fromWei(res)
-          resolve({ token, balance })
-        })
-        .catch(err => resolve({ token, balance: 0 }))
-    })
+      })
+    } else {
+      return new Promise(resolve => {
+        if (!address || !contractInstance || !contractInstance.methods.balanceOf) {
+          resolve({ token, balance: 0 })
+        }
+        contractInstance.methods
+          .balanceOf(address)
+          .call()
+          .then(res => {
+            const balance = web3Utils.fromWei(res)
+            resolve({ token, balance })
+          })
+          .catch(err => resolve({ token, balance: 0 }))
+      })
+    }
   }
   private fetchContracts() {
     Promise.all(this.fetchTokens.map(token => this.fetchContractByToken(token)))
@@ -201,17 +242,40 @@ export class Contracts {
     const currencyDaoAddr = await ProtocolDao.methods.daos(1).call()
     const currencyDao = web3Utils.createContract(this.supportTokens.CurrencyDao.def, currencyDaoAddr)
     this.contracts.CurrencyDao = currencyDao
-    const lTokens: string[] = []
+    const interestPoolDaoAddr = await ProtocolDao.methods.daos(2).call()
+    const interestPoolDao = web3Utils.createContract(this.supportTokens.InterestPoolDao.def, interestPoolDaoAddr)
+    this.contracts.InterestPoolDao = interestPoolDao
+    const lsfuiTokens: string[] = []
     for (const token of this.balanceTokens) {
       if (this.contracts[token]) {
         const lTokenAddress = await currencyDao.methods.token_addresses__l(this.contracts[token]._address).call()
         if (lTokenAddress) {
           this.contracts[`L_${token}`] = web3Utils.createContract(supportTokens[token].def, lTokenAddress)
-          lTokens.push(`L_${token}`)
+          lsfuiTokens.push(`L_${token}`)
+        }
+        // const sTokenAddress = await currencyDao.methods.token_addresses__s(this.contracts[token]._address).call()
+        // if (sTokenAddress) {
+        //   this.contracts[`S_${token}`] = web3Utils.createContract(supportTokens[token].def, sTokenAddress)
+        //   lsfuiTokens.push(`S_${token}`)
+        // }
+        const fTokenAddress = await currencyDao.methods.token_addresses__f(this.contracts[token]._address).call()
+        if (fTokenAddress) {
+          this.contracts[`F_${token}`] = web3Utils.createContract(supportTokens.MultiFungibleToken.def, fTokenAddress)
+          lsfuiTokens.push(`F_${token}`)
+        }
+        // const uTokenAddress = await currencyDao.methods.token_addresses__u(this.contracts[token]._address).call()
+        // if (uTokenAddress) {
+        //   this.contracts[`U_${token}`] = web3Utils.createContract(supportTokens[token].def, uTokenAddress)
+        //   lsfuiTokens.push(`U_${token}`)
+        // }
+        const iTokenAddress = await currencyDao.methods.token_addresses__i(this.contracts[token]._address).call()
+        if (iTokenAddress) {
+          this.contracts[`I_${token}`] = web3Utils.createContract(supportTokens.MultiFungibleToken.def, iTokenAddress)
+          lsfuiTokens.push(`I_${token}`)
         }
       }
     }
-    this.balanceTokens.push(...lTokens)
+    this.balanceTokens.push(...lsfuiTokens)
     this.fetchBalanceStart()
   }
 }
