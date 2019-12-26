@@ -89,10 +89,11 @@ export class Contracts {
       contracts: { [token]: splitToken, InterestPoolDao },
       address,
       web3Utils,
+      endOfYear,
     } = this
     console.log(splitToken, InterestPoolDao, amount)
     return InterestPoolDao.methods
-      .split(splitToken._address, this.endOfYear, web3Utils.toWei(amount))
+      .split(splitToken._address, endOfYear, web3Utils.toWei(amount))
       .send({ from: address })
   }
 
@@ -101,15 +102,14 @@ export class Contracts {
    * @param amount
    */
   public onFuse(token, amount) {
+    const [, origin, endOfYear] = token.split('_')
     const {
-      contracts: { [token]: splitToken, InterestPoolDao },
+      contracts: { [origin]: fuseToken, InterestPoolDao },
       address,
       web3Utils,
     } = this
-    console.log(splitToken, InterestPoolDao, amount)
-    return InterestPoolDao.methods
-      .fuse(splitToken._address, this.endOfYear, web3Utils.toWei(amount))
-      .send({ from: address })
+    console.log(fuseToken, InterestPoolDao, amount)
+    return InterestPoolDao.methods.fuse(fuseToken._address, endOfYear, web3Utils.toWei(amount)).send({ from: address })
   }
 
   private init({
@@ -180,9 +180,9 @@ export class Contracts {
                 .call()
                 .then(res => {
                   const balance = web3Utils.fromWei(res)
-                  resolve({ token: `${token}_${id}`, balance })
+                  resolve({ token: `${token}_${endOfYear}`, balance })
                 })
-                .catch(err => resolve({ token: `${token}_${id}`, balance: 0 }))
+                .catch(err => resolve({ token: `${token}_${endOfYear}`, balance: 0 }))
             } else {
               resolve({ token, balance: -1 })
             }
