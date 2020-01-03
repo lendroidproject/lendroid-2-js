@@ -39,6 +39,13 @@ export class Contracts {
   }
 
   /**
+   * Detect Network changes and Fetch contracts again
+   */
+  public onUpdateAddress(address) {
+    this.addressChanged(address)
+  }
+
+  /**
    * Array of Support Tokens with ERC20
    */
   public getTokens() {
@@ -62,7 +69,6 @@ export class Contracts {
       address,
       web3Utils,
     } = this
-    console.log(wrapToken, CurrencyDao, amount)
     return CurrencyDao.methods.wrap(wrapToken._address, web3Utils.toWei(amount)).send({ from: address })
   }
 
@@ -76,7 +82,6 @@ export class Contracts {
       address,
       web3Utils,
     } = this
-    console.log(wrapToken, CurrencyDao, amount)
     return CurrencyDao.methods.unwrap(wrapToken._address, web3Utils.toWei(amount)).send({ from: address })
   }
 
@@ -91,7 +96,6 @@ export class Contracts {
       web3Utils,
       endOfYear,
     } = this
-    console.log(splitToken, InterestPoolDao, amount)
     return InterestPoolDao.methods
       .split(splitToken._address, endOfYear, web3Utils.toWei(amount))
       .send({ from: address })
@@ -108,7 +112,6 @@ export class Contracts {
       address,
       web3Utils,
     } = this
-    console.log(fuseToken, InterestPoolDao, amount)
     return InterestPoolDao.methods.fuse(fuseToken._address, endOfYear, web3Utils.toWei(amount)).send({ from: address })
   }
 
@@ -134,6 +137,10 @@ export class Contracts {
     this.network = network
     this.onEvent(Events.NETWORK_CHANGED)
     this.fetchContracts()
+  }
+  private addressChanged(address) {
+    this.address = address
+    this.fetchBalances()
   }
   private fetchBalanceStart() {
     if (this.balanceTimer) {

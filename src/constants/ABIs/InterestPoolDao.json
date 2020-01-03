@@ -157,12 +157,16 @@
       {
         "type": "address",
         "name": "_template_token_erc20"
+      },
+      {
+        "type": "address",
+        "name": "_template_erc20_pool_token"
       }
     ],
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 246341
+    "gas": 281501
   },
   {
     "name": "currency_dao",
@@ -390,10 +394,6 @@
         "name": "_name"
       },
       {
-        "type": "string",
-        "name": "_symbol"
-      },
-      {
         "type": "uint256",
         "name": "_initial_exchange_rate"
       },
@@ -409,7 +409,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 527059
+    "gas": 527694
   },
   {
     "name": "deregister_pool",

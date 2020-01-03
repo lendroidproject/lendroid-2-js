@@ -46,6 +46,16 @@ export class Lendroid {
     } catch (err) {
       Logger.error(LOGGER_CONTEXT.METAMASK_ERROR, err)
     }
+    setTimeout(
+      () =>
+        (window as any).ethereum.on('accountsChanged', acc => {
+          if (this.contracts && this.address !== acc[0]) {
+            this.address = acc[0]
+            this.contracts.onUpdateAddress(this.address)
+          }
+        }),
+      1000
+    )
   }
 
   private init() {

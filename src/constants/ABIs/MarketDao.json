@@ -40,7 +40,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 512261
+    "gas": 421679
   },
   {
     "name": "s_payoff",
@@ -107,72 +107,36 @@
     "gas": 16214
   },
   {
-    "name": "setShouldReject",
-    "outputs": [],
-    "inputs": [
-      {
-        "type": "bool",
-        "name": "_value"
-      }
-    ],
-    "constant": false,
-    "payable": false,
-    "type": "function",
-    "gas": 35974
-  },
-  {
-    "name": "supportsInterface",
+    "name": "shield_market_hash",
     "outputs": [
       {
-        "type": "bool",
+        "type": "bytes32",
         "name": "out"
       }
     ],
     "inputs": [
       {
-        "type": "bytes",
-        "name": "interfaceID"
+        "type": "address",
+        "name": "_currency"
+      },
+      {
+        "type": "uint256",
+        "unit": "sec",
+        "name": "_expiry"
+      },
+      {
+        "type": "address",
+        "name": "_underlying"
+      },
+      {
+        "type": "uint256",
+        "name": "_strike_price"
       }
     ],
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 1072
-  },
-  {
-    "name": "onMFTReceived",
-    "outputs": [
-      {
-        "type": "bytes",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "address",
-        "name": "_operator"
-      },
-      {
-        "type": "address",
-        "name": "_from"
-      },
-      {
-        "type": "uint256",
-        "name": "_id"
-      },
-      {
-        "type": "uint256",
-        "name": "_value"
-      },
-      {
-        "type": "bytes32",
-        "name": "_data"
-      }
-    ],
-    "constant": false,
-    "payable": false,
-    "type": "function",
-    "gas": 182343
+    "gas": 2271
   },
   {
     "name": "loan_market_hash",
@@ -200,7 +164,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 4268
+    "gas": 4208
   },
   {
     "name": "currency_underlying_pair_hash",
@@ -223,7 +187,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2242
+    "gas": 2182
   },
   {
     "name": "set_template",
@@ -246,7 +210,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 36882
+    "gas": 36822
   },
   {
     "name": "set_registry",
@@ -269,7 +233,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 36912
+    "gas": 36852
   },
   {
     "name": "set_price_oracle",
@@ -296,7 +260,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 40494
+    "gas": 40434
   },
   {
     "name": "maximum_liability_for_currency_market",
@@ -320,7 +284,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 4616
+    "gas": 4556
   },
   {
     "name": "set_maximum_liability_for_currency_market",
@@ -348,7 +312,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 40036
+    "gas": 39976
   },
   {
     "name": "maximum_liability_for_loan_market",
@@ -376,7 +340,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 4790
+    "gas": 4730
   },
   {
     "name": "set_maximum_liability_for_loan_market",
@@ -408,7 +372,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 40210
+    "gas": 40150
   },
   {
     "name": "set_auction_slippage_percentage",
@@ -427,7 +391,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 36751
+    "gas": 36691
   },
   {
     "name": "set_auction_maximum_discount_percentage",
@@ -446,7 +410,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 36781
+    "gas": 36721
   },
   {
     "name": "set_auction_discount_duration",
@@ -466,7 +430,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 36811
+    "gas": 36751
   },
   {
     "name": "pause",
@@ -480,7 +444,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 38378
+    "gas": 38258
   },
   {
     "name": "unpause",
@@ -494,7 +458,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 23435
+    "gas": 23315
   },
   {
     "name": "escape_hatch_auction",
@@ -522,7 +486,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 8459
+    "gas": 8399
   },
   {
     "name": "escape_hatch_erc20",
@@ -545,7 +509,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 10416
+    "gas": 10296
   },
   {
     "name": "escape_hatch_mft",
@@ -581,7 +545,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 21145
+    "gas": 21025
   },
   {
     "name": "open_shield_market",
@@ -629,7 +593,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 1053002
+    "gas": 1052672
   },
   {
     "name": "settle_loan_market",
@@ -643,7 +607,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 185066
+    "gas": 184916
   },
   {
     "name": "process_auction_purchase",
@@ -687,7 +651,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 152695
+    "gas": 152635
   },
   {
     "name": "open_position",
@@ -727,7 +691,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 104536
+    "gas": 104476
   },
   {
     "name": "close_position",
@@ -767,7 +731,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 103160
+    "gas": 103100
   },
   {
     "name": "close_liquidated_position",
@@ -807,7 +771,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 34471
+    "gas": 34411
   },
   {
     "name": "LST",
@@ -821,7 +785,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 1901
+    "gas": 1841
   },
   {
     "name": "protocol_dao",
@@ -835,7 +799,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 1931
+    "gas": 1871
   },
   {
     "name": "daos",
@@ -854,7 +818,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2166
+    "gas": 2106
   },
   {
     "name": "registries",
@@ -873,7 +837,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2196
+    "gas": 2136
   },
   {
     "name": "templates",
@@ -892,7 +856,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2226
+    "gas": 2166
   },
   {
     "name": "expiry_markets__expiry",
@@ -913,7 +877,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2238
+    "gas": 2178
   },
   {
     "name": "expiry_markets__id",
@@ -933,7 +897,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2274
+    "gas": 2214
   },
   {
     "name": "next_expiry_market_id",
@@ -947,7 +911,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2111
+    "gas": 2051
   },
   {
     "name": "expiry_market_id_to_timestamp",
@@ -967,7 +931,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2256
+    "gas": 2196
   },
   {
     "name": "loan_markets__currency",
@@ -986,7 +950,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2358
+    "gas": 2298
   },
   {
     "name": "loan_markets__expiry",
@@ -1006,7 +970,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2394
+    "gas": 2334
   },
   {
     "name": "loan_markets__underlying",
@@ -1025,7 +989,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2424
+    "gas": 2364
   },
   {
     "name": "loan_markets__settlement_price",
@@ -1044,7 +1008,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2454
+    "gas": 2394
   },
   {
     "name": "loan_markets__status",
@@ -1063,7 +1027,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2484
+    "gas": 2424
   },
   {
     "name": "loan_markets__liability",
@@ -1082,7 +1046,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2514
+    "gas": 2454
   },
   {
     "name": "loan_markets__collateral",
@@ -1101,7 +1065,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2544
+    "gas": 2484
   },
   {
     "name": "loan_markets__auction_curve",
@@ -1120,7 +1084,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2574
+    "gas": 2514
   },
   {
     "name": "loan_markets__auction_currency_raised",
@@ -1139,7 +1103,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2604
+    "gas": 2544
   },
   {
     "name": "loan_markets__auction_underlying_sold",
@@ -1158,7 +1122,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2634
+    "gas": 2574
   },
   {
     "name": "loan_markets__shield_market_count",
@@ -1177,7 +1141,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2664
+    "gas": 2604
   },
   {
     "name": "loan_markets__hash",
@@ -1196,7 +1160,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2694
+    "gas": 2634
   },
   {
     "name": "loan_markets__id",
@@ -1215,7 +1179,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2724
+    "gas": 2664
   },
   {
     "name": "next_loan_market_id",
@@ -1235,7 +1199,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2676
+    "gas": 2616
   },
   {
     "name": "loan_market_id_to_hash",
@@ -1259,7 +1223,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2821
+    "gas": 2761
   },
   {
     "name": "shield_markets__currency",
@@ -1278,7 +1242,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2808
+    "gas": 2748
   },
   {
     "name": "shield_markets__expiry",
@@ -1298,7 +1262,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2844
+    "gas": 2784
   },
   {
     "name": "shield_markets__underlying",
@@ -1317,7 +1281,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2874
+    "gas": 2814
   },
   {
     "name": "shield_markets__strike_price",
@@ -1336,7 +1300,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2904
+    "gas": 2844
   },
   {
     "name": "shield_markets__s_address",
@@ -1355,7 +1319,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2934
+    "gas": 2874
   },
   {
     "name": "shield_markets__s_id",
@@ -1374,7 +1338,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2964
+    "gas": 2904
   },
   {
     "name": "shield_markets__u_address",
@@ -1393,7 +1357,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2994
+    "gas": 2934
   },
   {
     "name": "shield_markets__u_id",
@@ -1412,7 +1376,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 3024
+    "gas": 2964
   },
   {
     "name": "shield_markets__hash",
@@ -1431,7 +1395,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 3054
+    "gas": 2994
   },
   {
     "name": "shield_markets__id",
@@ -1450,7 +1414,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 3084
+    "gas": 3024
   },
   {
     "name": "next_shield_market_id",
@@ -1470,7 +1434,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 3036
+    "gas": 2976
   },
   {
     "name": "shield_market_id_to_hash",
@@ -1494,7 +1458,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 3181
+    "gas": 3121
   },
   {
     "name": "price_oracles",
@@ -1513,7 +1477,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 3096
+    "gas": 3036
   },
   {
     "name": "maximum_market_liabilities",
@@ -1532,7 +1496,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 3126
+    "gas": 3066
   },
   {
     "name": "auction_slippage_percentage",
@@ -1546,7 +1510,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 3041
+    "gas": 2981
   },
   {
     "name": "auction_maximum_discount_percentage",
@@ -1560,7 +1524,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 3071
+    "gas": 3011
   },
   {
     "name": "auction_discount_duration",
@@ -1575,7 +1539,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 3101
+    "gas": 3041
   },
   {
     "name": "LOAN_MARKET_STATUS_OPEN",
@@ -1589,7 +1553,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 3131
+    "gas": 3071
   },
   {
     "name": "LOAN_MARKET_STATUS_SETTLING",
@@ -1603,7 +1567,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 3161
+    "gas": 3101
   },
   {
     "name": "LOAN_MARKET_STATUS_CLOSED",
@@ -1617,91 +1581,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 3191
-  },
-  {
-    "name": "shouldReject",
-    "outputs": [
-      {
-        "type": "bool",
-        "name": "out"
-      }
-    ],
-    "inputs": [],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 3221
-  },
-  {
-    "name": "lastData",
-    "outputs": [
-      {
-        "type": "bytes32",
-        "name": "out"
-      }
-    ],
-    "inputs": [],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 3251
-  },
-  {
-    "name": "lastOperator",
-    "outputs": [
-      {
-        "type": "address",
-        "name": "out"
-      }
-    ],
-    "inputs": [],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 3281
-  },
-  {
-    "name": "lastFrom",
-    "outputs": [
-      {
-        "type": "address",
-        "name": "out"
-      }
-    ],
-    "inputs": [],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 3311
-  },
-  {
-    "name": "lastId",
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": "out"
-      }
-    ],
-    "inputs": [],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 3341
-  },
-  {
-    "name": "lastValue",
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": "out"
-      }
-    ],
-    "inputs": [],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 3371
+    "gas": 3131
   },
   {
     "name": "initialized",
@@ -1715,7 +1595,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 3401
+    "gas": 3161
   },
   {
     "name": "paused",
@@ -1729,6 +1609,6 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 3431
+    "gas": 3191
   }
 ]

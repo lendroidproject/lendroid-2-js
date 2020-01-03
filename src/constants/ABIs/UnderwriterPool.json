@@ -37,10 +37,6 @@
         "name": "_name"
       },
       {
-        "type": "string",
-        "name": "_symbol"
-      },
-      {
         "type": "uint256",
         "name": "_initial_exchange_rate"
       },
@@ -70,13 +66,13 @@
       },
       {
         "type": "address",
-        "name": "_erc20_currency_template_address"
+        "name": "_erc20_pool_token_template_address"
       }
     ],
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 820419
+    "gas": 753539
   },
   {
     "name": "total_pool_share_token_supply",
@@ -308,74 +304,6 @@
     "gas": 7513
   },
   {
-    "name": "setShouldReject",
-    "outputs": [],
-    "inputs": [
-      {
-        "type": "bool",
-        "name": "_value"
-      }
-    ],
-    "constant": false,
-    "payable": false,
-    "type": "function",
-    "gas": 36676
-  },
-  {
-    "name": "supportsInterface",
-    "outputs": [
-      {
-        "type": "bool",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "bytes",
-        "name": "interfaceID"
-      }
-    ],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 1462
-  },
-  {
-    "name": "onMFTReceived",
-    "outputs": [
-      {
-        "type": "bytes",
-        "name": "out"
-      }
-    ],
-    "inputs": [
-      {
-        "type": "address",
-        "name": "_operator"
-      },
-      {
-        "type": "address",
-        "name": "_from"
-      },
-      {
-        "type": "uint256",
-        "name": "_id"
-      },
-      {
-        "type": "uint256",
-        "name": "_value"
-      },
-      {
-        "type": "bytes32",
-        "name": "_data"
-      }
-    ],
-    "constant": false,
-    "payable": false,
-    "type": "function",
-    "gas": 182733
-  },
-  {
     "name": "set_public_contribution_acceptance",
     "outputs": [
       {
@@ -392,7 +320,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 36787
+    "gas": 36697
   },
   {
     "name": "set_mft_expiry_limit",
@@ -411,7 +339,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 37169
+    "gas": 37079
   },
   {
     "name": "support_mft",
@@ -447,7 +375,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 474022
+    "gas": 473932
   },
   {
     "name": "withdraw_mft_support",
@@ -475,7 +403,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 29189
+    "gas": 29099
   },
   {
     "name": "set_i_cost_per_day",
@@ -507,7 +435,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 38658
+    "gas": 38568
   },
   {
     "name": "set_s_cost_per_day",
@@ -539,7 +467,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 38688
+    "gas": 38598
   },
   {
     "name": "decrease_fee_percentage_per_i_token",
@@ -558,7 +486,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 37486
+    "gas": 37396
   },
   {
     "name": "decrease_fee_percentage_per_s_token",
@@ -577,7 +505,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 37516
+    "gas": 37426
   },
   {
     "name": "withdraw_earnings",
@@ -591,7 +519,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 5127
+    "gas": 5037
   },
   {
     "name": "deregister",
@@ -605,7 +533,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 17995
+    "gas": 17905
   },
   {
     "name": "increment_s_tokens",
@@ -637,7 +565,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 10567
+    "gas": 10477
   },
   {
     "name": "decrement_s_tokens",
@@ -669,7 +597,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 13859
+    "gas": 13769
   },
   {
     "name": "exercise_u_tokens",
@@ -709,7 +637,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 5613
+    "gas": 5523
   },
   {
     "name": "contribute",
@@ -728,7 +656,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 121163
+    "gas": 121073
   },
   {
     "name": "withdraw_contribution",
@@ -747,7 +675,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 420405
+    "gas": 420315
   },
   {
     "name": "purchase_i_tokens",
@@ -779,7 +707,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 66506
+    "gas": 66416
   },
   {
     "name": "purchase_s_tokens",
@@ -811,7 +739,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 66423
+    "gas": 66333
   },
   {
     "name": "protocol_dao",
@@ -825,7 +753,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 1871
+    "gas": 1781
   },
   {
     "name": "owner",
@@ -839,7 +767,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 1901
+    "gas": 1811
   },
   {
     "name": "daos",
@@ -858,7 +786,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2046
+    "gas": 1956
   },
   {
     "name": "name",
@@ -872,7 +800,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 13353
+    "gas": 13263
   },
   {
     "name": "symbol",
@@ -886,7 +814,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 8014
+    "gas": 7924
   },
   {
     "name": "initial_exchange_rate",
@@ -900,7 +828,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2021
+    "gas": 1931
   },
   {
     "name": "currency",
@@ -914,7 +842,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2051
+    "gas": 1961
   },
   {
     "name": "l_address",
@@ -928,7 +856,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2081
+    "gas": 1991
   },
   {
     "name": "i_address",
@@ -942,7 +870,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2111
+    "gas": 2021
   },
   {
     "name": "s_address",
@@ -956,7 +884,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2141
+    "gas": 2051
   },
   {
     "name": "u_address",
@@ -970,7 +898,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2171
+    "gas": 2081
   },
   {
     "name": "pool_share_token",
@@ -984,7 +912,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2201
+    "gas": 2111
   },
   {
     "name": "fee_percentage_per_i_token",
@@ -998,7 +926,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2231
+    "gas": 2141
   },
   {
     "name": "fee_percentage_per_s_token",
@@ -1012,7 +940,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2261
+    "gas": 2171
   },
   {
     "name": "mft_expiry_limit_days",
@@ -1026,7 +954,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2291
+    "gas": 2201
   },
   {
     "name": "operator_unwithdrawn_earnings",
@@ -1040,7 +968,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2321
+    "gas": 2231
   },
   {
     "name": "markets__expiry",
@@ -1060,7 +988,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2538
+    "gas": 2448
   },
   {
     "name": "markets__underlying",
@@ -1079,7 +1007,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2574
+    "gas": 2484
   },
   {
     "name": "markets__strike_price",
@@ -1098,7 +1026,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2604
+    "gas": 2514
   },
   {
     "name": "markets__i_id",
@@ -1117,7 +1045,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2634
+    "gas": 2544
   },
   {
     "name": "markets__s_id",
@@ -1136,7 +1064,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2664
+    "gas": 2574
   },
   {
     "name": "markets__u_id",
@@ -1155,7 +1083,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2694
+    "gas": 2604
   },
   {
     "name": "markets__i_cost_per_day",
@@ -1174,7 +1102,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2724
+    "gas": 2634
   },
   {
     "name": "markets__s_cost_per_day",
@@ -1193,7 +1121,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2754
+    "gas": 2664
   },
   {
     "name": "markets__is_active",
@@ -1212,7 +1140,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2784
+    "gas": 2694
   },
   {
     "name": "markets__id",
@@ -1231,7 +1159,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2814
+    "gas": 2724
   },
   {
     "name": "markets__hash",
@@ -1250,7 +1178,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2844
+    "gas": 2754
   },
   {
     "name": "market_id_to_hash",
@@ -1269,7 +1197,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2886
+    "gas": 2796
   },
   {
     "name": "next_market_id",
@@ -1283,7 +1211,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2711
+    "gas": 2621
   },
   {
     "name": "DAO_UNDERWRITER_POOL",
@@ -1297,7 +1225,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2741
+    "gas": 2651
   },
   {
     "name": "DAO_SHIELD_PAYOUT",
@@ -1311,7 +1239,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2771
+    "gas": 2681
   },
   {
     "name": "initialized",
@@ -1325,7 +1253,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2801
+    "gas": 2711
   },
   {
     "name": "accepts_public_contributions",
@@ -1339,90 +1267,6 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2831
-  },
-  {
-    "name": "shouldReject",
-    "outputs": [
-      {
-        "type": "bool",
-        "name": "out"
-      }
-    ],
-    "inputs": [],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 2861
-  },
-  {
-    "name": "lastData",
-    "outputs": [
-      {
-        "type": "bytes32",
-        "name": "out"
-      }
-    ],
-    "inputs": [],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 2891
-  },
-  {
-    "name": "lastOperator",
-    "outputs": [
-      {
-        "type": "address",
-        "name": "out"
-      }
-    ],
-    "inputs": [],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 2921
-  },
-  {
-    "name": "lastFrom",
-    "outputs": [
-      {
-        "type": "address",
-        "name": "out"
-      }
-    ],
-    "inputs": [],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 2951
-  },
-  {
-    "name": "lastId",
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": "out"
-      }
-    ],
-    "inputs": [],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 2981
-  },
-  {
-    "name": "lastValue",
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": "out"
-      }
-    ],
-    "inputs": [],
-    "constant": true,
-    "payable": false,
-    "type": "function",
-    "gas": 3011
+    "gas": 2741
   }
 ]

@@ -173,6 +173,14 @@
       {
         "type": "address",
         "name": "_template_mft"
+      },
+      {
+        "type": "address",
+        "name": "_template_lerc20"
+      },
+      {
+        "type": "address",
+        "name": "_template_erc20_pool_token"
       }
     ],
     "constant": false,
@@ -281,7 +289,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 9729
+    "gas": 10053
   },
   {
     "name": "initialize_interest_pool_dao",
@@ -295,7 +303,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 8463
+    "gas": 8787
   },
   {
     "name": "initialize_underwriter_pool_dao",
@@ -309,7 +317,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 9141
+    "gas": 9465
   },
   {
     "name": "initialize_market_dao",
@@ -340,6 +348,34 @@
     "gas": 7905
   },
   {
+    "name": "activate_public_contributions",
+    "outputs": [
+      {
+        "type": "bool",
+        "name": "out"
+      }
+    ],
+    "inputs": [],
+    "constant": false,
+    "payable": false,
+    "type": "function",
+    "gas": 36867
+  },
+  {
+    "name": "activate_non_standard_expiries",
+    "outputs": [
+      {
+        "type": "bool",
+        "name": "out"
+      }
+    ],
+    "inputs": [],
+    "constant": false,
+    "payable": false,
+    "type": "function",
+    "gas": 36897
+  },
+  {
     "name": "set_expiry_support",
     "outputs": [
       {
@@ -365,7 +401,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 142866
+    "gas": 142926
   },
   {
     "name": "set_registry",
@@ -392,7 +428,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 6070
+    "gas": 6130
   },
   {
     "name": "set_template",
@@ -415,7 +451,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 50905
+    "gas": 50965
   },
   {
     "name": "set_pool_name_registration_minimum_stake",
@@ -434,7 +470,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 5901
+    "gas": 5961
   },
   {
     "name": "set_pool_name_registration_stake_lookup",
@@ -457,7 +493,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 6036
+    "gas": 6096
   },
   {
     "name": "set_token_support",
@@ -480,7 +516,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 6051
+    "gas": 6111
   },
   {
     "name": "set_minimum_mft_fee",
@@ -503,7 +539,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 9036
+    "gas": 9096
   },
   {
     "name": "set_fee_multiplier_per_mft_count",
@@ -530,7 +566,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 9096
+    "gas": 9156
   },
   {
     "name": "set_maximum_mft_support_count",
@@ -553,7 +589,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 9096
+    "gas": 9156
   },
   {
     "name": "set_price_oracle",
@@ -580,7 +616,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 6228
+    "gas": 6288
   },
   {
     "name": "set_maximum_liability_for_currency_market",
@@ -608,7 +644,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 6180
+    "gas": 6240
   },
   {
     "name": "set_maximum_liability_for_loan_market",
@@ -640,7 +676,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 6265
+    "gas": 6325
   },
   {
     "name": "set_auction_slippage_percentage",
@@ -659,7 +695,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 6171
+    "gas": 6231
   },
   {
     "name": "set_auction_maximum_discount_percentage",
@@ -678,7 +714,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 6201
+    "gas": 6261
   },
   {
     "name": "set_auction_discount_duration",
@@ -698,7 +734,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 6231
+    "gas": 6291
   },
   {
     "name": "toggle_dao_pause",
@@ -721,7 +757,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 17384
+    "gas": 17444
   },
   {
     "name": "toggle_registry_pause",
@@ -744,7 +780,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 8508
+    "gas": 8568
   },
   {
     "name": "escape_hatch_dao_erc20",
@@ -771,7 +807,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 17365
+    "gas": 17425
   },
   {
     "name": "escape_hatch_registry_erc20",
@@ -794,7 +830,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 5565
+    "gas": 5625
   },
   {
     "name": "escape_hatch_dao_mft",
@@ -834,7 +870,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 17919
+    "gas": 17979
   },
   {
     "name": "escape_hatch_auction",
@@ -862,7 +898,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 5383
+    "gas": 5443
   },
   {
     "name": "LST",
@@ -876,7 +912,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 1541
+    "gas": 1601
   },
   {
     "name": "authorized_callers",
@@ -895,7 +931,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 1776
+    "gas": 1836
   },
   {
     "name": "daos",
@@ -914,7 +950,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 1806
+    "gas": 1866
   },
   {
     "name": "registries",
@@ -933,7 +969,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 1836
+    "gas": 1896
   },
   {
     "name": "expiries__expiry_timestamp",
@@ -954,7 +990,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 1848
+    "gas": 1908
   },
   {
     "name": "expiries__expiry_label",
@@ -974,7 +1010,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 7907
+    "gas": 7967
   },
   {
     "name": "expiries__is_active",
@@ -994,7 +1030,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 1914
+    "gas": 1974
   },
   {
     "name": "templates",
@@ -1013,7 +1049,35 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 1956
+    "gas": 2016
+  },
+  {
+    "name": "public_contributions_activated",
+    "outputs": [
+      {
+        "type": "bool",
+        "name": "out"
+      }
+    ],
+    "inputs": [],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 1841
+  },
+  {
+    "name": "non_standard_expiries_activated",
+    "outputs": [
+      {
+        "type": "bool",
+        "name": "out"
+      }
+    ],
+    "inputs": [],
+    "constant": true,
+    "payable": false,
+    "type": "function",
+    "gas": 1871
   },
   {
     "name": "initialized",
@@ -1027,6 +1091,6 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 1781
+    "gas": 1901
   }
 ]
