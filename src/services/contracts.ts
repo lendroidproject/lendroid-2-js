@@ -18,6 +18,7 @@ export class Contracts {
   private onEvent: any
   private balanceTimer: any
   private endOfYear: number
+  private strikeDefault = 150
   /**
    * Exported property for wide-use
    */
@@ -104,7 +105,13 @@ export class Contracts {
     }
     const { [underlying]: underlyingToken } = this.contracts
     return UnderwriterPoolDao.methods
-      .split(splitToken._address, endOfYear, underlyingToken._address, strike, web3Utils.toWei(amount))
+      .split(
+        splitToken._address,
+        endOfYear,
+        underlyingToken._address,
+        this.strikeDefault || strike,
+        web3Utils.toWei(amount)
+      )
       .send({ from: address })
   }
 
@@ -127,7 +134,13 @@ export class Contracts {
     }
     const { [underlying]: underlyingToken } = this.contracts
     return UnderwriterPoolDao.methods
-      .fuse(fuseToken._address, endOfYear, underlyingToken._address, strike, web3Utils.toWei(amount))
+      .fuse(
+        fuseToken._address,
+        endOfYear,
+        underlyingToken._address,
+        this.strikeDefault || strike,
+        web3Utils.toWei(amount)
+      )
       .send({ from: address })
   }
 
@@ -190,11 +203,17 @@ export class Contracts {
       endOfYear,
       supportTokens: { ZERO_ADDRESS },
     } = this
-    if (token.includes('F_') || token.includes('I_')) {
-      const origin = token.split('_')[1]
+    if (token.includes('_') && !token.includes('L_')) {
+      const [type, origin, oToken, strike] = token.split('_')
+      const bToken = `${type}_${origin}_${endOfYear}_${oToken || '-'}_${strike || '-'}`
       return new Promise(resolve => {
         contractInstance.methods
-          .id(contracts[origin]._address, endOfYear, ZERO_ADDRESS, 0)
+          .id(
+            contracts[origin]._address,
+            endOfYear,
+            !oToken ? ZERO_ADDRESS : contracts[oToken]._address,
+            !oToken ? 0 : strike
+          )
           .call()
           .then(id => {
             if (id) {
@@ -203,14 +222,14 @@ export class Contracts {
                 .call()
                 .then(res => {
                   const balance = web3Utils.fromWei(res)
-                  resolve({ token: `${token}_${endOfYear}`, balance })
+                  resolve({ token: bToken, balance })
                 })
-                .catch(err => resolve({ token: `${token}_${endOfYear}`, balance: 0 }))
+                .catch(err => resolve({ token: bToken, balance: 0 }))
             } else {
-              resolve({ token, balance: -1 })
+              resolve({ token: bToken, balance: -1 })
             }
           })
-          .catch(err => resolve({ token, balance: -1 }))
+          .catch(err => resolve({ token: bToken, balance: -1 }))
       })
     } else {
       return new Promise(resolve => {
@@ -295,25 +314,32 @@ export class Contracts {
           this.contracts[`L_${token}`] = web3Utils.createContract(supportTokens[token].def, lTokenAddress)
           lsfuiTokens.push(`L_${token}`)
         }
-        // const sTokenAddress = await currencyDao.methods.token_addresses__s(this.contracts[token]._address).call()
-        // if (sTokenAddress) {
-        //   this.contracts[`S_${token}`] = web3Utils.createContract(supportTokens[token].def, sTokenAddress)
-        //   lsfuiTokens.push(`S_${token}`)
-        // }
         const fTokenAddress = await currencyDao.methods.token_addresses__f(this.contracts[token]._address).call()
         if (fTokenAddress) {
           this.contracts[`F_${token}`] = web3Utils.createContract(supportTokens.MultiFungibleToken.def, fTokenAddress)
           lsfuiTokens.push(`F_${token}`)
         }
-        // const uTokenAddress = await currencyDao.methods.token_addresses__u(this.contracts[token]._address).call()
-        // if (uTokenAddress) {
-        //   this.contracts[`U_${token}`] = web3Utils.createContract(supportTokens[token].def, uTokenAddress)
-        //   lsfuiTokens.push(`U_${token}`)
-        // }
         const iTokenAddress = await currencyDao.methods.token_addresses__i(this.contracts[token]._address).call()
         if (iTokenAddress) {
           this.contracts[`I_${token}`] = web3Utils.createContract(supportTokens.MultiFungibleToken.def, iTokenAddress)
           lsfuiTokens.push(`I_${token}`)
+        }
+        const otherTokens = this.balanceTokens.filter(t => t !== token)
+        const sTokenAddress = await currencyDao.methods.token_addresses__s(this.contracts[token]._address).call()
+        if (sTokenAddress) {
+          const sTokenContract = web3Utils.createContract(supportTokens.MultiFungibleToken.def, sTokenAddress)
+          for (const oToken of otherTokens) {
+            this.contracts[`S_${token}_${oToken}_${this.strikeDefault}`] = sTokenContract
+            lsfuiTokens.push(`S_${token}_${oToken}_${this.strikeDefault}`)
+          }
+        }
+        const uTokenAddress = await currencyDao.methods.token_addresses__u(this.contracts[token]._address).call()
+        if (uTokenAddress) {
+          const uTokenContract = web3Utils.createContract(supportTokens.MultiFungibleToken.def, uTokenAddress)
+          for (const oToken of otherTokens) {
+            this.contracts[`U_${token}_${oToken}_${this.strikeDefault}`] = uTokenContract
+            lsfuiTokens.push(`U_${token}_${oToken}_${this.strikeDefault}`)
+          }
         }
       }
     }
