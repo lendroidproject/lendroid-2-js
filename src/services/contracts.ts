@@ -89,15 +89,22 @@ export class Contracts {
    * Split Currency
    * @param amount
    */
-  public onSplit(token, amount) {
+  public onSplit(token, form) {
+    const { amount, underlying, strike } = form
     const {
-      contracts: { [token]: splitToken, InterestPoolDao },
+      contracts: { [token]: splitToken, InterestPoolDao, UnderwriterPoolDao },
       address,
       web3Utils,
       endOfYear,
     } = this
-    return InterestPoolDao.methods
-      .split(splitToken._address, endOfYear, web3Utils.toWei(amount))
+    if (!underlying) {
+      return InterestPoolDao.methods
+        .split(splitToken._address, endOfYear, web3Utils.toWei(amount))
+        .send({ from: address })
+    }
+    const { [underlying]: underlyingToken } = this.contracts
+    return UnderwriterPoolDao.methods
+      .split(splitToken._address, endOfYear, underlyingToken._address, strike, web3Utils.toWei(amount))
       .send({ from: address })
   }
 
@@ -105,14 +112,23 @@ export class Contracts {
    * Fuse Currency
    * @param amount
    */
-  public onFuse(token, amount) {
+  public onFuse(token, form) {
+    const { amount, underlying, strike } = form
     const [, origin, endOfYear] = token.split('_')
     const {
-      contracts: { [origin]: fuseToken, InterestPoolDao },
+      contracts: { [origin]: fuseToken, InterestPoolDao, UnderwriterPoolDao },
       address,
       web3Utils,
     } = this
-    return InterestPoolDao.methods.fuse(fuseToken._address, endOfYear, web3Utils.toWei(amount)).send({ from: address })
+    if (!underlying) {
+      return InterestPoolDao.methods
+        .fuse(fuseToken._address, endOfYear, web3Utils.toWei(amount))
+        .send({ from: address })
+    }
+    const { [underlying]: underlyingToken } = this.contracts
+    return UnderwriterPoolDao.methods
+      .fuse(fuseToken._address, endOfYear, underlyingToken._address, strike, web3Utils.toWei(amount))
+      .send({ from: address })
   }
 
   private init({
