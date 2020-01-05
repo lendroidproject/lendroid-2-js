@@ -275,7 +275,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 44078
+    "gas": 44072
   },
   {
     "name": "exercise_u",
@@ -311,7 +311,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 44198
+    "gas": 44192
   },
   {
     "name": "LST",

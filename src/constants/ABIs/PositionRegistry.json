@@ -84,7 +84,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 522146
+    "gas": 521280
   },
   {
     "name": "repay_loan",
@@ -107,7 +107,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 437022
+    "gas": 436243
   },
   {
     "name": "close_liquidated_loan",
@@ -126,7 +126,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 414535
+    "gas": 414189
   },
   {
     "name": "LST",

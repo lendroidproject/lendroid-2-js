@@ -157,7 +157,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 120888
+    "gas": 113537
   },
   {
     "name": "get_or_create_id",
@@ -193,7 +193,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 561319
+    "gas": 553184
   },
   {
     "name": "mint",
@@ -220,7 +220,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 77786
+    "gas": 77040
   },
   {
     "name": "burn",
@@ -247,7 +247,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 76645
+    "gas": 76299
   },
   {
     "name": "safeTransferFrom",
@@ -282,7 +282,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 148762
+    "gas": 147670
   },
   {
     "name": "totalBalanceOf",
@@ -533,7 +533,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 12856
+    "gas": 6066
   },
   {
     "name": "metadata__id",

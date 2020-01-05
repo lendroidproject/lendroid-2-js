@@ -26,6 +26,10 @@
       },
       {
         "type": "address",
+        "name": "_template_lerc20"
+      },
+      {
+        "type": "address",
         "name": "_pool_name_registry"
       },
       {
@@ -48,7 +52,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 386981
+    "gas": 422141
   },
   {
     "name": "mft_hash",
@@ -362,7 +366,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 37032
+    "gas": 37047
   },
   {
     "name": "set_token_support",
@@ -841,7 +845,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 13486
+    "gas": 6696
   },
   {
     "name": "pools__address_",

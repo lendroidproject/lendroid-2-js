@@ -88,7 +88,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 3304
+    "gas": 3298
   },
   {
     "name": "i_token_balance",
@@ -108,7 +108,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 6487
+    "gas": 6457
   },
   {
     "name": "f_token_balance",
@@ -156,7 +156,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 11327
+    "gas": 11294
   },
   {
     "name": "exchange_rate",
@@ -170,7 +170,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 52766
+    "gas": 52502
   },
   {
     "name": "estimated_pool_share_tokens",
@@ -189,7 +189,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 105694
+    "gas": 105153
   },
   {
     "name": "i_token_fee",
@@ -209,7 +209,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 15505
+    "gas": 5446
   },
   {
     "name": "set_public_contribution_acceptance",
@@ -271,7 +271,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 333371
+    "gas": 326794
   },
   {
     "name": "withdraw_mft_support",
@@ -362,7 +362,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 17635
+    "gas": 17602
   },
   {
     "name": "increment_i_tokens",
@@ -386,7 +386,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 10134
+    "gas": 10128
   },
   {
     "name": "decrement_i_tokens",
@@ -410,7 +410,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 13366
+    "gas": 13336
   },
   {
     "name": "exercise_f_tokens",
@@ -453,7 +453,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 120053
+    "gas": 119512
   },
   {
     "name": "withdraw_contribution",
@@ -472,7 +472,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 267268
+    "gas": 265714
   },
   {
     "name": "purchase_i_tokens",
@@ -496,7 +496,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 82282
+    "gas": 61261
   },
   {
     "name": "protocol_dao",
@@ -538,7 +538,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 13023
+    "gas": 6233
   },
   {
     "name": "symbol",
@@ -552,7 +552,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 7684
+    "gas": 5886
   },
   {
     "name": "initial_exchange_rate",

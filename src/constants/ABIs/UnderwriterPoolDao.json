@@ -207,7 +207,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 6060
+    "gas": 5890
   },
   {
     "name": "set_template",
@@ -421,7 +421,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 528049
+    "gas": 527679
   },
   {
     "name": "deregister_pool",
@@ -496,7 +496,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 973567
+    "gas": 972484
   },
   {
     "name": "deregister_mft_support",
@@ -532,7 +532,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 109943
+    "gas": 109600
   },
   {
     "name": "deposit_l",
@@ -754,7 +754,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 13404
+    "gas": 6614
   },
   {
     "name": "pools__address_",
@@ -887,7 +887,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 13348
+    "gas": 6558
   },
   {
     "name": "next_pool_id",

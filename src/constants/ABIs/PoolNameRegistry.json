@@ -198,7 +198,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 466593
+    "gas": 466133
   },
   {
     "name": "register_name_and_pool",
@@ -221,7 +221,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 467394
+    "gas": 466934
   },
   {
     "name": "register_pool",
@@ -286,7 +286,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 574552
+    "gas": 572992
   },
   {
     "name": "LST",
@@ -352,7 +352,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 12820
+    "gas": 6030
   },
   {
     "name": "names__operator",

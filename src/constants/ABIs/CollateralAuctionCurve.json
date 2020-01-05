@@ -62,7 +62,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 532308
+    "gas": 530987
   },
   {
     "name": "auction_expiry",
@@ -77,7 +77,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 2078
+    "gas": 1508
   },
   {
     "name": "lot",
@@ -105,7 +105,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 13850
+    "gas": 5617
   },
   {
     "name": "escape_hatch_underlying_f",
@@ -138,7 +138,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 96356
+    "gas": 87761
   },
   {
     "name": "purchase_for_remaining_currency",
@@ -152,7 +152,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 118258
+    "gas": 101234
   },
   {
     "name": "purchase_remaining_underlying",
@@ -166,7 +166,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 113410
+    "gas": 96474
   },
   {
     "name": "owner",

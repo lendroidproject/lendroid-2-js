@@ -125,7 +125,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 74118
+    "gas": 73572
   },
   {
     "name": "transferFrom",
@@ -152,7 +152,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 109985
+    "gas": 109266
   },
   {
     "name": "approve",
@@ -198,7 +198,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 75514
+    "gas": 74768
   },
   {
     "name": "mintAndAuthorizeMinter",
@@ -221,7 +221,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 113604
+    "gas": 112858
   },
   {
     "name": "burn",
@@ -235,7 +235,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 74871
+    "gas": 74525
   },
   {
     "name": "burnFrom",
@@ -258,7 +258,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 110779
+    "gas": 110260
   },
   {
     "name": "burnAsAuthorizedMinter",
@@ -281,7 +281,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 75312
+    "gas": 74966
   },
   {
     "name": "name",
@@ -295,7 +295,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 12333
+    "gas": 5543
   },
   {
     "name": "symbol",
@@ -309,7 +309,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 6994
+    "gas": 5196
   },
   {
     "name": "decimals",

@@ -72,7 +72,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 12796
+    "gas": 12673
   },
   {
     "name": "u_payoff",
@@ -104,7 +104,7 @@
     "constant": true,
     "payable": false,
     "type": "function",
-    "gas": 16214
+    "gas": 16082
   },
   {
     "name": "shield_market_hash",
@@ -593,7 +593,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 1052672
+    "gas": 1051192
   },
   {
     "name": "settle_loan_market",
@@ -607,7 +607,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 184916
+    "gas": 184886
   },
   {
     "name": "process_auction_purchase",
@@ -651,7 +651,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 152635
+    "gas": 151843
   },
   {
     "name": "open_position",
@@ -691,7 +691,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 104476
+    "gas": 103648
   },
   {
     "name": "close_position",
@@ -731,7 +731,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 103100
+    "gas": 102681
   },
   {
     "name": "close_liquidated_position",
@@ -771,7 +771,7 @@
     "constant": false,
     "payable": false,
     "type": "function",
-    "gas": 34411
+    "gas": 34205
   },
   {
     "name": "LST",
