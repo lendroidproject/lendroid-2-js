@@ -13,6 +13,7 @@ export class Contracts {
   private fetchTokens: any = []
   private balanceTokens: any = []
   private lsfuiTokens: any = []
+  private lsfuiNames = {}
   private web3Utils: any
   private network: any
   private address: any
@@ -239,7 +240,7 @@ export class Contracts {
           .call()
           .then(res => {
             const balance = web3Utils.fromWei(res)
-            resolve({ token, balance })
+            resolve({ token, balance, name: this.lsfuiNames[token] })
           })
           .catch(err => resolve({ token, balance: 0 }))
       })
@@ -315,12 +316,15 @@ export class Contracts {
     } = this
 
     const lsfuiTokens: string[] = []
+    const lsfuiNames: any = {}
     for (const token of this.balanceTokens) {
       if (this.contracts[token]) {
         const lTokenAddress = await CurrencyDao.methods.token_addresses__l(this.contracts[token]._address).call()
         if (lTokenAddress && lTokenAddress !== ZERO_ADDRESS) {
           this.contracts[`L_${token}`] = web3Utils.createContract(supportTokens[token].def, lTokenAddress)
+          const contractName = await this.contracts[`L_${token}`].methods.name().call()
           lsfuiTokens.push(`L_${token}`)
+          lsfuiNames[`L_${token}`] = contractName
         }
         const fTokenAddress = await CurrencyDao.methods.token_addresses__f(this.contracts[token]._address).call()
         if (fTokenAddress && fTokenAddress !== ZERO_ADDRESS) {
@@ -361,6 +365,7 @@ export class Contracts {
       }
     }
     this.lsfuiTokens = lsfuiTokens
+    this.lsfuiNames = lsfuiNames
   }
   private async initializeProtocol() {
     const {
