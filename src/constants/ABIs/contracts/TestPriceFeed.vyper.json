@@ -1,0 +1,75 @@
+{
+  "contractName": "TestPriceFeed",
+  "abi": [
+    {
+      "outputs": [],
+      "inputs": [],
+      "constant": false,
+      "payable": false,
+      "type": "constructor"
+    },
+    {
+      "name": "set_price",
+      "outputs": [
+        {
+          "type": "bool",
+          "name": "out"
+        }
+      ],
+      "inputs": [
+        {
+          "type": "uint256",
+          "name": "_value"
+        }
+      ],
+      "constant": false,
+      "payable": false,
+      "type": "function",
+      "gas": 35750
+    },
+    {
+      "name": "read",
+      "outputs": [
+        {
+          "type": "uint256",
+          "name": "out"
+        }
+      ],
+      "inputs": [],
+      "constant": false,
+      "payable": false,
+      "type": "function",
+      "gas": 581
+    },
+    {
+      "name": "owner",
+      "outputs": [
+        {
+          "type": "address",
+          "name": "out"
+        }
+      ],
+      "inputs": [],
+      "constant": true,
+      "payable": false,
+      "type": "function",
+      "gas": 611
+    },
+    {
+      "name": "current_price",
+      "outputs": [
+        {
+          "type": "uint256",
+          "name": "out"
+        }
+      ],
+      "inputs": [],
+      "constant": true,
+      "payable": false,
+      "type": "function",
+      "gas": 641
+    }
+  ],
+  "bytecode": "0x740100000000000000000000000000000000000000006020526f7fffffffffffffffffffffffffffffff6040527fffffffffffffffffffffffffffffffff8000000000000000000000000000000060605274012a05f1fffffffffffffffffffffffffdabf41c006080527ffffffffffffffffffffffffed5fa0e000000000000000000000000000000000060a052341561009857600080fd5b3360005561020756600436101561000d57610160565b600035601c52740100000000000000000000000000000000000000006020526f7fffffffffffffffffffffffffffffff6040527fffffffffffffffffffffffffffffffff8000000000000000000000000000000060605274012a05f1fffffffffffffffffffffffffdabf41c006080527ffffffffffffffffffffffffed5fa0e000000000000000000000000000000000060a0526328bf794d60005114156100ea5734156100ba57600080fd5b60005433146100c857600080fd5b6000600435116100d757600080fd5b600435600155600160005260206000f350005b6357de26a4600051141561011157341561010357600080fd5b60015460005260206000f350005b638da5cb5b600051141561013857341561012a57600080fd5b60005460005260206000f350005b63ab2b3137600051141561015f57341561015157600080fd5b60015460005260206000f350005b5b60006000fd5b6100a1610207036100a16000396100a1610207036000f3",
+  "deployedBytecode": "0x600436101561000d57610160565b600035601c52740100000000000000000000000000000000000000006020526f7fffffffffffffffffffffffffffffff6040527fffffffffffffffffffffffffffffffff8000000000000000000000000000000060605274012a05f1fffffffffffffffffffffffffdabf41c006080527ffffffffffffffffffffffffed5fa0e000000000000000000000000000000000060a0526328bf794d60005114156100ea5734156100ba57600080fd5b60005433146100c857600080fd5b6000600435116100d757600080fd5b600435600155600160005260206000f350005b6357de26a4600051141561011157341561010357600080fd5b60015460005260206000f350005b638da5cb5b600051141561013857341561012a57600080fd5b60005460005260206000f350005b63ab2b3137600051141561015f57341561015157600080fd5b60015460005260206000f350005b5b60006000fd"
+}
