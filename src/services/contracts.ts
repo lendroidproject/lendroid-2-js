@@ -132,6 +132,45 @@ export class Contracts {
       .send({ from: address })
   }
 
+  /**
+   * Registration stake lookup by name length or minimun
+   * @param poolNameLength
+   */
+  public onRegisterLookUpStake(poolNameLength) {
+    const {
+      contracts: { PoolNameRegistry },
+    } = this
+    return new Promise((resolve, reject) => {
+      PoolNameRegistry.methods
+        .name_registration_stake_lookup__stake(poolNameLength)
+        .call()
+        .then(stake => {
+          if (Number(stake) === 0) {
+            PoolNameRegistry.methods
+              .name_registration_minimum_stake()
+              .call()
+              .then(resolve)
+              .catch(reject)
+          } else {
+            resolve(stake)
+          }
+        })
+        .catch(reject)
+    })
+  }
+
+  /**
+   * Register Pool Name
+   * @param poolName
+   */
+  public onRegisterPoolName(poolName) {
+    const {
+      contracts: { PoolNameRegistry },
+      address,
+    } = this
+    return PoolNameRegistry.methods.register_name(poolName).send({ from: address })
+  }
+
   private init({
     tokens,
     web3Utils,
@@ -384,6 +423,9 @@ export class Contracts {
       underwriterPoolDaoAddr
     )
     this.contracts.UnderwriterPoolDao = underwriterPoolDao
+    const poolNameRegistryAddr = await ProtocolDao.methods.registries(1).call()
+    const poolNameRegistry = web3Utils.createContract(this.supportTokens.PoolNameRegistry.def, poolNameRegistryAddr)
+    this.contracts.PoolNameRegistry = poolNameRegistry
     await this.initializeLSFUITokens()
     this.fetchBalanceStart()
   }
