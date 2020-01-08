@@ -14,6 +14,8 @@ export class Contracts {
   private balanceTokens: any = []
   private lsfuiTokens: any = []
   private lsfuiNames = {}
+  private poolNames: any = []
+  private poolNameMap = {}
   private web3Utils: any
   private network: any
   private address: any
@@ -63,6 +65,13 @@ export class Contracts {
       await this.initializeLSFUITokens()
     }
     this.fetchBalances()
+  }
+
+  /**
+   * Refresh Pool Names
+   */
+  public async getPoolNames() {
+    this.fetchPoolNames()
   }
 
   /**
@@ -169,6 +178,29 @@ export class Contracts {
       address,
     } = this
     return PoolNameRegistry.methods.register_name(poolName).send({ from: address })
+  }
+
+  /**
+   * Create New Pool
+   * @param poolName
+   */
+  public onCreatePool(form) {
+    const { riskFree, poolName, feePercentI, feePercentS, currency, onlyMe, exchangeRate, expiryLimit } = form
+    const {
+      contracts: {
+        [currency]: { _address: currencyAddr },
+        InterestPoolDao,
+        UnderwriterPoolDao,
+      },
+      address,
+    } = this
+    return riskFree
+      ? InterestPoolDao.methods
+          .register_pool(onlyMe, currencyAddr, poolName, exchangeRate, feePercentI, expiryLimit)
+          .send({ from: address })
+      : UnderwriterPoolDao.methods
+          .register_pool(onlyMe, currencyAddr, poolName, exchangeRate, feePercentI, feePercentS, expiryLimit)
+          .send({ from: address })
   }
 
   private init({
@@ -332,6 +364,35 @@ export class Contracts {
       }
     })
   }
+  private async fetchPoolNames() {
+    const {
+      contracts: { PoolNameRegistry },
+    } = this
+
+    const poolNames: any = []
+    const poolNameMap: any = {}
+    const poolNameCount = await PoolNameRegistry.methods.next_name_id().call()
+    for (let poolNameId = 0; poolNameId < poolNameCount; poolNameId++) {
+      const poolName = await PoolNameRegistry.methods.names__name(poolNameId).call()
+      const poolOperator = await PoolNameRegistry.methods.names__operator(poolNameId).call()
+      const poolStaked = await PoolNameRegistry.methods.names__LST_staked(poolNameId).call()
+      const poolIReg = await PoolNameRegistry.methods.names__interest_pool_registered(poolNameId).call()
+      const poolUReg = await PoolNameRegistry.methods.names__underwriter_pool_registered(poolNameId).call()
+      poolNames.push(poolName)
+      poolNameMap[poolName] = {
+        id: poolNameId,
+        name: poolName,
+        operator: poolOperator,
+        staked: poolStaked,
+        iReg: poolIReg,
+        uReg: poolUReg,
+      }
+    }
+    this.poolNames = poolNames
+    this.poolNameMap = poolNameMap
+
+    this.onEvent(Events.POOL_NAME_FETCHED, { data: this.poolNames })
+  }
   private async getMFTProperties(contract) {
     if (!contract) {
       return []
@@ -426,6 +487,7 @@ export class Contracts {
     const poolNameRegistryAddr = await ProtocolDao.methods.registries(1).call()
     const poolNameRegistry = web3Utils.createContract(this.supportTokens.PoolNameRegistry.def, poolNameRegistryAddr)
     this.contracts.PoolNameRegistry = poolNameRegistry
+    this.fetchPoolNames()
     await this.initializeLSFUITokens()
     this.fetchBalanceStart()
   }
