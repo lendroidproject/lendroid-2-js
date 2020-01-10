@@ -4,36 +4,95 @@ import { Events, SupportTokens } from '../constants'
 
 import { Logger, LOGGER_CONTEXT } from './'
 
+const monthNames = [
+  ['F', 'Jan'],
+  ['G', 'Feb'],
+  ['H', 'Mar'],
+  ['J', 'Apr'],
+  ['K', 'May'],
+  ['M', 'Jun'],
+  ['N', 'Jul'],
+  ['Q', 'Aug'],
+  ['U', 'Sep'],
+  ['V', 'Oct'],
+  ['X', 'Nov'],
+  ['Z', 'Dec'],
+]
+
+const lastWeekdayOfEachMonths = (years, { weekday = 4, from = 0 } = {}) => {
+  const lastDay = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+  const weekdays: any = []
+  weekdays.match = {}
+  for (const year of years) {
+    const date = new Date(Date.UTC(year, 0, 1, 12))
+    if (year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0)) {
+      lastDay[2] = 29
+    }
+    for (let m = from; m < from + 12; m += 1) {
+      const month = m % 12
+      const y = year + Math.floor(month / 12)
+      const ySuf = y.toString().substr(-2)
+      date.setFullYear(y, month % 12, lastDay[month % 12])
+      date.setDate(date.getDate() - ((date.getDay() + (7 - weekday)) % 7))
+      const name = monthNames[month][0] + ySuf
+      const timestamp = Math.round(date.getTime() / 1000)
+      const data = {
+        name,
+        timestamp,
+        fullName: `${monthNames[month][1]} ${y}`,
+        date: date.toISOString().substring(0, 10),
+      }
+      weekdays.push(data)
+      weekdays.match[name] = timestamp
+      weekdays.match[timestamp] = name
+    }
+  }
+  return weekdays
+}
+
 /**
  * Support Contracts
  */
 export class Contracts {
-  private contracts: any = {}
-  private supportTokens: any
+  private network: any
+  private address: any
+  private web3Utils: any
+
+  private onEvent: any
+
+  private balanceTimer: any
   private fetchTokens: any = []
   private balanceTokens: any = []
   private lsfuiTokens: any = []
-  private lsfuiNames = {}
+  private lsfuiTokenMap = {}
+
   private poolNames: any = []
   private poolNameMap = {}
-  private web3Utils: any
-  private network: any
-  private address: any
-  private onEvent: any
-  private balanceTimer: any
-  private endOfYear: number
-  private strikeDefault = 150
+  private riskFreePools: any = []
+  private riskFreePoolMap = {}
+  private riskyPools: any = []
+  private riskyPoolMap = {}
+
+  // Public properties
+
   /**
-   * Exported property for wide-use
+   * Array of Support Expiry of each month of current year
    */
-  // public property: any
+  public expiries: any
+
+  /**
+   * Array of Contracts
+   */
+  public contracts: any = {}
+
+  /**
+   * Array of Support Tokens
+   */
+  public supportTokens: any = {}
 
   constructor(params: any) {
-    this.endOfYear = Math.round(new Date(`${new Date().getFullYear()}-12-31`).getTime() / 1000)
+    this.expiries = lastWeekdayOfEachMonths([new Date().getFullYear()])
     this.init(params)
-
-    this.fetchBalanceByToken = this.fetchBalanceByToken.bind(this)
-    this.fetchContractByToken = this.fetchContractByToken.bind(this)
   }
 
   /**
@@ -51,13 +110,6 @@ export class Contracts {
   }
 
   /**
-   * Array of Support Tokens with ERC20
-   */
-  public getTokens() {
-    return this.fetchTokens
-  }
-
-  /**
    * Refresh Contracts & Balances
    */
   public async getBalances(withContract = false) {
@@ -72,6 +124,20 @@ export class Contracts {
    */
   public async getPoolNames() {
     this.fetchPoolNames()
+  }
+
+  /**
+   * Refresh Risk-Free Pools
+   */
+  public async getRiskFreePools() {
+    this.fetchRiskFreePools()
+  }
+
+  /**
+   * Refresh Risky Pools
+   */
+  public async getRiskyPools() {
+    this.fetchRiskyPools()
   }
 
   /**
@@ -110,13 +176,17 @@ export class Contracts {
       contracts: { [token]: splitToken, InterestPoolDao, UnderwriterPoolDao },
       address,
       web3Utils,
+      expiries,
     } = this
+    const expiryTimeStamp = expiries.match[expiry]
     if (!underlying) {
-      return InterestPoolDao.methods.split(splitToken._address, expiry, web3Utils.toWei(amount)).send({ from: address })
+      return InterestPoolDao.methods
+        .split(splitToken._address, expiryTimeStamp, web3Utils.toWei(amount))
+        .send({ from: address })
     }
     const { [underlying]: underlyingToken } = this.contracts
     return UnderwriterPoolDao.methods
-      .split(splitToken._address, expiry, underlyingToken._address, strike, web3Utils.toWei(amount))
+      .split(splitToken._address, expiryTimeStamp, underlyingToken._address, strike, web3Utils.toWei(amount))
       .send({ from: address })
   }
 
@@ -131,13 +201,17 @@ export class Contracts {
       contracts: { [origin]: fuseToken, InterestPoolDao, UnderwriterPoolDao },
       address,
       web3Utils,
+      expiries,
     } = this
+    const expiryTimeStamp = expiries.match[expiry]
     if (!underlying) {
-      return InterestPoolDao.methods.fuse(fuseToken._address, expiry, web3Utils.toWei(amount)).send({ from: address })
+      return InterestPoolDao.methods
+        .fuse(fuseToken._address, expiryTimeStamp, web3Utils.toWei(amount))
+        .send({ from: address })
     }
     const { [underlying]: underlyingToken } = this.contracts
     return UnderwriterPoolDao.methods
-      .fuse(fuseToken._address, expiry, underlyingToken._address, strike, web3Utils.toWei(amount))
+      .fuse(fuseToken._address, expiryTimeStamp, underlyingToken._address, strike, web3Utils.toWei(amount))
       .send({ from: address })
   }
 
@@ -272,6 +346,7 @@ export class Contracts {
       web3Utils,
       contracts: { [token]: contractInstance, ...contracts },
       supportTokens: { ZERO_ADDRESS },
+      expiries,
     } = this
     if (token.includes('_') && !token.includes('L_')) {
       const [type, origin, expiry, underlying, strike] = token.split('_')
@@ -280,7 +355,7 @@ export class Contracts {
         contractInstance.methods
           .id(
             contracts[origin]._address,
-            Number(expiry),
+            Number(expiries.match[expiry]),
             !underlying ? ZERO_ADDRESS : contracts[underlying]._address,
             !underlying ? 0 : strike
           )
@@ -311,7 +386,7 @@ export class Contracts {
           .call()
           .then(res => {
             const balance = web3Utils.fromWei(res)
-            resolve({ token, balance, name: this.lsfuiNames[token] })
+            resolve({ token, balance, name: this.lsfuiTokenMap[token] })
           })
           .catch(err => resolve({ token, balance: 0 }))
       })
@@ -393,10 +468,61 @@ export class Contracts {
 
     this.onEvent(Events.POOL_NAME_FETCHED, { data: this.poolNames })
   }
+  private async fetchRiskFreePools() {
+    const {
+      contracts: { InterestPoolDao },
+    } = this
+
+    const pools: any = []
+    const poolMap: any = {}
+    const poolCount = await InterestPoolDao.methods.next_pool_id().call()
+    for (let poolId = 0; poolId < poolCount; poolId++) {
+      const poolName = await InterestPoolDao.methods.pool_id_to_name(poolId).call()
+      const poolCurrency = await InterestPoolDao.methods.pools__currency(poolName).call()
+      const poolOperator = await InterestPoolDao.methods.pools__operator(poolName).call()
+      pools.push(poolName)
+      poolMap[poolName] = {
+        id: poolId,
+        name: poolName,
+        currency: poolCurrency,
+        operator: poolOperator,
+      }
+    }
+    this.riskFreePools = pools
+    this.riskFreePoolMap = poolMap
+
+    this.onEvent(Events.RISK_FREE_POOL_FETCHED, { data: this.riskFreePoolMap })
+  }
+  private async fetchRiskyPools() {
+    const {
+      contracts: { UnderwriterPoolDao },
+    } = this
+
+    const pools: any = []
+    const poolMap: any = {}
+    const poolCount = await UnderwriterPoolDao.methods.next_pool_id().call()
+    for (let poolId = 0; poolId < poolCount; poolId++) {
+      const poolName = await UnderwriterPoolDao.methods.pool_id_to_name(poolId).call()
+      const poolCurrency = await UnderwriterPoolDao.methods.pools__currency(poolName).call()
+      const poolOperator = await UnderwriterPoolDao.methods.pools__operator(poolName).call()
+      pools.push(poolName)
+      poolMap[poolName] = {
+        id: poolId,
+        name: poolName,
+        currency: poolCurrency,
+        operator: poolOperator,
+      }
+    }
+    this.riskyPools = pools
+    this.riskyPoolMap = poolMap
+
+    this.onEvent(Events.RISKY_POOL_FETCHED, { data: this.riskyPoolMap })
+  }
   private async getMFTProperties(contract) {
     if (!contract) {
       return []
     }
+    const { expiries } = this
     const nonce = await contract.methods.nonce().call()
     const ret: any = []
     for (let i = 1; i <= nonce; i++) {
@@ -404,7 +530,9 @@ export class Contracts {
       const expiry = await contract.methods.metadata__expiry(i).call()
       const underlying = await contract.methods.metadata__underlying(i).call()
       const strikePrice = await contract.methods.metadata__strike_price(i).call()
-      ret.push([token, expiry, this.getTokenByAddr(underlying), strikePrice])
+      if (expiries.match[expiry]) {
+        ret.push([token, expiries.match[expiry], this.getTokenByAddr(underlying), strikePrice])
+      }
     }
     return ret
   }
@@ -416,7 +544,7 @@ export class Contracts {
     } = this
 
     const lsfuiTokens: string[] = []
-    const lsfuiNames: any = {}
+    const lsfuiTokenMap: any = {}
     for (const token of this.balanceTokens) {
       if (this.contracts[token]) {
         const lTokenAddress = await CurrencyDao.methods.token_addresses__l(this.contracts[token]._address).call()
@@ -424,7 +552,7 @@ export class Contracts {
           this.contracts[`L_${token}`] = web3Utils.createContract(supportTokens[token].def, lTokenAddress)
           const contractName = await this.contracts[`L_${token}`].methods.name().call()
           lsfuiTokens.push(`L_${token}`)
-          lsfuiNames[`L_${token}`] = contractName
+          lsfuiTokenMap[`L_${token}`] = contractName
         }
         const fTokenAddress = await CurrencyDao.methods.token_addresses__f(this.contracts[token]._address).call()
         if (fTokenAddress && fTokenAddress !== ZERO_ADDRESS) {
@@ -465,7 +593,7 @@ export class Contracts {
       }
     }
     this.lsfuiTokens = lsfuiTokens
-    this.lsfuiNames = lsfuiNames
+    this.lsfuiTokenMap = lsfuiTokenMap
   }
   private async initializeProtocol() {
     const {
@@ -484,10 +612,15 @@ export class Contracts {
       underwriterPoolDaoAddr
     )
     this.contracts.UnderwriterPoolDao = underwriterPoolDao
+    const marketDaoAddr = await ProtocolDao.methods.daos(4).call()
+    const marketDao = web3Utils.createContract(this.supportTokens.MarketDao.def, marketDaoAddr)
+    this.contracts.MarketDao = marketDao
     const poolNameRegistryAddr = await ProtocolDao.methods.registries(1).call()
     const poolNameRegistry = web3Utils.createContract(this.supportTokens.PoolNameRegistry.def, poolNameRegistryAddr)
     this.contracts.PoolNameRegistry = poolNameRegistry
     this.fetchPoolNames()
+    this.fetchRiskFreePools()
+    this.fetchRiskyPools()
     await this.initializeLSFUITokens()
     this.fetchBalanceStart()
   }
