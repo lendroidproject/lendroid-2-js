@@ -470,7 +470,9 @@ export class Contracts {
   }
   private async fetchRiskFreePools() {
     const {
+      supportTokens,
       contracts: { InterestPoolDao },
+      web3Utils,
     } = this
 
     const pools: any = []
@@ -480,22 +482,42 @@ export class Contracts {
       const poolName = await InterestPoolDao.methods.pool_id_to_name(poolId).call()
       const poolCurrency = await InterestPoolDao.methods.pools__currency(poolName).call()
       const poolOperator = await InterestPoolDao.methods.pools__operator(poolName).call()
-      pools.push(poolName)
-      poolMap[poolName] = {
+
+      const poolAddress = await InterestPoolDao.methods.pools__address_(poolName).call()
+      const poolContract = web3Utils.createContract(supportTokens.InterestPool.def, poolAddress)
+      const poolInfo: any = {}
+      poolInfo.totalContributions = await poolContract.methods.total_active_contributions().call()
+      poolInfo.unusedContributions = await poolContract.methods.total_f_token_balance().call()
+      poolInfo.outstandingPoolshare = await poolContract.methods.total_pool_share_token_supply().call()
+      poolInfo.contributionsOpen = await poolContract.methods.accepts_public_contributions().call()
+      poolInfo.myUnwithdrawn = await poolContract.methods.operator_unwithdrawn_earnings().call()
+      poolInfo.depositeRate = await poolContract.methods.exchange_rate().call()
+      poolInfo.withdrawalRate = 0
+
+      poolInfo.feePercentI = await poolContract.methods.fee_percentage_per_i_token().call()
+      poolInfo.expiryLimit = await poolContract.methods.mft_expiry_limit_days().call()
+
+      poolMap[poolId] = {
         id: poolId,
         name: poolName,
-        currency: poolCurrency,
+        currency: this.getTokenByAddr(poolCurrency),
         operator: poolOperator,
+        contract: poolContract,
+        ...poolInfo,
       }
+      pools.push(poolMap[poolId])
     }
+
     this.riskFreePools = pools
     this.riskFreePoolMap = poolMap
 
-    this.onEvent(Events.RISK_FREE_POOL_FETCHED, { data: this.riskFreePoolMap })
+    this.onEvent(Events.RISK_FREE_POOL_FETCHED, { data: this.riskFreePools })
   }
   private async fetchRiskyPools() {
     const {
+      supportTokens,
       contracts: { UnderwriterPoolDao },
+      web3Utils,
     } = this
 
     const pools: any = []
@@ -505,18 +527,36 @@ export class Contracts {
       const poolName = await UnderwriterPoolDao.methods.pool_id_to_name(poolId).call()
       const poolCurrency = await UnderwriterPoolDao.methods.pools__currency(poolName).call()
       const poolOperator = await UnderwriterPoolDao.methods.pools__operator(poolName).call()
-      pools.push(poolName)
-      poolMap[poolName] = {
+
+      const poolAddress = await UnderwriterPoolDao.methods.pools__address_(poolName).call()
+      const poolContract = web3Utils.createContract(supportTokens.UnderwriterPool.def, poolAddress)
+      const poolInfo: any = {}
+      poolInfo.totalContributions = await poolContract.methods.total_active_contributions().call()
+      poolInfo.unusedContributions = await poolContract.methods.total_u_token_balance().call()
+      poolInfo.outstandingPoolshare = await poolContract.methods.total_pool_share_token_supply().call()
+      poolInfo.contributionsOpen = await poolContract.methods.accepts_public_contributions().call()
+      poolInfo.myUnwithdrawn = await poolContract.methods.operator_unwithdrawn_earnings().call()
+      poolInfo.depositeRate = await poolContract.methods.exchange_rate().call()
+      poolInfo.withdrawalRate = 0
+
+      poolInfo.feePercentI = await poolContract.methods.fee_percentage_per_i_token().call()
+      poolInfo.feePercentS = await poolContract.methods.fee_percentage_per_s_token().call()
+      poolInfo.expiryLimit = await poolContract.methods.mft_expiry_limit_days().call()
+
+      poolMap[poolId] = {
         id: poolId,
         name: poolName,
-        currency: poolCurrency,
+        currency: this.getTokenByAddr(poolCurrency),
         operator: poolOperator,
+        contract: poolContract,
+        ...poolInfo,
       }
+      pools.push(poolMap[poolId])
     }
     this.riskyPools = pools
     this.riskyPoolMap = poolMap
 
-    this.onEvent(Events.RISKY_POOL_FETCHED, { data: this.riskyPoolMap })
+    this.onEvent(Events.RISKY_POOL_FETCHED, { data: this.riskyPools })
   }
   private async getMFTProperties(contract) {
     if (!contract) {
@@ -606,12 +646,9 @@ export class Contracts {
     const interestPoolDaoAddr = await ProtocolDao.methods.daos(2).call()
     const interestPoolDao = web3Utils.createContract(this.supportTokens.InterestPoolDao.def, interestPoolDaoAddr)
     this.contracts.InterestPoolDao = interestPoolDao
-    const underwriterPoolDaoAddr = await ProtocolDao.methods.daos(3).call()
-    const underwriterPoolDao = web3Utils.createContract(
-      this.supportTokens.UnderwriterPoolDao.def,
-      underwriterPoolDaoAddr
-    )
-    this.contracts.UnderwriterPoolDao = underwriterPoolDao
+    const poolContractDaoAddr = await ProtocolDao.methods.daos(3).call()
+    const poolContractDao = web3Utils.createContract(this.supportTokens.UnderwriterPoolDao.def, poolContractDaoAddr)
+    this.contracts.UnderwriterPoolDao = poolContractDao
     const marketDaoAddr = await ProtocolDao.methods.daos(4).call()
     const marketDao = web3Utils.createContract(this.supportTokens.MarketDao.def, marketDaoAddr)
     this.contracts.MarketDao = marketDao
