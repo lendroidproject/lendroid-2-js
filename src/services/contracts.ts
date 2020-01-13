@@ -192,7 +192,8 @@ export class Contracts {
 
   /**
    * Fuse Currency
-   * @param amount
+   * @param token
+   * @param form
    */
   public onFuse(token, form) {
     const { amount, expiry, underlying, strike } = form
@@ -256,7 +257,7 @@ export class Contracts {
 
   /**
    * Create New Pool
-   * @param poolName
+   * @param form
    */
   public onCreatePool(form) {
     const { riskFree, poolName, feePercentI, feePercentS, currency, onlyMe, exchangeRate, expiryLimit } = form
@@ -275,6 +276,54 @@ export class Contracts {
       : UnderwriterPoolDao.methods
           .register_pool(onlyMe, currencyAddr, poolName, exchangeRate, feePercentI, feePercentS, expiryLimit)
           .send({ from: address })
+  }
+
+  /**
+   * Offer New Token
+   * @param poolId
+   * @param form
+   */
+  public onOfferNewToken(poolId, form) {
+    const { expiry, underlying, strike, iCostPerDay, sCostPerDay } = form
+    const { contract: poolContract } = (underlying ? this.riskyPoolMap : this.riskFreePoolMap)[poolId]
+    const {
+      contracts: { [underlying]: underlyingToken },
+      address,
+      web3Utils,
+      expiries,
+    } = this
+    const expiryTimeStamp = expiries.match[expiry]
+    return underlying
+      ? poolContract.methods
+          .support_mft(
+            expiryTimeStamp,
+            underlyingToken._address,
+            strike,
+            web3Utils.toWei(iCostPerDay),
+            web3Utils.toWei(sCostPerDay)
+          )
+          .send({ from: address })
+      : poolContract.methods.support_mft(expiryTimeStamp, web3Utils.toWei(iCostPerDay)).send({ from: address })
+  }
+
+  /**
+   * Withdraw Earnings
+   * @param poolId
+   * @param riskFree
+   */
+  public onWithdrawEarnings(poolId, riskFree = true) {
+    const { contract: poolContract } = (riskFree ? this.riskyPoolMap : this.riskFreePoolMap)[poolId]
+    return poolContract.methods.withdraw_earnings().send({ from: this.address })
+  }
+
+  /**
+   * Close Pool
+   * @param poolId
+   * @param riskFree
+   */
+  public onClosePool(poolId, riskFree = true) {
+    const { contract: poolContract } = (riskFree ? this.riskyPoolMap : this.riskFreePoolMap)[poolId]
+    return poolContract.methods.deregister().send({ from: this.address })
   }
 
   private init({
