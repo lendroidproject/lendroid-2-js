@@ -522,6 +522,7 @@ export class Contracts {
       supportTokens,
       contracts: { InterestPoolDao },
       web3Utils,
+      address,
     } = this
 
     const pools: any = []
@@ -531,6 +532,10 @@ export class Contracts {
       const poolName = await InterestPoolDao.methods.pool_id_to_name(poolId).call()
       const poolCurrency = await InterestPoolDao.methods.pools__currency(poolName).call()
       const poolOperator = await InterestPoolDao.methods.pools__operator(poolName).call()
+      const poolActive = await InterestPoolDao.methods.pools__is_active(poolName).call()
+      if (address.toLowerCase() !== poolOperator.toLowerCase() || !poolActive) {
+        continue
+      }
 
       const poolAddress = await InterestPoolDao.methods.pools__address_(poolName).call()
       const poolContract = web3Utils.createContract(supportTokens.InterestPool.def, poolAddress)
@@ -567,6 +572,7 @@ export class Contracts {
       supportTokens,
       contracts: { UnderwriterPoolDao },
       web3Utils,
+      address,
     } = this
 
     const pools: any = []
@@ -576,6 +582,10 @@ export class Contracts {
       const poolName = await UnderwriterPoolDao.methods.pool_id_to_name(poolId).call()
       const poolCurrency = await UnderwriterPoolDao.methods.pools__currency(poolName).call()
       const poolOperator = await UnderwriterPoolDao.methods.pools__operator(poolName).call()
+      const poolActive = await UnderwriterPoolDao.methods.pools__is_active(poolName).call()
+      if (address.toLowerCase() !== poolOperator.toLowerCase() || !poolActive) {
+        continue
+      }
 
       const poolAddress = await UnderwriterPoolDao.methods.pools__address_(poolName).call()
       const poolContract = web3Utils.createContract(supportTokens.UnderwriterPool.def, poolAddress)
@@ -704,6 +714,9 @@ export class Contracts {
     const poolNameRegistryAddr = await ProtocolDao.methods.registries(1).call()
     const poolNameRegistry = web3Utils.createContract(this.supportTokens.PoolNameRegistry.def, poolNameRegistryAddr)
     this.contracts.PoolNameRegistry = poolNameRegistry
+    const positionRegistryAddr = await ProtocolDao.methods.registries(2).call()
+    const positionRegistry = web3Utils.createContract(this.supportTokens.PositionRegistry.def, positionRegistryAddr)
+    this.contracts.PositionRegistry = positionRegistry
     this.fetchPoolNames()
     this.fetchRiskFreePools()
     this.fetchRiskyPools()
