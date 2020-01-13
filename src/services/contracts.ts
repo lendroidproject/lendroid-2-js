@@ -435,9 +435,20 @@ export class Contracts {
           .call()
           .then(res => {
             const balance = web3Utils.fromWei(res)
-            resolve({ token, balance, name: this.lsfuiTokenMap[token] })
+            if (!contractInstance.methods.allowance) {
+              resolve({ token, balance, name: this.lsfuiTokenMap[token] })
+            } else {
+              contractInstance.methods
+                .allowance(address, contracts.CurrencyDao._address)
+                .call()
+                .then(resA => {
+                  const allowance = web3Utils.fromWei(resA)
+                  resolve({ token, balance, allowance, name: this.lsfuiTokenMap[token] })
+                })
+                .catch(err => resolve({ token, balance, allowance: 0 }))
+            }
           })
-          .catch(err => resolve({ token, balance: 0 }))
+          .catch(err => resolve({ token, balance: 0, allowance: 0 }))
       })
     }
   }
