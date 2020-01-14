@@ -223,20 +223,21 @@ export class Contracts {
   public onRegisterLookUpStake(poolNameLength) {
     const {
       contracts: { PoolNameRegistry },
+      web3Utils,
     } = this
     return new Promise((resolve, reject) => {
       PoolNameRegistry.methods
         .name_registration_stake_lookup__stake(poolNameLength)
         .call()
         .then(stake => {
-          if (Number(stake) === 0) {
+          if (Number(web3Utils.fromWei(stake)) === 0) {
             PoolNameRegistry.methods
               .name_registration_minimum_stake()
               .call()
-              .then(resolve)
+              .then(st => resolve(Number(web3Utils.fromWei(st))))
               .catch(reject)
           } else {
-            resolve(stake)
+            resolve(Number(web3Utils.fromWei(stake)))
           }
         })
         .catch(reject)
@@ -285,25 +286,31 @@ export class Contracts {
    */
   public onOfferNewToken(poolId, form) {
     const { expiry, underlying, strike, iCostPerDay, sCostPerDay } = form
-    const { contract: poolContract } = (underlying ? this.riskyPoolMap : this.riskFreePoolMap)[poolId]
+    const { currency, contract: poolContract } = (underlying ? this.riskyPoolMap : this.riskFreePoolMap)[poolId]
     const {
-      contracts: { [underlying]: underlyingToken },
+      contracts: {
+        [underlying]: underlyingToken,
+        [currency]: { _address: lendAddr },
+        MarketDao,
+      },
       address,
       web3Utils,
       expiries,
     } = this
     const expiryTimeStamp = expiries.match[expiry]
-    return underlying
-      ? poolContract.methods
-          .support_mft(
-            expiryTimeStamp,
-            underlyingToken._address,
-            strike,
-            web3Utils.toWei(iCostPerDay),
-            web3Utils.toWei(sCostPerDay)
-          )
-          .send({ from: address })
-      : poolContract.methods.support_mft(expiryTimeStamp, web3Utils.toWei(iCostPerDay)).send({ from: address })
+    if (underlying) {
+      return poolContract.methods
+        .support_mft(
+          expiryTimeStamp,
+          underlyingToken._address,
+          strike,
+          web3Utils.toWei(iCostPerDay),
+          web3Utils.toWei(sCostPerDay)
+        )
+        .send({ from: address })
+    } else {
+      return poolContract.methods.support_mft(expiryTimeStamp, web3Utils.toWei(iCostPerDay)).send({ from: address })
+    }
   }
 
   /**
