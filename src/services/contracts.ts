@@ -333,6 +333,66 @@ export class Contracts {
     return poolContract.methods.deregister().send({ from: this.address })
   }
 
+  /**
+   * Change Price
+   * @param poolId
+   * @param value
+   * @param options
+   */
+  public onChangePrice(poolId, value, { riskFree = true, type = 'I', marketInfo }) {
+    const { web3Utils } = this
+    const { contract: poolContract } = (riskFree ? this.riskyPoolMap : this.riskFreePoolMap)[poolId]
+    return poolContract.methods[type === 'I' ? 'set_i_cost_per_day' : 'set_s_cost_per_day'](
+      ...[marketInfo, web3Utils.toWei(value)]
+    ).send({
+      from: this.address,
+    })
+  }
+
+  /**
+   * Increase capacity
+   * @param poolId
+   * @param value
+   * @param options
+   */
+  public onIncreaseCapacity(poolId, value, { riskFree = true, type = 'I', marketInfo }) {
+    const { web3Utils } = this
+    const { contract: poolContract } = (riskFree ? this.riskyPoolMap : this.riskFreePoolMap)[poolId]
+    return poolContract.methods[type === 'I' ? 'increment_i_tokens' : 'increment_s_tokens'](
+      ...[marketInfo, web3Utils.toWei(value)]
+    ).send({
+      from: this.address,
+    })
+  }
+
+  /**
+   * Decrease capacity
+   * @param poolId
+   * @param value
+   * @param options
+   */
+  public onDecreaseCapacity(poolId, value, { riskFree = true, type = 'I', marketInfo }) {
+    const { web3Utils } = this
+    const { contract: poolContract } = (riskFree ? this.riskyPoolMap : this.riskFreePoolMap)[poolId]
+    return poolContract.methods[type === 'I' ? 'decrement_i_tokens' : 'decrement_s_tokens'](
+      ...[marketInfo, web3Utils.toWei(value)]
+    ).send({
+      from: this.address,
+    })
+  }
+
+  /**
+   * Retire token
+   * @param poolId
+   * @param options
+   */
+  public onRetireToken(poolId, { riskFree = true, marketInfo }) {
+    const { contract: poolContract } = (riskFree ? this.riskyPoolMap : this.riskFreePoolMap)[poolId]
+    return poolContract.methods.withdraw_mft_support(...marketInfo).send({
+      from: this.address,
+    })
+  }
+
   private init({
     tokens,
     web3Utils,
@@ -541,14 +601,19 @@ export class Contracts {
       contracts: { InterestPoolDao },
       web3Utils,
       address,
+      expiries,
     } = this
 
     const pools: any = []
     const poolMap: any = {}
     const poolCount = await InterestPoolDao.methods.next_pool_id().call()
+
+    const getTokenName = (type, [expiry, base]) => `${type}_${base}_${expiries.match[expiry]}`
+
     for (let poolId = 0; poolId < poolCount; poolId++) {
       const poolName = await InterestPoolDao.methods.pool_id_to_name(poolId).call()
       const poolCurrency = await InterestPoolDao.methods.pools__currency(poolName).call()
+      const currency = this.getTokenByAddr(poolCurrency)
       const poolOperator = await InterestPoolDao.methods.pools__operator(poolName).call()
       const poolActive = await InterestPoolDao.methods.pools__is_active(poolName).call()
       if (address.toLowerCase() !== poolOperator.toLowerCase() || !poolActive) {
@@ -558,8 +623,8 @@ export class Contracts {
       const poolAddress = await InterestPoolDao.methods.pools__address_(poolName).call()
       const poolContract = web3Utils.createContract(supportTokens.InterestPool.def, poolAddress)
       const poolInfo: any = {}
-      poolInfo.totalContributions = await poolContract.methods.total_active_contributions().call()
-      poolInfo.unusedContributions = await poolContract.methods.total_f_token_balance().call()
+      poolInfo.totalContributions = Number(await poolContract.methods.total_active_contributions().call())
+      poolInfo.unusedContributions = Number(await poolContract.methods.total_f_token_balance().call())
       poolInfo.outstandingPoolshare = await poolContract.methods.total_pool_share_token_supply().call()
       poolInfo.contributionsOpen = await poolContract.methods.accepts_public_contributions().call()
       poolInfo.myUnwithdrawn = await poolContract.methods.operator_unwithdrawn_earnings().call()
@@ -569,10 +634,61 @@ export class Contracts {
       poolInfo.feePercentI = await poolContract.methods.fee_percentage_per_i_token().call()
       poolInfo.expiryLimit = await poolContract.methods.mft_expiry_limit_days().call()
 
+      let poolshareTokenSupply = await poolContract.methods.total_pool_share_token_supply().call()
+      poolshareTokenSupply = Number(poolshareTokenSupply)
+      const marketcount = await poolContract.methods.next_market_id().call()
+
+      const mfts: any = []
+      const mftL = { name: '', rate: 0 }
+      mftL.name = `L${currency}`
+      mftL.rate = poolshareTokenSupply ? Number(await poolContract.methods.l_token_balance()) / poolshareTokenSupply : 0
+      mfts.push(mftL)
+
+      for (let marketId = 0; marketId < marketcount; marketId++) {
+        const marketHash = await poolContract.methods.market_id_to_hash(marketId).call()
+        const expiry = await poolContract.methods.markets__expiry(marketHash).call()
+        const marketInfo: any = [expiry]
+
+        const mftDefault = {
+          id: marketId,
+          name: '',
+          rate: 0,
+          expiry: expiries.match[expiry],
+          offered: 0,
+          utilization: 0,
+        }
+        const mftI = {
+          ...mftDefault,
+          type: 'I',
+          marketInfo: [expiry],
+        }
+        const mftF = {
+          ...mftDefault,
+          type: 'F',
+        }
+
+        mftI.name = getTokenName('I', [expiry, currency])
+        mftI.offered = await poolContract.methods.i_token_balance(...marketInfo).call()
+        mftI.rate = poolshareTokenSupply ? mftI.offered / poolshareTokenSupply : 0
+        mftI.utilization = poolInfo.unusedContributions ? mftI.offered / poolInfo.unusedContributions : 0
+
+        mftF.name = getTokenName('F', [expiry, currency])
+        mftF.offered = await poolContract.methods.f_token_balance(...marketInfo).call()
+        mftF.rate = poolshareTokenSupply ? mftF.offered / poolshareTokenSupply : 0
+        mftF.utilization = poolInfo.unusedContributions ? mftF.offered / poolInfo.unusedContributions : 0
+
+        mfts.push(mftI)
+        mfts.push(mftF)
+      }
+      poolInfo.markets = {
+        poolshareTokenSupply,
+        mfts,
+      }
+
       poolMap[poolId] = {
         id: poolId,
         name: poolName,
-        currency: this.getTokenByAddr(poolCurrency),
+        currency,
         operator: poolOperator,
         contract: poolContract,
         ...poolInfo,
@@ -591,14 +707,20 @@ export class Contracts {
       contracts: { UnderwriterPoolDao },
       web3Utils,
       address,
+      expiries,
     } = this
 
     const pools: any = []
     const poolMap: any = {}
     const poolCount = await UnderwriterPoolDao.methods.next_pool_id().call()
+
+    const getTokenName = (type, [expiry, base, strike]) =>
+      `${type}_${this.getTokenByAddr(base)}_${expiries.match[expiry]}_${strike}`
+
     for (let poolId = 0; poolId < poolCount; poolId++) {
       const poolName = await UnderwriterPoolDao.methods.pool_id_to_name(poolId).call()
       const poolCurrency = await UnderwriterPoolDao.methods.pools__currency(poolName).call()
+      const currency = this.getTokenByAddr(poolCurrency)
       const poolOperator = await UnderwriterPoolDao.methods.pools__operator(poolName).call()
       const poolActive = await UnderwriterPoolDao.methods.pools__is_active(poolName).call()
       if (address.toLowerCase() !== poolOperator.toLowerCase() || !poolActive) {
@@ -608,8 +730,8 @@ export class Contracts {
       const poolAddress = await UnderwriterPoolDao.methods.pools__address_(poolName).call()
       const poolContract = web3Utils.createContract(supportTokens.UnderwriterPool.def, poolAddress)
       const poolInfo: any = {}
-      poolInfo.totalContributions = await poolContract.methods.total_active_contributions().call()
-      poolInfo.unusedContributions = await poolContract.methods.total_u_token_balance().call()
+      poolInfo.totalContributions = Number(await poolContract.methods.total_active_contributions().call())
+      poolInfo.unusedContributions = Number(await poolContract.methods.total_u_token_balance().call())
       poolInfo.outstandingPoolshare = await poolContract.methods.total_pool_share_token_supply().call()
       poolInfo.contributionsOpen = await poolContract.methods.accepts_public_contributions().call()
       poolInfo.myUnwithdrawn = await poolContract.methods.operator_unwithdrawn_earnings().call()
@@ -620,10 +742,73 @@ export class Contracts {
       poolInfo.feePercentS = await poolContract.methods.fee_percentage_per_s_token().call()
       poolInfo.expiryLimit = await poolContract.methods.mft_expiry_limit_days().call()
 
+      let poolshareTokenSupply = await poolContract.methods.total_pool_share_token_supply().call()
+      poolshareTokenSupply = Number(poolshareTokenSupply)
+      const marketcount = await poolContract.methods.next_market_id().call()
+
+      const mfts: any = []
+      const mftL = { name: '', rate: 0 }
+      mftL.name = `L${currency}`
+      mftL.rate = poolshareTokenSupply ? Number(await poolContract.methods.l_token_balance()) / poolshareTokenSupply : 0
+      mfts.push(mftL)
+
+      for (let marketId = 0; marketId < marketcount; marketId++) {
+        const marketHash = await poolContract.methods.market_id_to_hash(marketId).call()
+        const expiry = await poolContract.methods.markets__expiry(marketHash).call()
+        const underlying = await poolContract.methods.markets__underlying(marketHash).call()
+        const strike = await poolContract.methods.markets__strike_price(marketHash).call()
+        const marketInfo: any = [expiry, underlying, strike]
+
+        const mftDefault = {
+          id: marketId,
+          name: '',
+          rate: 0,
+          expiry: expiries.match[expiry],
+          offered: 0,
+          utilization: 0,
+        }
+        const mftI = {
+          ...mftDefault,
+          type: 'I',
+          marketInfo: [expiry],
+        }
+        const mftS = {
+          ...mftDefault,
+          type: 'S',
+          marketInfo,
+        }
+        const mftU = {
+          ...mftDefault,
+          type: 'U',
+        }
+
+        mftI.name = getTokenName('I', marketInfo)
+        mftI.offered = await poolContract.methods.i_token_balance(...marketInfo).call()
+        mftI.rate = poolshareTokenSupply ? mftI.offered / poolshareTokenSupply : 0
+        mftI.utilization = poolInfo.unusedContributions ? mftI.offered / poolInfo.unusedContributions : 0
+
+        mftS.name = getTokenName('S', marketInfo)
+        mftS.offered = await poolContract.methods.s_token_balance(...marketInfo).call()
+        mftS.rate = poolshareTokenSupply ? mftS.offered / poolshareTokenSupply : 0
+        mftS.utilization = poolInfo.unusedContributions ? mftS.offered / poolInfo.unusedContributions : 0
+
+        mftU.name = getTokenName('U', marketInfo)
+        mftU.offered = await poolContract.methods.u_token_balance(...marketInfo).call()
+        mftU.rate = poolshareTokenSupply ? mftU.offered / poolshareTokenSupply : 0
+        mftU.utilization = poolInfo.unusedContributions ? mftU.offered / poolInfo.unusedContributions : 0
+        mfts.push(mftI)
+        mfts.push(mftS)
+        mfts.push(mftU)
+      }
+      poolInfo.markets = {
+        poolshareTokenSupply,
+        mfts,
+      }
+
       poolMap[poolId] = {
         id: poolId,
         name: poolName,
-        currency: this.getTokenByAddr(poolCurrency),
+        currency,
         operator: poolOperator,
         contract: poolContract,
         ...poolInfo,
