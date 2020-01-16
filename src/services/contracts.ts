@@ -343,7 +343,7 @@ export class Contracts {
     const { web3Utils } = this
     const { contract: poolContract } = (riskFree ? this.riskyPoolMap : this.riskFreePoolMap)[poolId]
     return poolContract.methods[type === 'I' ? 'set_i_cost_per_day' : 'set_s_cost_per_day'](
-      ...[marketInfo, web3Utils.toWei(value)]
+      ...[...marketInfo, web3Utils.toWei(value)]
     ).send({
       from: this.address,
     })
@@ -359,7 +359,7 @@ export class Contracts {
     const { web3Utils } = this
     const { contract: poolContract } = (riskFree ? this.riskyPoolMap : this.riskFreePoolMap)[poolId]
     return poolContract.methods[type === 'I' ? 'increment_i_tokens' : 'increment_s_tokens'](
-      ...[marketInfo, web3Utils.toWei(value)]
+      ...[...marketInfo, web3Utils.toWei(value)]
     ).send({
       from: this.address,
     })
@@ -375,7 +375,7 @@ export class Contracts {
     const { web3Utils } = this
     const { contract: poolContract } = (riskFree ? this.riskyPoolMap : this.riskFreePoolMap)[poolId]
     return poolContract.methods[type === 'I' ? 'decrement_i_tokens' : 'decrement_s_tokens'](
-      ...[marketInfo, web3Utils.toWei(value)]
+      ...[...marketInfo, web3Utils.toWei(value)]
     ).send({
       from: this.address,
     })
@@ -646,7 +646,7 @@ export class Contracts {
 
       for (let marketId = 0; marketId < marketcount; marketId++) {
         const marketHash = await poolContract.methods.market_id_to_hash(marketId).call()
-        const expiry = await poolContract.methods.markets__expiry(marketHash).call()
+        const expiry = Number(await poolContract.methods.markets__expiry(marketHash).call())
         const marketInfo: any = [expiry]
 
         const mftDefault = {
@@ -754,9 +754,9 @@ export class Contracts {
 
       for (let marketId = 0; marketId < marketcount; marketId++) {
         const marketHash = await poolContract.methods.market_id_to_hash(marketId).call()
-        const expiry = await poolContract.methods.markets__expiry(marketHash).call()
+        const expiry = Number(await poolContract.methods.markets__expiry(marketHash).call())
         const underlying = await poolContract.methods.markets__underlying(marketHash).call()
-        const strike = await poolContract.methods.markets__strike_price(marketHash).call()
+        const strike = Number(await poolContract.methods.markets__strike_price(marketHash).call())
         const marketInfo: any = [expiry, underlying, strike]
 
         const mftDefault = {
