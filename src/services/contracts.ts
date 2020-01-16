@@ -431,6 +431,8 @@ export class Contracts {
   private addressChanged(address) {
     this.address = address
     this.fetchBalances()
+    this.fetchRiskFreePools()
+    this.fetchRiskyPools()
   }
   private fetchBalanceStart() {
     if (this.balanceTimer) {
@@ -714,8 +716,8 @@ export class Contracts {
     const poolMap: any = {}
     const poolCount = await UnderwriterPoolDao.methods.next_pool_id().call()
 
-    const getTokenName = (type, [expiry, base, strike]) =>
-      `${type}_${this.getTokenByAddr(base)}_${expiries.match[expiry]}_${strike}`
+    const getTokenName = (type, [expiry, base, underlying, strike]) =>
+      `${type}_${type === 'I' ? '' : `${base}_`}${this.getTokenByAddr(underlying)}_${expiries.match[expiry]}_${strike}`
 
     for (let poolId = 0; poolId < poolCount; poolId++) {
       const poolName = await UnderwriterPoolDao.methods.pool_id_to_name(poolId).call()
@@ -782,17 +784,18 @@ export class Contracts {
           type: 'U',
         }
 
-        mftI.name = getTokenName('I', marketInfo)
+        const tokenInfo: any = [expiry, currency, underlying, strike]
+        mftI.name = getTokenName('I', tokenInfo)
         mftI.offered = await poolContract.methods.i_token_balance(...marketInfo).call()
         mftI.rate = poolshareTokenSupply ? mftI.offered / poolshareTokenSupply : 0
         mftI.utilization = poolInfo.unusedContributions ? mftI.offered / poolInfo.unusedContributions : 0
 
-        mftS.name = getTokenName('S', marketInfo)
+        mftS.name = getTokenName('S', tokenInfo)
         mftS.offered = await poolContract.methods.s_token_balance(...marketInfo).call()
         mftS.rate = poolshareTokenSupply ? mftS.offered / poolshareTokenSupply : 0
         mftS.utilization = poolInfo.unusedContributions ? mftS.offered / poolInfo.unusedContributions : 0
 
-        mftU.name = getTokenName('U', marketInfo)
+        mftU.name = getTokenName('U', tokenInfo)
         mftU.offered = await poolContract.methods.u_token_balance(...marketInfo).call()
         mftU.rate = poolshareTokenSupply ? mftU.offered / poolshareTokenSupply : 0
         mftU.utilization = poolInfo.unusedContributions ? mftU.offered / poolInfo.unusedContributions : 0
