@@ -652,10 +652,15 @@ export class Contracts {
       const poolAddress = await InterestPoolDao.methods.pools__address_(poolName).call()
       const poolContract = web3Utils.createContract(supportTokens.InterestPool.def, poolAddress)
       const poolInfo: any = {}
-      poolInfo.totalContributions = web3Utils.fromWei(await poolContract.methods.total_active_contributions().call())
+      poolInfo.totalContributions = Number(
+        web3Utils.fromWei(await poolContract.methods.total_active_contributions().call())
+      )
       poolInfo.unusedContributions = Number(
         web3Utils.fromWei(await poolContract.methods.total_f_token_balance().call())
       )
+      poolInfo.utilization = poolInfo.totalContributions
+        ? (poolInfo.totalContributions - poolInfo.unusedContributions) / poolInfo.totalContributions
+        : 0
       poolInfo.outstandingPoolshare = web3Utils.fromWei(
         await poolContract.methods.total_pool_share_token_supply().call()
       )
@@ -664,11 +669,14 @@ export class Contracts {
       poolInfo.depositeRate = await poolContract.methods.exchange_rate().call()
       poolInfo.withdrawalRate = 0
 
+      const poolShareToken = await poolContract.methods.pool_share_token().call()
+      const poolShareContract = web3Utils.createContract(supportTokens.ERC20PoolToken.def, poolShareToken)
+      poolInfo.poolShareBalance = web3Utils.fromWei(await poolShareContract.methods.balanceOf(address).call())
+
       poolInfo.feePercentI = await poolContract.methods.fee_percentage_per_i_token().call()
       poolInfo.expiryLimit = await poolContract.methods.mft_expiry_limit_days().call()
 
-      let poolshareTokenSupply = web3Utils.fromWei(await poolContract.methods.total_pool_share_token_supply().call())
-      poolshareTokenSupply = Number(poolshareTokenSupply)
+      const poolshareTokenSupply = Number(poolInfo.outstandingPoolshare)
       const marketcount = await poolContract.methods.next_market_id().call()
 
       const mfts: any = []
@@ -765,10 +773,15 @@ export class Contracts {
       const poolAddress = await UnderwriterPoolDao.methods.pools__address_(poolName).call()
       const poolContract = web3Utils.createContract(supportTokens.UnderwriterPool.def, poolAddress)
       const poolInfo: any = {}
-      poolInfo.totalContributions = web3Utils.fromWei(await poolContract.methods.total_active_contributions().call())
+      poolInfo.totalContributions = Number(
+        web3Utils.fromWei(await poolContract.methods.total_active_contributions().call())
+      )
       poolInfo.unusedContributions = Number(
         web3Utils.fromWei(await poolContract.methods.total_u_token_balance().call())
       )
+      poolInfo.utilization = poolInfo.totalContributions
+        ? (poolInfo.totalContributions - poolInfo.unusedContributions) / poolInfo.totalContributions
+        : 0
       poolInfo.outstandingPoolshare = web3Utils.fromWei(
         await poolContract.methods.total_pool_share_token_supply().call()
       )
@@ -777,12 +790,15 @@ export class Contracts {
       poolInfo.depositeRate = await poolContract.methods.exchange_rate().call()
       poolInfo.withdrawalRate = 0
 
+      const poolShareToken = await poolContract.methods.pool_share_token().call()
+      const poolShareContract = web3Utils.createContract(supportTokens.ERC20PoolToken.def, poolShareToken)
+      poolInfo.poolShareBalance = web3Utils.fromWei(await poolShareContract.methods.balanceOf(address).call())
+
       poolInfo.feePercentI = await poolContract.methods.fee_percentage_per_i_token().call()
       poolInfo.feePercentS = await poolContract.methods.fee_percentage_per_s_token().call()
       poolInfo.expiryLimit = await poolContract.methods.mft_expiry_limit_days().call()
 
-      let poolshareTokenSupply = web3Utils.fromWei(await poolContract.methods.total_pool_share_token_supply().call())
-      poolshareTokenSupply = Number(poolshareTokenSupply)
+      const poolshareTokenSupply = Number(poolInfo.outstandingPoolshare)
       const marketcount = await poolContract.methods.next_market_id().call()
 
       const mfts: any = []

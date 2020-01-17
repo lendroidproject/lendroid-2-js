@@ -29,6 +29,7 @@ export default (tokens: any = {}) => ({
   CurrencyPool: getAll('CurrencyPool', tokens.CurrencyPool || '0x0000000000000000000000000000000000000000'),
   InterestPool: getAll('InterestPool', tokens.InterestPool || '0x0000000000000000000000000000000000000000'),
   UnderwriterPool: getAll('UnderwriterPool', tokens.UnderwriterPool || '0x0000000000000000000000000000000000000000'),
+  ERC20PoolToken: getAll('ERC20PoolToken', tokens.ERC20PoolToken || '0x0000000000000000000000000000000000000000'),
   PriceOracle: getAll('PriceOracle', tokens.PriceOracle || '0x0000000000000000000000000000000000000000'),
   CollateralAuctionCurve: getAll(
     'CollateralAuctionCurve',

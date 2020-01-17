@@ -14,6 +14,7 @@ import { abi as ProtocolDao } from './contracts/ProtocolDao.vyper.json'
 import { abi as ShieldPayoutDao } from './contracts/ShieldPayoutDao.vyper.json'
 import { abi as UnderwriterPool } from './contracts/UnderwriterPoolTemplate1.vyper.json'
 import { abi as UnderwriterPoolDao } from './contracts/UnderwriterPoolDao.vyper.json'
+import { abi as ERC20PoolToken } from './contracts/ERC20PoolTokenTemplate1.vyper.json'
 
 export {
   CollateralAuctionCurve,
@@ -32,4 +33,5 @@ export {
   ShieldPayoutDao,
   UnderwriterPool,
   UnderwriterPoolDao,
+  ERC20PoolToken,
 }
