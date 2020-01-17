@@ -673,6 +673,12 @@ export class Contracts {
       const poolShareContract = web3Utils.createContract(supportTokens.ERC20PoolToken.def, poolShareToken)
       poolInfo.poolShareBalance = web3Utils.fromWei(await poolShareContract.methods.balanceOf(address).call())
 
+      poolInfo.poolShareToken = { contract: poolShareContract }
+      poolInfo.poolShareToken.name = await poolShareContract.methods.name().call()
+      poolInfo.poolShareToken.symbol = await poolShareContract.methods.symbol().call()
+      poolInfo.poolShareToken.decimals = await poolShareContract.methods.decimals().call()
+      poolInfo.poolShareToken.balance = poolInfo.poolShareBalance
+
       poolInfo.feePercentI = await poolContract.methods.fee_percentage_per_i_token().call()
       poolInfo.expiryLimit = await poolContract.methods.mft_expiry_limit_days().call()
 
@@ -793,6 +799,12 @@ export class Contracts {
       const poolShareToken = await poolContract.methods.pool_share_token().call()
       const poolShareContract = web3Utils.createContract(supportTokens.ERC20PoolToken.def, poolShareToken)
       poolInfo.poolShareBalance = web3Utils.fromWei(await poolShareContract.methods.balanceOf(address).call())
+
+      poolInfo.poolShareToken = { contract: poolShareContract }
+      poolInfo.poolShareToken.name = await poolShareContract.methods.name().call()
+      poolInfo.poolShareToken.symbol = await poolShareContract.methods.symbol().call()
+      poolInfo.poolShareToken.decimals = await poolShareContract.methods.decimals().call()
+      poolInfo.poolShareToken.balance = poolInfo.poolShareBalance
 
       poolInfo.feePercentI = await poolContract.methods.fee_percentage_per_i_token().call()
       poolInfo.feePercentS = await poolContract.methods.fee_percentage_per_s_token().call()
