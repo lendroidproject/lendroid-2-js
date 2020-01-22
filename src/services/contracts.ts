@@ -318,8 +318,8 @@ export class Contracts {
    * @param poolId
    * @param riskFree
    */
-  public onWithdrawEarnings(poolId, riskFree = true) {
-    const { contract: poolContract } = (riskFree ? this.riskyPoolMap : this.riskFreePoolMap)[poolId]
+  public onWithdrawEarnings(poolId, riskFree) {
+    const { contract: poolContract } = (riskFree ? this.riskFreePoolMap : this.riskyPoolMap)[poolId]
     return poolContract.methods.withdraw_earnings().send({ from: this.address })
   }
 
@@ -328,8 +328,8 @@ export class Contracts {
    * @param poolId
    * @param riskFree
    */
-  public onClosePool(poolId, riskFree = true) {
-    const { contract: poolContract } = (riskFree ? this.riskyPoolMap : this.riskFreePoolMap)[poolId]
+  public onClosePool(poolId, riskFree) {
+    const { contract: poolContract } = (riskFree ? this.riskFreePoolMap : this.riskyPoolMap)[poolId]
     return poolContract.methods.deregister().send({ from: this.address })
   }
 
@@ -339,8 +339,8 @@ export class Contracts {
    * @param value
    * @param options
    */
-  public onChangePrice(poolId, value, { riskFree = true, type = 'I', marketInfo }) {
-    const { contract: poolContract } = (riskFree ? this.riskyPoolMap : this.riskFreePoolMap)[poolId]
+  public onChangePrice(poolId, value, { riskFree, type = 'I', marketInfo }) {
+    const { contract: poolContract } = (riskFree ? this.riskFreePoolMap : this.riskyPoolMap)[poolId]
     return poolContract.methods[type === 'I' ? 'set_i_cost_per_day' : 'set_s_cost_per_day'](
       ...[...marketInfo, this.web3Utils.toWei(value)]
     ).send({
@@ -354,8 +354,8 @@ export class Contracts {
    * @param value
    * @param options
    */
-  public onIncreaseCapacity(poolId, value, { riskFree = true, type = 'I', marketInfo }) {
-    const { contract: poolContract } = (riskFree ? this.riskyPoolMap : this.riskFreePoolMap)[poolId]
+  public onIncreaseCapacity(poolId, value, { riskFree, type = 'I', marketInfo }) {
+    const { contract: poolContract } = (riskFree ? this.riskFreePoolMap : this.riskyPoolMap)[poolId]
     return poolContract.methods[type === 'I' ? 'increment_i_tokens' : 'increment_s_tokens'](
       ...[...marketInfo, this.web3Utils.toWei(value)]
     ).send({
@@ -369,8 +369,8 @@ export class Contracts {
    * @param value
    * @param options
    */
-  public onDecreaseCapacity(poolId, value, { riskFree = true, type = 'I', marketInfo }) {
-    const { contract: poolContract } = (riskFree ? this.riskyPoolMap : this.riskFreePoolMap)[poolId]
+  public onDecreaseCapacity(poolId, value, { riskFree, type = 'I', marketInfo }) {
+    const { contract: poolContract } = (riskFree ? this.riskFreePoolMap : this.riskyPoolMap)[poolId]
     return poolContract.methods[type === 'I' ? 'decrement_i_tokens' : 'decrement_s_tokens'](
       ...[...marketInfo, this.web3Utils.toWei(value)]
     ).send({
@@ -383,8 +383,8 @@ export class Contracts {
    * @param poolId
    * @param options
    */
-  public onRetireToken(poolId, { riskFree = true, marketInfo }) {
-    const { contract: poolContract } = (riskFree ? this.riskyPoolMap : this.riskFreePoolMap)[poolId]
+  public onRetireToken(poolId, { riskFree, marketInfo }) {
+    const { contract: poolContract } = (riskFree ? this.riskFreePoolMap : this.riskyPoolMap)[poolId]
     return poolContract.methods.withdraw_mft_support(...marketInfo).send({
       from: this.address,
     })
@@ -396,8 +396,8 @@ export class Contracts {
    * @param value
    * @param options
    */
-  public onContribute(poolId, value, { riskFree = true }) {
-    const { contract: poolContract } = (riskFree ? this.riskyPoolMap : this.riskFreePoolMap)[poolId]
+  public onContribute(poolId, value, { riskFree }) {
+    const { contract: poolContract } = (riskFree ? this.riskFreePoolMap : this.riskyPoolMap)[poolId]
     return poolContract.methods.contribute(this.web3Utils.toWei(value)).send({
       from: this.address,
     })
@@ -409,11 +409,35 @@ export class Contracts {
    * @param value
    * @param options
    */
-  public onWithdrawContribute(poolId, value, { riskFree = true }) {
-    const { contract: poolContract } = (riskFree ? this.riskyPoolMap : this.riskFreePoolMap)[poolId]
+  public onWithdrawContribute(poolId, value, { riskFree }) {
+    const { contract: poolContract } = (riskFree ? this.riskFreePoolMap : this.riskyPoolMap)[poolId]
     return poolContract.methods.withdraw_contribution(this.web3Utils.toWei(value)).send({
       from: this.address,
     })
+  }
+
+  /**
+   * Get Loan
+   * @param form
+   */
+  public onAvailLoan(form) {
+    const { currency, expiry, underlying, strike, amount } = form
+    const {
+      contracts: {
+        PositionRegistry,
+        [currency]: { _address: currencyAddr },
+        [underlying]: { _address: underlyingAddr },
+      },
+      web3Utils,
+      expiries,
+    } = this
+    const expiryTimeStamp = expiries.match[expiry]
+
+    return PositionRegistry.methods
+      .avail_loan(currencyAddr, expiryTimeStamp, underlyingAddr, Number(strike), web3Utils.toWei(amount))
+      .send({
+        from: this.address,
+      })
   }
 
   private init({
