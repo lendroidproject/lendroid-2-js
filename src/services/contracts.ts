@@ -440,6 +440,24 @@ export class Contracts {
       })
   }
 
+  /**
+   * Purchase Tokens
+   * @param poolId
+   * @param type
+   * @param param
+   */
+  public async onPurchase(poolId, type, param) {
+    const [, underlying] = param
+    const { contract: poolContract } = (!underlying ? this.riskFreePoolMap : this.riskyPoolMap)[poolId]
+    const feeLToken = this.web3Utils.fromWei(
+      await poolContract.methods[type === 'I' ? 'i_token_fee' : 's_token_fee'](...param).call()
+    )
+
+    return poolContract.methods[type === 'I' ? 'purchase_i_tokens' : 'purchase_s_tokens'](...param, this.web3Utils.toWei(feeLToken)).send({
+      from: this.address,
+    })
+  }
+
   private init({
     tokens,
     web3Utils,
@@ -863,6 +881,7 @@ export class Contracts {
           ...mftDefault,
           type: 'I',
           marketInfo: [expiry],
+          marketInfoParam: marketInfo,
         }
         const mftS = {
           ...mftDefault,
