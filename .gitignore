@@ -29,3 +29,5 @@ node_modules/
 
 # Yarn (prefer package.json.lock remained)
 yarn.lock
+
+.vscode
