@@ -31,18 +31,24 @@ export class Lendroid {
   /**
    * For Test
    */
-  public async enable(provider) {
+  public async enable(provider, type) {
     try {
       const prov = provider || (window as any).web3.currentProvider || (window as any).ethereum
       if (prov && prov.enable) {
         console.log(await prov.enable())
       }
+      const initialized = !!this.web3
       this.web3 = new (Web3 as any)(prov)
       this.web3Utils = new Web3Utils(this.web3)
       const accounts = await this.web3.eth.getAccounts()
       this.address = accounts[0]
-      // const network = await this.web3.eth.net.getId()
-      this.init()
+      this.params.type = type
+      const network = await this.web3.eth.net.getId()
+      if (initialized) {
+        this.contracts.onNetworkChange(network, this.address)
+      } else {
+        this.init()
+      }
     } catch (err) {
       Logger.error(LOGGER_CONTEXT.METAMASK_ERROR, err)
     }

@@ -98,8 +98,8 @@ export class Contracts {
   /**
    * Detect Network changes and Fetch contracts again
    */
-  public onNextworkChange(network) {
-    this.networkChanged(network)
+  public onNetworkChange(network, address) {
+    this.networkChanged(network, address)
   }
 
   /**
@@ -453,7 +453,10 @@ export class Contracts {
       await poolContract.methods[type === 'I' ? 'i_token_fee' : 's_token_fee'](...param).call()
     )
 
-    return poolContract.methods[type === 'I' ? 'purchase_i_tokens' : 'purchase_s_tokens'](...param, this.web3Utils.toWei(feeLToken)).send({
+    return poolContract.methods[type === 'I' ? 'purchase_i_tokens' : 'purchase_s_tokens'](
+      ...param,
+      this.web3Utils.toWei(feeLToken)
+    ).send({
       from: this.address,
     })
   }
@@ -488,7 +491,10 @@ export class Contracts {
     }
     return this.balanceTokens[idx]
   }
-  private networkChanged(network) {
+  private networkChanged(network, address = '') {
+    if (address) {
+      this.address = address
+    }
     this.network = network
     this.onEvent(Events.NETWORK_CHANGED)
     this.fetchContracts()
