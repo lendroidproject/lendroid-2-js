@@ -72,6 +72,8 @@ export class Contracts {
   private riskFreePoolMap = {}
   private riskyPools: any = []
   private riskyPoolMap = {}
+  private positions: any = []
+  private positionMap = {}
 
   // Public properties
 
@@ -138,6 +140,13 @@ export class Contracts {
    */
   public async getRiskyPools() {
     this.fetchRiskyPools()
+  }
+
+  /**
+   * Refresh Positions
+   */
+  public async getPositions() {
+    this.fetchPositions()
   }
 
   /**
@@ -505,13 +514,13 @@ export class Contracts {
     this.fetchPoolNames()
     this.fetchRiskFreePools()
     this.fetchRiskyPools()
+    this.fetchPositions()
   }
   private fetchBalanceStart() {
-    if (this.balanceTimer) {
-      clearInterval(this.balanceTimer)
-    }
     this.fetchBalances()
-    this.balanceTimer = setInterval(() => this.fetchBalances(), 30 * 1000)
+    if (!this.balanceTimer) {
+      this.balanceTimer = setInterval(() => this.fetchBalances(), 30 * 1000)
+    }
   }
   private fetchBalances() {
     // Promise.all([...this.balanceTokens.map(token => this.fetchBalanceByToken(token)), this.fetchETHBalance()])
@@ -939,6 +948,71 @@ export class Contracts {
 
     this.onEvent(Events.RISKY_POOL_FETCHED, { data: this.riskyPools })
   }
+  private async fetchPositions() {
+    const {
+      supportTokens,
+      contracts: { PositionRegistry, MarketDao },
+      web3Utils,
+      address,
+      expiries,
+    } = this
+
+    const positions: any = []
+    const positionMap: any = {}
+    const positionCount = await PositionRegistry.methods.last_position_id().call()
+
+    for (let positionId = 0; positionId < positionCount; positionId++) {
+      const borrower = await PositionRegistry.methods.positions_borrower(positionId).call()
+      if (borrower.toLowerCase() !== address.toLowerCase()) {
+        continue
+      }
+
+      const currency = await PositionRegistry.methods.positions__currency(positionId).call()
+      const underlying = await PositionRegistry.methods.positions__underlying(positionId).call()
+      const currencyValue = await PositionRegistry.methods.positions__currency_value(positionId).call()
+      const underlyingValue = await PositionRegistry.methods.positions__underlying_value(positionId).call()
+      const expiry = await PositionRegistry.methods.positions__expiry(positionId).call()
+      const status = await PositionRegistry.methods.positions__status(positionId).call()
+
+      const loanMarketHash = await MarketDao.methods.loan_market_hash(currency, expiry, underlying).call()
+
+      const position = {
+        id: positionId,
+        currency,
+        underlying,
+        currencyValue,
+        underlyingValue,
+        expiry,
+        loanMarketHash,
+        status: 'closed',
+      }
+
+      const loanActive = await PositionRegistry.methods.LOAN_STATUS_ACTIVE().call()
+      const loanLiquidated = await PositionRegistry.methods.LOAN_STATUS_LIQUIDATED().call()
+      if (status === loanActive) {
+        const marketStatus = (await MarketDao.methods.loan_markets(loanMarketHash).call()).status
+        const loanMarketOpen = await MarketDao.methods.LOAN_MARKET_STATUS_OPEN().call()
+        const loanMarketSetting = await MarketDao.methods.LOAN_MARKET_STATUS_SETTLING().call()
+        if (marketStatus === loanMarketOpen) {
+          position.status = 'active'
+        } else if (marketStatus === loanMarketSetting) {
+          position.status = 'liquidating'
+        } else {
+          position.status = 'liquidated_unwithdrawn'
+        }
+      } else if (status === loanLiquidated) {
+        position.status = 'liquidated_withdrawn'
+      }
+
+      positionMap[positionId] = position
+      positions.push(positionMap[positionId])
+    }
+
+    this.positions = positions
+    this.positionMap = positionMap
+
+    this.onEvent(Events.POSITION_FETCHED, { data: this.positions })
+  }
   private async getMFTProperties(contract) {
     if (!contract) {
       return []
@@ -1042,6 +1116,7 @@ export class Contracts {
     this.fetchPoolNames()
     this.fetchRiskFreePools()
     this.fetchRiskyPools()
+    this.fetchPositions()
     await this.initializeLSFUITokens()
     this.fetchBalanceStart()
   }
