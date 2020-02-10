@@ -972,17 +972,19 @@ export class Contracts {
       const currencyValue = await PositionRegistry.methods.positions__currency_value(positionId).call()
       const underlyingValue = await PositionRegistry.methods.positions__underlying_value(positionId).call()
       const expiry = await PositionRegistry.methods.positions__expiry(positionId).call()
+      const repaid = await PositionRegistry.methods.positions__repaid_value(positionId).call()
       const status = await PositionRegistry.methods.positions__status(positionId).call()
 
       const loanMarketHash = await MarketDao.methods.loan_market_hash(currency, expiry, underlying).call()
 
       const position = {
         id: positionId,
-        currency,
-        underlying,
+        currency: this.getTokenByAddr(currency),
+        underlying: this.getTokenByAddr(underlying),
         currencyValue,
         underlyingValue,
-        expiry,
+        expiry: expiries.match[expiry],
+        repaid,
         loanMarketHash,
         status: 'closed',
       }
