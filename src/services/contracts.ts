@@ -981,10 +981,14 @@ export class Contracts {
 
       const currency = await PositionRegistry.methods.positions__currency(positionId).call()
       const underlying = await PositionRegistry.methods.positions__underlying(positionId).call()
-      const currencyValue = await PositionRegistry.methods.positions__currency_value(positionId).call()
-      const underlyingValue = await PositionRegistry.methods.positions__underlying_value(positionId).call()
+      const currencyValue = web3Utils.fromWei(
+        await PositionRegistry.methods.positions__currency_value(positionId).call()
+      )
+      const underlyingValue = web3Utils.fromWei(
+        await PositionRegistry.methods.positions__underlying_value(positionId).call()
+      )
       const expiry = await PositionRegistry.methods.positions__expiry(positionId).call()
-      const repaid = await PositionRegistry.methods.positions__repaid_value(positionId).call()
+      const repaid = web3Utils.fromWei(await PositionRegistry.methods.positions__repaid_value(positionId).call())
       const status = await PositionRegistry.methods.positions__status(positionId).call()
 
       const loanMarketHash = await MarketDao.methods.loan_market_hash(currency, expiry, underlying).call()
