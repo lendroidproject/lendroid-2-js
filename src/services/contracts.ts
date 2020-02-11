@@ -1008,7 +1008,7 @@ export class Contracts {
       const loanActive = await PositionRegistry.methods.LOAN_STATUS_ACTIVE().call()
       const loanLiquidated = await PositionRegistry.methods.LOAN_STATUS_LIQUIDATED().call()
       if (status === loanActive) {
-        const marketStatus = (await MarketDao.methods.loan_markets(loanMarketHash).call()).status
+        const marketStatus = (await MarketDao.methods.loan_markets__status(loanMarketHash).call()).status
         const loanMarketOpen = await MarketDao.methods.LOAN_MARKET_STATUS_OPEN().call()
         const loanMarketSetting = await MarketDao.methods.LOAN_MARKET_STATUS_SETTLING().call()
         if (marketStatus === loanMarketOpen) {
