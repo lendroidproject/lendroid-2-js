@@ -482,6 +482,31 @@ export class Contracts {
     })
   }
 
+  /**
+   * Repay Position
+   * @param positionId
+   */
+  public onRepay(positionId: number, amount: number) {
+    const {
+      contracts: { PositionRegistry },
+      web3Utils,
+    } = this
+
+    return PositionRegistry.methods.repay_loan(positionId, web3Utils.toWei(amount)).send({ from: this.address })
+  }
+
+  /**
+   * Repay Position
+   * @param positionId
+   */
+  public onWithdrawCallateral(positionId: number) {
+    const {
+      contracts: { PositionRegistry },
+    } = this
+
+    return PositionRegistry.methods.close_liquidated_loan(positionId).send({ from: this.address })
+  }
+
   private init({
     tokens,
     web3Utils,
