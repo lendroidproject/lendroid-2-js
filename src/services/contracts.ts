@@ -20,6 +20,7 @@ const monthNames = [
 ]
 
 const lastWeekdayOfEachMonths = (years, { weekday = 4, from = 0 } = {}) => {
+  const now = Math.round(Date.now() / 1000)
   const lastDay = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
   const weekdays: any = []
   weekdays.match = {}
@@ -42,9 +43,11 @@ const lastWeekdayOfEachMonths = (years, { weekday = 4, from = 0 } = {}) => {
         fullName: `${monthNames[month][1]} ${y}`,
         date: date.toISOString().substring(0, 10),
       }
-      weekdays.push(data)
-      weekdays.match[name] = timestamp
-      weekdays.match[timestamp] = name
+      if (now < data.timestamp) {
+        weekdays.push(data)
+        weekdays.match[name] = timestamp
+        weekdays.match[timestamp] = name
+      }
     }
   }
   return weekdays
@@ -278,13 +281,22 @@ export class Contracts {
         UnderwriterPoolDao,
       },
       address,
+      web3Utils,
     } = this
     return riskFree
       ? InterestPoolDao.methods
-          .register_pool(onlyMe, currencyAddr, poolName, exchangeRate, feePercentI, expiryLimit)
+          .register_pool(onlyMe, currencyAddr, poolName, web3Utils.toWei(exchangeRate), feePercentI, expiryLimit)
           .send({ from: address })
       : UnderwriterPoolDao.methods
-          .register_pool(onlyMe, currencyAddr, poolName, exchangeRate, feePercentI, feePercentS, expiryLimit)
+          .register_pool(
+            onlyMe,
+            currencyAddr,
+            poolName,
+            web3Utils.toWei(exchangeRate),
+            feePercentI,
+            feePercentS,
+            expiryLimit
+          )
           .send({ from: address })
   }
 
