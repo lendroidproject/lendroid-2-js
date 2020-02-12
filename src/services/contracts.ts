@@ -998,7 +998,7 @@ export class Contracts {
     const positionMap: any = {}
     const positionCount = await PositionRegistry.methods.last_position_id().call()
 
-    for (let positionId = 0; positionId < positionCount; positionId++) {
+    for (let positionId = 1; positionId <= positionCount; positionId++) {
       const borrower = await PositionRegistry.methods.positions__borrower(positionId).call()
       if (borrower.toLowerCase() !== address.toLowerCase()) {
         continue
