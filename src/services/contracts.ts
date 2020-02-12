@@ -518,7 +518,7 @@ export class Contracts {
    * Repay Position
    * @param positionId
    */
-  public onWithdrawCallateral(positionId: number) {
+  public onWithdrawCollateral(positionId: number) {
     const {
       contracts: { PositionRegistry },
     } = this
