@@ -25,7 +25,7 @@ const lastWeekdayOfEachMonths = (years, { weekday = 4, from = 0 } = {}) => {
   const weekdays: any = []
   weekdays.match = {}
   for (const year of years) {
-    const date = new Date(Date.UTC(year, 0, 1, 12))
+    const date = new Date(Date.UTC(year, 0, 1, 0))
     if (year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0)) {
       lastDay[2] = 29
     }
@@ -50,6 +50,25 @@ const lastWeekdayOfEachMonths = (years, { weekday = 4, from = 0 } = {}) => {
       }
     }
   }
+  const manuals: any = [
+    //['2020-02-17', 'D20'],
+  ]
+  manuals.forEach(([dd, name]) => {
+    const [year, m, d] = dd.split('-').map(a => Number(a))
+    const date = new Date(Date.UTC(year, m - 1, d, 0))
+    const timestamp = Math.round(date.getTime() / 1000)
+    const data = {
+      name,
+      timestamp,
+      fullName: `${monthNames[m - 1][1]} ${year}`,
+      date: date.toISOString().substring(0, 10),
+    }
+    if (now < data.timestamp) {
+      weekdays.push(data)
+      weekdays.match[name] = timestamp
+      weekdays.match[timestamp] = name
+    }
+  })
   return weekdays
 }
 
