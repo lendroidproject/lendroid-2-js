@@ -444,7 +444,7 @@ export class Contracts {
   }
 
   /**
-   * Contribute
+   * Withdraw
    * @param poolId
    * @param value
    * @param options
@@ -452,6 +452,27 @@ export class Contracts {
   public onWithdrawContribute(poolId, value, { riskFree }) {
     const { contract: poolContract } = (riskFree ? this.riskFreePoolMap : this.riskyPoolMap)[poolId]
     return poolContract.methods.withdraw_contribution(this.web3Utils.toWei(value)).send({
+      from: this.address,
+    })
+  }
+
+  /**
+   * Purchase Tokens
+   * @param poolId
+   * @param type
+   * @param param
+   */
+  public async onPurchase(poolId, type, param) {
+    const [, underlying] = param
+    const { contract: poolContract } = (!underlying ? this.riskFreePoolMap : this.riskyPoolMap)[poolId]
+    const feeLToken = this.web3Utils.fromWei(
+      await poolContract.methods[type === 'I' ? 'i_token_fee' : 's_token_fee'](...param).call()
+    )
+
+    return poolContract.methods[type === 'I' ? 'purchase_i_tokens' : 'purchase_s_tokens'](
+      ...param,
+      this.web3Utils.toWei(feeLToken)
+    ).send({
       from: this.address,
     })
   }
@@ -478,27 +499,6 @@ export class Contracts {
       .send({
         from: this.address,
       })
-  }
-
-  /**
-   * Purchase Tokens
-   * @param poolId
-   * @param type
-   * @param param
-   */
-  public async onPurchase(poolId, type, param) {
-    const [, underlying] = param
-    const { contract: poolContract } = (!underlying ? this.riskFreePoolMap : this.riskyPoolMap)[poolId]
-    const feeLToken = this.web3Utils.fromWei(
-      await poolContract.methods[type === 'I' ? 'i_token_fee' : 's_token_fee'](...param).call()
-    )
-
-    return poolContract.methods[type === 'I' ? 'purchase_i_tokens' : 'purchase_s_tokens'](
-      ...param,
-      this.web3Utils.toWei(feeLToken)
-    ).send({
-      from: this.address,
-    })
   }
 
   /**
