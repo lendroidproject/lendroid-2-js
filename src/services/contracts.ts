@@ -526,6 +526,25 @@ export class Contracts {
     return PositionRegistry.methods.close_liquidated_loan(positionId).send({ from: this.address })
   }
 
+  /**
+   * Transfer
+   * @param form
+   */
+  public async onTransfer(form) {
+    const { token, to, amount, id, data = '' } = form
+    const {
+      address: from,
+      contracts: { [token]: contract },
+      web3Utils,
+    } = this
+
+    if (!contract.methods.id) {
+      return contract.methods.transfer(to, web3Utils.toWei(amount)).send({ from })
+    }
+
+    return contract.methods.safeTransferFrom(from, to, id, web3Utils.toWei(amount), web3Utils.asciiToHex(data)).send({ from })
+  }
+
   private init({
     tokens,
     web3Utils,
@@ -622,7 +641,7 @@ export class Contracts {
                 .call()
                 .then(res => {
                   const balance = web3Utils.fromWei(res)
-                  resolve({ token: bToken, balance })
+                  resolve({ token: bToken, balance, id })
                 })
                 .catch(err => resolve({ token: bToken, balance: 0 }))
             } else {

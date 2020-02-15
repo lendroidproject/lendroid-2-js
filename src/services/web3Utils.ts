@@ -40,6 +40,22 @@ export class Web3Utils {
   }
 
   /**
+   * Reference - web3.utils.asciiToHex
+   * @param value
+   */
+  public asciiToHex(value) {
+    return this.web3.utils.asciiToHex(value.toString())
+  }
+
+  /**
+   * Reference - web3.utils.hexToAscii
+   * @param value
+   */
+  public hexToAscii(value) {
+    return this.web3.utils.hexToAscii(value)
+  }
+
+  /**
    * Reference - web3.utils.toBN
    * @param value
    */
